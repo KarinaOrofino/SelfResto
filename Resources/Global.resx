@@ -1,0 +1,531 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Acciones" xml:space="preserve">
+    <value>Acciones</value>
+  </data>
+  <data name="Aceptar" xml:space="preserve">
+    <value>Aceptar</value>
+  </data>
+  <data name="Activa" xml:space="preserve">
+    <value>Activa</value>
+  </data>
+  <data name="Activo" xml:space="preserve">
+    <value>Activo</value>
+  </data>
+  <data name="TituloVacunatorio" xml:space="preserve">
+    <value>Vacunatorio</value>
+  </data>
+  <data name="Cancelar" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="Cerrar" xml:space="preserve">
+    <value>Cerrar</value>
+  </data>
+  <data name="Descripcion" xml:space="preserve">
+    <value>Descripción</value>
+  </data>
+  <data name="Detalle" xml:space="preserve">
+    <value>Detalle</value>
+  </data>
+  <data name="Editar" xml:space="preserve">
+    <value>Editar</value>
+  </data>
+  <data name="Eliminar" xml:space="preserve">
+    <value>Eliminar</value>
+  </data>
+  <data name="ErrorGenerico" xml:space="preserve">
+    <value>Ha ocurrido un error en nuestros servicios, por favor comuníquese con el área de sistemas.</value>
+  </data>
+  <data name="Estado" xml:space="preserve">
+    <value>Estado</value>
+  </data>
+  <data name="Estados" xml:space="preserve">
+    <value>Estados</value>
+  </data>
+  <data name="Exportar" xml:space="preserve">
+    <value>Exportar</value>
+  </data>
+  <data name="ExportarExcel" xml:space="preserve">
+    <value>Exportar a Excel</value>
+  </data>
+  <data name="Fecha" xml:space="preserve">
+    <value>Fecha</value>
+  </data>
+  <data name="FechaDesde" xml:space="preserve">
+    <value>Fecha Desde</value>
+  </data>
+  <data name="FechaHasta" xml:space="preserve">
+    <value>Fecha Hasta</value>
+  </data>
+  <data name="FilasPorPagina" xml:space="preserve">
+    <value>Filas por página</value>
+  </data>
+  <data name="Filtrar" xml:space="preserve">
+    <value>Filtrar</value>
+  </data>
+  <data name="Filtros" xml:space="preserve">
+    <value>Filtros</value>
+  </data>
+  <data name="Guardar" xml:space="preserve">
+    <value>Guardar</value>
+  </data>
+  <data name="Inactiva" xml:space="preserve">
+    <value>Inactiva</value>
+  </data>
+  <data name="Inactivo" xml:space="preserve">
+    <value>Inactivo</value>
+  </data>
+  <data name="ConfirmarPassword" xml:space="preserve">
+    <value>Confirmar contraseña</value>
+  </data>
+  <data name="VolverAInicio" xml:space="preserve">
+    <value>Volver al inicio</value>
+  </data>
+  <data name="IniciarSesion" xml:space="preserve">
+    <value>Iniciar Sesión</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Contraseña</value>
+  </data>
+  <data name="Registrarse" xml:space="preserve">
+    <value>Registrarse</value>
+  </data>
+  <data name="Limpiar" xml:space="preserve">
+    <value>Limpiar</value>
+  </data>
+  <data name="Listado" xml:space="preserve">
+    <value>Listado</value>
+  </data>
+  <data name="MensajeDatosInactivadosOk" xml:space="preserve">
+    <value>Datos inactivados correctamente</value>
+  </data>
+  <data name="MensajeNoAutorizado" xml:space="preserve">
+    <value>Usted no se encuentra autorizado para ver esta página</value>
+  </data>
+  <data name="MensajePasswordInvalida" xml:space="preserve">
+    <value>La contraseña ingresada es incorrecta</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="Nombre" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
+  <data name="Nueva" xml:space="preserve">
+    <value>Nueva</value>
+  </data>
+  <data name="Nuevo" xml:space="preserve">
+    <value>Nuevo</value>
+  </data>
+  <data name="Salir" xml:space="preserve">
+    <value>Salir</value>
+  </data>
+  <data name="Seleccione" xml:space="preserve">
+    <value>Seleccione...</value>
+  </data>
+  <data name="Todas" xml:space="preserve">
+    <value>Todas</value>
+  </data>
+  <data name="Usuario" xml:space="preserve">
+    <value>Usuario</value>
+  </data>
+  <data name="Todos" xml:space="preserve">
+    <value>Todos</value>
+  </data>
+  <data name="ValidacionCampoNombreRequerido" xml:space="preserve">
+    <value>Ha olvidado ingresar su Nombre</value>
+  </data>
+  <data name="ValidacionCampoPasswordRequerido" xml:space="preserve">
+    <value>Ha olvidado ingresar su Contraseña</value>
+  </data>
+  <data name="ValidacionCampoUsuarioRequerido" xml:space="preserve">
+    <value>Ha olvidado ingresar su Usuario</value>
+  </data>
+  <data name="Volver" xml:space="preserve">
+    <value>Volver</value>
+  </data>
+  <data name="VolverAlListado" xml:space="preserve">
+    <value>Volver al listado</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Vacunatorio" xml:space="preserve">
+    <value>Vacunatorio</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Log In</value>
+  </data>
+  <data name="MensajeDatosGuardadosOk" xml:space="preserve">
+    <value>Datos guardados correctamente</value>
+  </data>
+  <data name="AplicarFiltros" xml:space="preserve">
+    <value>Aplicar Filtros</value>
+  </data>
+  <data name="Buscar" xml:space="preserve">
+    <value>Buscar</value>
+  </data>
+  <data name="Identificador" xml:space="preserve">
+    <value>Identificador</value>
+  </data>
+  <data name="LimpiarFiltros" xml:space="preserve">
+    <value>Limpiar Filtros</value>
+  </data>
+  <data name="Inactivar" xml:space="preserve">
+    <value>Inactivar</value>
+  </data>
+  <data name="Reportes" xml:space="preserve">
+    <value>Reportes</value>
+  </data>
+  <data name="RegistroEliminado" xml:space="preserve">
+    <value>Registro eliminado</value>
+  </data>
+  <data name="ClickIngresar" xml:space="preserve">
+    <value>Click acá para ingresar</value>
+  </data>
+  <data name="Administracion" xml:space="preserve">
+    <value>Administración</value>
+  </data>
+  <data name="Configuracion" xml:space="preserve">
+    <value>Configuración</value>
+  </data>
+  <data name="Totales" xml:space="preserve">
+    <value>Totales</value>
+  </data>
+  <data name="AgregarMedico" xml:space="preserve">
+    <value>Agregar Médico</value>
+  </data>
+  <data name="Funcionalidad" xml:space="preserve">
+    <value>Funcionalidad</value>
+  </data>
+  <data name="Funcionalidades" xml:space="preserve">
+    <value>Funcionalidades</value>
+  </data>
+  <data name="MensajeActivar" xml:space="preserve">
+    <value>¿Está seguro que desea ACTIVAR?</value>
+  </data>
+  <data name="SeleccioneRol" xml:space="preserve">
+    <value>Seleccione Rol</value>
+  </data>
+  <data name="SeleccioneTipoAcceso" xml:space="preserve">
+    <value>Seleccione Tipo de Acceso</value>
+  </data>
+  <data name="AccesoTotal" xml:space="preserve">
+    <value>Acceso total</value>
+  </data>
+  <data name="Consulta" xml:space="preserve">
+    <value>Consulta</value>
+  </data>
+  <data name="Rol" xml:space="preserve">
+    <value>Rol</value>
+  </data>
+  <data name="Roles" xml:space="preserve">
+    <value>Roles</value>
+  </data>
+  <data name="TipoAcceso" xml:space="preserve">
+    <value>Tipo de Acceso</value>
+  </data>
+  <data name="EditarRolesAcceso" xml:space="preserve">
+    <value>Editar / Ver Roles y tipo de acceso</value>
+  </data>
+  <data name="Confirmar" xml:space="preserve">
+    <value>Confirmar</value>
+  </data>
+  <data name="SoloNumeros" xml:space="preserve">
+    <value>El campo debe ser numérico</value>
+  </data>
+  <data name="AgregarComentarios" xml:space="preserve">
+    <value>Agregar Comentarios</value>
+  </data>
+  <data name="Calidad" xml:space="preserve">
+    <value>Calidad</value>
+  </data>
+  <data name="Comentarios" xml:space="preserve">
+    <value>Comentarios</value>
+  </data>
+  <data name="Operador" xml:space="preserve">
+    <value>Operador</value>
+  </data>
+  <data name="Tipo" xml:space="preserve">
+    <value>Tipo</value>
+  </data>
+  <data name="Actuales" xml:space="preserve">
+    <value>Actuales</value>
+  </data>
+  <data name="Nuevos" xml:space="preserve">
+    <value>Nuevos</value>
+  </data>
+  <data name="ConfirmarCambio" xml:space="preserve">
+    <value>Confirmar Cambio</value>
+  </data>
+  <data name="Id" xml:space="preserve">
+    <value>Id</value>
+  </data>
+  <data name="Observaciones" xml:space="preserve">
+    <value>Observaciones</value>
+  </data>
+  <data name="FechaCambio" xml:space="preserve">
+    <value>Fecha Cambio</value>
+  </data>
+  <data name="DatosGenerales" xml:space="preserve">
+    <value>Datos Generales</value>
+  </data>
+  <data name="Cantidad" xml:space="preserve">
+    <value>Cantidad</value>
+  </data>
+  <data name="MensajeCredencialesInvalidas" xml:space="preserve">
+    <value>Verifique usuario y contraseña</value>
+  </data>
+  <data name="PorFavorRevise" xml:space="preserve">
+    <value>Por favor revise los datos ingresados</value>
+  </data>
+  <data name="Seleccionar" xml:space="preserve">
+    <value>Seleccionar</value>
+  </data>
+  <data name="CerrarSesion" xml:space="preserve">
+    <value>Cerrar Sesión</value>
+  </data>
+  <data name="Si" xml:space="preserve">
+    <value>Sí</value>
+  </data>
+  <data name="CambiarEstado" xml:space="preserve">
+    <value>Cambiar estado</value>
+  </data>
+  <data name="MensajeInactivar" xml:space="preserve">
+    <value>¿Está seguro que desea INACTIVAR?</value>
+  </data>
+  <data name="ObteniendoListaDeCargas" xml:space="preserve">
+    <value>Obteniendo lista de cargas</value>
+  </data>
+  <data name="VerDetalle" xml:space="preserve">
+    <value>Ver Detalle</value>
+  </data>
+  <data name="Inicio" xml:space="preserve">
+    <value>Inicio</value>
+  </data>
+  <data name="Comenzar" xml:space="preserve">
+    <value>Comenzar</value>
+  </data>
+  <data name="Continuar" xml:space="preserve">
+    <value>Continuar</value>
+  </data>
+  <data name="Supervisor" xml:space="preserve">
+    <value>Supervisor</value>
+  </data>
+  <data name="SinDatos" xml:space="preserve">
+    <value>Sin datos</value>
+  </data>
+  <data name="SinRegistros" xml:space="preserve">
+    <value>No se encontraron registros</value>
+  </data>
+  <data name="MensajeConfirmacionTomarControl" xml:space="preserve">
+    <value>¿Está seguro que desea tomar el control?</value>
+  </data>
+  <data name="Cargando" xml:space="preserve">
+    <value>Cargando</value>
+  </data>
+  <data name="Cerrada" xml:space="preserve">
+    <value>Cerrada</value>
+  </data>
+  <data name="Pendiente" xml:space="preserve">
+    <value>Pendiente</value>
+  </data>
+  <data name="MensajeCierreCestaOk" xml:space="preserve">
+    <value>La cesta se ha cerrado correctamente</value>
+  </data>
+  <data name="MensajeComienzoCapaOk" xml:space="preserve">
+    <value>La capa se ha comenzado a cargar correctamente</value>
+  </data>
+  <data name="Cargar" xml:space="preserve">
+    <value>Cargar</value>
+  </data>
+  <data name="FechaAlta" xml:space="preserve">
+    <value>Fecha de alta</value>
+  </data>
+  <data name="FechaModificacion" xml:space="preserve">
+    <value>Fecha de ultima modificación</value>
+  </data>
+  <data name="UsuarioAlta" xml:space="preserve">
+    <value>Usuario Alta</value>
+  </data>
+  <data name="UsuarioModificacion" xml:space="preserve">
+    <value>Usuario ultima modificación</value>
+  </data>
+  <data name="FiltroSinFecha" xml:space="preserve">
+    <value>Sin fechas especificadas</value>
+  </data>
+  <data name="LabelNoCoincidences" xml:space="preserve">
+    <value>No se encontraron registros</value>
+  </data>
+  <data name="Por" xml:space="preserve">
+    <value>Por</value>
+  </data>
+  <data name="Agregar" xml:space="preserve">
+    <value>Agregar</value>
+  </data>
+  <data name="Comentario" xml:space="preserve">
+    <value>Comentarios</value>
+  </data>
+  <data name="MensajeGuardarChequeoOk" xml:space="preserve">
+    <value>Colada Chequeada Correctamente</value>
+  </data>
+  <data name="MensajeDiscrepanciaCantidadCargasParte1" xml:space="preserve">
+    <value>Existe una discrepancia en la cantidad de cestas. Por favor cree una receta de grupo: </value>
+  </data>
+  <data name="MensajeDiscrepanciaCantidadCargasParte2" xml:space="preserve">
+    <value>Por favor cree una receta:</value>
+  </data>
+  <data name="AgregarRolYTipoAcceso" xml:space="preserve">
+    <value>Agregar rol y tipo de acceso</value>
+  </data>
+  <data name="Ver" xml:space="preserve">
+    <value>Ver</value>
+  </data>
+  <data name="Aplicaciones" xml:space="preserve">
+    <value>Aplicaciones</value>
+  </data>
+  <data name="Medicos" xml:space="preserve">
+    <value>Médicos</value>
+  </data>
+  <data name="Pacientes" xml:space="preserve">
+    <value>Pacientes</value>
+  </data>
+  <data name="Vacunaciones" xml:space="preserve">
+    <value>Vacunaciones</value>
+  </data>
+  <data name="Vacunas" xml:space="preserve">
+    <value>Vacunas</value>
+  </data>
+  <data name="Apellido" xml:space="preserve">
+    <value>Apellido</value>
+  </data>
+  <data name="Matricula" xml:space="preserve">
+    <value>Matrícula</value>
+  </data>
+  <data name="Medico" xml:space="preserve">
+    <value>Médico</value>
+  </data>
+  <data name="MensajeDatosActivadosOk" xml:space="preserve">
+    <value>Datos Activados correctamente</value>
+  </data>
+  <data name="Activar" xml:space="preserve">
+    <value>Activar</value>
+  </data>
+</root>

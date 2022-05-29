@@ -1,0 +1,288 @@
+﻿.external-login {
+	margin-top: 3%;
+}
+/*select rows datatable*/
+html:not([dir=rtl]) .custom-select-sm {
+	padding-left: .5rem;
+	padding-right: 1.5rem;
+}
+/*Mensajes de error en formularios*/
+.field-validation-error {
+	margin-top: .25rem;
+	margin-left: 4em;
+	font-size: 80%;
+}
+/*Div de notificaciones*/
+#rowDynamicNotification {
+	position: absolute;
+	right: 0px;
+	bottom: 0px;
+	margin-bottom: 4em;
+	margin-right: 1em;
+}
+
+.v-data-table-header {
+	text-transform: uppercase;
+	background-color: #4074a5;
+}
+
+
+
+.theme--light.v-data-table > .v-data-table__wrapper > table > thead > tr > th {
+	color: white !important;
+	font-weight: 500 !important;
+	background-color: #4074a5;
+}
+
+.bkg-white {
+	background-color: white !important;
+}
+
+.v-toolbar__content, .v-toolbar__extension {
+	justify-content: space-between;
+}
+
+/*.v-breadcrumbs {
+	padding: 12px 12px !important;
+}*/
+
+.breadcrum-row {
+	background-color: white !important;
+	/*width: 110%;*/
+	/*height: 40px;*/
+	position: sticky;
+	/*top: 65px;*/
+	z-index: 2;
+	box-shadow: 0px 0px 2px black;
+}
+
+.v-expansion-panel--active > .v-expansion-panel-header {
+	min-height: 45px !important;
+}
+
+.v-application--is-ltr .v-input--selection-controls__input {
+	margin-right: 6px !important;
+}
+
+.notebook {
+	border-radius: 4px !important;
+	border-left-color: #4074a5 !important;
+	border-left-width: 1rem !important;
+	border-left-style: solid !important;
+}
+
+.breadcrumBlue {
+	color: #1976d2;
+	font-weight: bold;
+	font-size: 14px;
+}
+
+.breadcrumGray {
+	color: rgba(0, 0, 0, 0.38);
+	font-weight: bold;
+	font-size: 14px;
+}
+
+.filterChip {
+	background-color: #a2a8ad !important;
+	color: white !important;
+	font-weight: 500 !important;
+}
+
+.hide {
+	display: none;
+}
+
+.show {
+	display: flex;
+}
+
+.canalActivo {
+	background-color: goldenrod;
+}
+
+.popupHeaderTablaEnCanales {
+	border-bottom: 1px gray solid !important;
+	border-right: 1px gray solid !important;
+	font-size: medium !important;
+	font-weight: bold !important;
+	color: black !important;
+	background-color: aliceblue !important;
+}
+
+.borderBodyTablaEnCanales {
+	border: 1px gray solid;
+}
+
+/*links <a> del Menu Left*/
+.menu-left-links {
+	text-decoration: none;
+	color: white !important;
+	display: flex;
+	width: 100%;
+}
+
+.ADN {
+	width: inherit;
+	content: url("../../images/figura_producto_ADN.jpg");
+}
+
+.medidas {
+	font-size: 12px;
+	margin-top: 25px;
+	padding-left: 5px !important;
+}
+
+.v-application p {
+	margin-bottom: 6px;
+}
+
+.col {
+	padding: 6px;
+}
+
+.headerCestas > .v-input__control > .v-input__slot {
+	background: teal !important;
+}
+
+.theme--light.v-select .v-select__selections {
+	color: #E0F2F1;
+	font-size: 14px !important
+}
+
+.theme--light.v-label {
+	color: teal;
+	font-weight: 500;
+}
+
+.tituloCesta {
+	text-transform: uppercase;
+	font-weight: 600;
+	font-size: 14px !important;
+	justify-content: space-around;
+	padding: 5px;
+}
+
+.rotar90der {
+	transform: rotate(90deg);
+}
+
+.v-stepper__label {
+	text-transform: uppercase !important;
+	font-size: 16px !important;
+	font-weight: 500;
+	color: teal !important;
+}
+
+.comboInicio > .v-input__control > .v-input__slot {
+	background: #B2DFDB !important;
+	width: 50%;
+}
+
+.comboReceta > .v-input__control > .v-input__slot {
+	background: #B2DFDB !important;
+	width: 75%;
+}
+
+.v-stepper__step__step.primary .v-icon__svg {
+	height: 42px;
+}
+
+
+.detalle.v-data-table tbody td {
+	font-size: 14px !important;
+}
+
+.detalle.v-data-table thead th {
+	font-size: 14px !important;
+}
+
+.inicio.v-data-table tbody td {
+	font-size: 22px !important;
+}
+
+.inicio.v-data-table thead th {
+	font-size: 22px !important;
+}
+
+.inicio {
+	font-size: 22px !important;
+}
+
+.labelStepper {
+	text-transform: uppercase !important;
+	font-size: 16px;
+	font-weight: 500;
+	color: teal !important;
+}
+
+.protevac-bg {
+	background: linear-gradient(to top, #f1f1f1, #e9eaea, #d4dae0);
+}
+
+.protevac-headers {
+	color: #333;
+	text-transform: uppercase;
+	background-color: #4074a5;
+	font-weight: inherit;
+	border: 1px solid #cccccc;
+	border-left: none;
+	border-right: none;
+}
+
+.protevac-headers-border {
+	color: #333;
+	text-transform: uppercase;
+	background-color: #4074a5;
+	font-weight: inherit;
+	border-right: 1px solid #cccccc;
+}
+
+.protevac-headers-border-noUppercase {
+	color: #333;
+	text-transform: none !important;
+	background-color: #4074a5;
+	font-weight: inherit;
+	border: 1px solid #cccccc;
+	border-left: none;
+}
+
+
+.protevac-sub-headers {
+	color: #333;
+	text-transform: uppercase;
+	background-color: #598ebf !important;
+	font-weight: inherit;
+	border: 1px solid #cccccc;
+	border-left: none;
+	border-right: none;
+}
+
+.protevac-headers-noUppercase {
+	color: #333;
+	text-transform: none !important;
+	background-color: #4074a5;
+	font-weight: inherit;
+	border: 1px solid #cccccc;
+	border-left: none;
+	border-right: none;
+}
+
+
+.v-data-footer {
+	text-transform: capitalize !important;
+}
+
+@media(max-width: 960px) {
+	.margenMobile {
+		position: relative !important;
+		left: 35% !important;
+		margin-bottom: 10px !important;
+	}
+}
+
+.v-data-footer__pagination {
+	text-transform: lowercase !important;
+}
+
+

@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>30e49ca5-f43e-4a3a-b393-e0b23933ea40</UserSecretsId>
+    <StartupObject>Web.Program</StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="wwwroot\js\roles\**" />
+    <Content Remove="wwwroot\js\roles\**" />
+    <EmbeddedResource Remove="wwwroot\js\roles\**" />
+    <None Remove="wwwroot\js\roles\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Models\Account\TestModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Datos\KO.Datos.csproj" />
+    <ProjectReference Include="..\Entidades\KO.Entidades.csproj" />
+    <ProjectReference Include="..\Framework\KO.Framework.csproj" />
+    <ProjectReference Include="..\Resources\KO.Recursos.csproj" />
+    <ProjectReference Include="..\Servicios\KO.Servicios.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\bundle\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="LigerShark.WebOptimizer.Core" Version="3.0.348" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="3.1.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="5.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.IdentityModel.Protocols" Version="6.11.1" />
+    <PackageReference Include="Scrutor" Version="3.3.0" />
+  </ItemGroup>
+  <ItemGroup>   
+    <None Include="wwwroot\js\Utils\recursos-ui.js" />
+  </ItemGroup>
+  <ProjectExtensions>
+    <VisualStudio><UserProperties appsettings_1json__JsonSchema="" libman_1json__JsonSchema="" /></VisualStudio>
+  </ProjectExtensions>
+</Project>

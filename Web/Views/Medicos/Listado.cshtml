@@ -1,0 +1,201 @@
+﻿@model KO.Web.Models.Medicos.MedicoViewModel
+
+@section scripts
+{
+    <script type="text/javascript" src="~/js/KO/medicos/medicos-listado.js"></script>
+}
+<link rel="stylesheet" href="~/css/vacunatorio.css" />
+
+<!--Grilla-->
+<v-row class="d-flex mt-3 ml-7 mr-7" style="place-content:end">
+    <v-tooltip bottom>
+        <template v-slot:activator="{ on, attrs }">
+            <v-btn class="mr-3 mb-2"
+                   v-bind="attrs"
+                   v-on="on"
+                   v-on:click="onClickNuevo"
+                   color="primary"
+                   elevation="2">
+                <v-icon small class="pr-1">mdi-plus</v-icon>
+                {{jsglobals.Nuevo}} {{jsglobals.Medico}}
+            </v-btn>
+        </template>
+        <span>{{jsglobals.AgregarMedico}}</span>
+    </v-tooltip>
+    </v-row>
+    <v-row class="d-flex justify-center align-center mt-3 ml-7 mr-7">
+        <v-col cols="11" class="mt-0">
+            <v-card class="my-0">
+                <v-card-title v-if="breadcrums.length > 0" class="py-0">
+                    <v-col lg="3" sm="5">
+                        <v-breadcrumbs :items="breadcrums" class="p-0 m-0 pt-10">
+                            <template v-slot:item="{ item }">
+                                <v-breadcrumbs-item :href="item.href"
+                                                    :disabled="item.disabled">
+                                    <span style="font-weight: bold;font-size:1.2em"> {{  item.text.toUpperCase() }}</span>
+                                </v-breadcrumbs-item>
+                            </template>
+                        </v-breadcrumbs>
+                    </v-col>
+                    <v-spacer></v-spacer>
+                    <v-col lg="3" sm="5" class="mr-10">
+                        <v-text-field v-model="search"
+                                      append-icon="mdi-magnify"
+                                      label="Filtrar"
+                                      single-line
+                                      hide-details></v-text-field>
+                    </v-col>
+                    <v-col lg="5" sm="5" class="pl-5">
+                        <v-row justify="end">
+                            <v-col lg="2" sm="4" class="mt-4">
+                                <v-label>{{jsglobals.Estado}}:</v-label>
+                            </v-col>
+                            <v-col lg="8" sm="8">
+                                <v-radio-group row v-model="filtros.estado" hide-details style="font-size:1.2em" v-on:change="filtrarPorEstado()">
+                                    <v-radio :label="jsglobals.Activo" :value="true"></v-radio>
+                                    <v-radio :label="jsglobals.Inactivo" :value="false"></v-radio>
+                                    <v-radio :label="jsglobals.Todos" :value="0"></v-radio>
+                                </v-radio-group>
+                            </v-col>
+                        </v-row>
+                    </v-col>
+                </v-card-title>
+                <v-data-table :headers="headers"
+                              :items="listadoFiltrado"
+                              :search="search"
+                              :items-per-page="10"
+                              class="elevation-2"
+                              item-key="matricula"
+                              style="position: relative;"
+                              :loading="loadingMedicos"
+                              :loading-text=jsglobals.ObteniendoMedicos
+                              :no-data-text=jsglobals.LabelNoCoincidences
+                              :footer-props="{
+                        'items-per-page-text':jsglobals.FilasPorPagina,
+                        'items-per-page-all-text':jsglobals.Todas,
+                        'items-per-page-options':[ 10,  25,  50,  -1],
+                            pageText: '{0} - {1} de {2}'
+                      }">
+                    <template v-slot:item.estado="{ item }">
+                        <v-tooltip left v-if="item.estado">
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-icon v-on="on" v-bind="attrs" large class="ma-2" color="indigo" v-on:click="onClickInactivar(item)">toggle_on</v-icon>
+                            </template>
+                            <span>
+                                {{jsglobals.Activo}}
+                            </span>
+                        </v-tooltip>
+                        <v-tooltip left v-if="!item.estado">
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-icon v-on="on" v-bind="attrs" large class="ma-2" color="red lighten-2" v-on:click="onClickActivar(item)">toggle_off</v-icon>
+                            </template>
+                            <span>
+                                {{jsglobals.Inactivo}}
+                            </span>
+                        </v-tooltip>
+                    </template>
+                    <template v-slot:item.acciones="{ item }">
+                        <v-tooltip left>
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-icon large v-on="on" v-bind="attrs" class="mr-2" v-on:click="onClickEditar(item)" color="indigo">edit_note</v-icon>
+                            </template>
+                            <span>
+                                {{jsglobals.Editar}}
+                            </span>
+                    </template>
+                    <template v-slot:footer>
+                        <v-tooltip bottom>
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-btn v-on:click="onClickExportar"
+                                       color="primary"
+                                       small
+                                       v-bind="attrs"
+                                       v-on="on"
+                                       elevation="2"
+                                       class="bkg-white margenMobile"
+                                       style="position: absolute; margin:15px">
+                                    <v-icon small class="pr-1">
+                                        mdi-file-export
+                                    </v-icon>
+                                    {{jsglobals.Exportar}}
+                                </v-btn>
+                            </template>
+                            <span>{{jsglobals.ExportarExcel}}</span>
+                        </v-tooltip>
+                    </template>
+                </v-data-table>
+            </v-card>
+        </v-col>
+    </v-row>
+
+    <!--Dialog Inactivar-->
+    <v-row justify="space-around">
+        <v-col cols="auto">
+            <v-dialog v-model="dialogInactivar" persistent transition="dialog-bottom-transition"
+                      width="500">
+                <template v-slot:default="dialog">
+                    <v-card>
+                        <v-toolbar dense class="d-flex text-h6 mb-5 justify-center" color="primary"
+                                   dark>
+                            <v-toolbar-title>{{jsglobals.Inactivar}} {{jsglobals.Medico}}</v-toolbar-title>
+                        </v-toolbar>
+                        <v-card-text class="text-subtitle-1 text-center mb-5">
+                            {{jsglobals.MensajeInactivar}}
+                            </br>
+                            {{jsglobals.Medico}}: <strong>{{medicoAInactivar.apellido}},{{medicoAInactivar.nombre}}</strong>
+                        </v-card-text>
+                        <v-divider></v-divider>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn small
+                                   v-on:click="dialog.value = false"
+                                   color="primary">
+                                {{jsglobals.No}}
+                            </v-btn>
+                            <v-btn small
+                                   v-on:click="onClickConfirmaInactivar(medicoAInactivar.matricula)"
+                                   color="primary">
+                                {{jsglobals.Si}}
+                            </v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </template>
+            </v-dialog>
+        </v-col>
+    </v-row>
+
+    <!--Dialog Activar-->
+    <v-row justify="space-around">
+        <v-col cols="auto">
+            <v-dialog v-model="dialogActivar" persistent transition="dialog-bottom-transition"
+                      width="500">
+                <template v-slot:default="dialog">
+                    <v-card>
+                        <v-toolbar dense class="d-flex text-h6 mb-5 justify-center" color="primary"
+                                   dark>
+                            <v-toolbar-title>{{jsglobals.Activar}} {{jsglobals.Medico}}</v-toolbar-title>
+                        </v-toolbar>
+                        <v-card-text class="text-subtitle-1 text-center mb-5">
+                            {{jsglobals.MensajeActivar}}
+                            </br>
+                            {{jsglobals.Medico}}: <strong>{{medicoAActivar.apellido}},{{medicoAActivar.nombre}}</strong>
+                        </v-card-text>
+                        <v-divider></v-divider>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn small
+                                   v-on:click="dialog.value = false"
+                                   color="primary">
+                                {{jsglobals.No}}
+                            </v-btn>
+                            <v-btn small
+                                   v-on:click="onClickConfirmaActivar(medicoAActivar.matricula)"
+                                   color="primary">
+                                {{jsglobals.Si}}
+                            </v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </template>
+            </v-dialog>
+        </v-col>
+    </v-row>

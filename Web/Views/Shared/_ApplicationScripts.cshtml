@@ -1,0 +1,44 @@
+﻿@*JQuery*@
+<environment include="Development">
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-ajax-unobtrusive/src/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+</environment>
+
+<environment exclude="Development">
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-ajax-unobtrusive/src/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+</environment>
+
+@*Vue*@
+<environment include="Development">
+    <script src="~/ref/vue.js"></script>
+</environment>
+
+<environment exclude="Development">
+    <script src="~/ref/vue.min.js"></script>
+</environment>
+
+@* Vuetify *@
+<environment include="Development">
+    <script src="~/ref/vuetify.js"></script>
+</environment>
+
+<environment exclude="Development">
+    <script src="~/ref/vuetify.min.js"></script>
+</environment>
+
+@* Moment.js *@
+<script src="~/ref/moment.js"></script>
+
+@*SignalR Hubs*@
+<environment include="Development">
+    <script src="~/lib/signalr/dist/browser/signalr.js"></script>
+</environment>
+
+<environment exclude="Development">
+    <script src="~/lib/signalr/dist/browser/signalr.min.js"></script>
+</environment>

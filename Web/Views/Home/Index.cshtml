@@ -1,0 +1,29 @@
+﻿@section scripts
+{
+    <script type="text/javascript" src="~/js/KO/home/home.js"></script>
+}
+
+    <v-row class="pt-3" style=" text-align: center; ">
+        <span style="font-weight: bold; text-transform: uppercase; color: #1976d2; margin: auto"> {{ jsglobals.CDCTitle }}</span>
+    </v-row>
+
+    <v-row>
+        <v-col cols="2"></v-col>
+        <v-col cols="8">
+            <v-spacer class="d-none d-md-flex mt-6"></v-spacer>
+            @*<v-row>
+                <v-col cols="12" md="3" v-for="(aplicacion,i) in Aplicaciones">
+                    <v-card elevation="2" class="mt-2 mb-2 ml-2 mr-2">
+                        <v-row>
+                            <v-card-text style="text-align:center;">
+                                <span style="font-size:1rem"><strong>{{ aplicacion.descripcion }}</strong></span>
+                                <v-icon v-if="aplicacion.activo" class="ma-2" color="blue lighten-2">mdi-alpha-a-circle-outline</v-icon>
+                                <v-icon v-if="!aplicacion.activo" class="ma-2" color="red lighten-2">mdi-alpha-i-circle-outline</v-icon>
+                            </v-card-text>
+                        </v-row>
+                    </v-card>
+                </v-col>
+            </v-row>*@
+        </v-col>
+        <v-col cols="2"></v-col>
+    </v-row>

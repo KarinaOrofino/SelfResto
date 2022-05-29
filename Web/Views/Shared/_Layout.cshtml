@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+	<title>@ViewData["Title"] Vacunatorio ProteVac</title>
+
+	@await Html.PartialAsync("_AplicationStyles")
+	@await Html.PartialAsync("_ApplicationScripts")
+
+</head>
+
+<body>
+    <div id="CDCApp">
+        <v-app class="hide" v-bind:class="{show:readyForRender}">
+
+            @if (User.Identity.IsAuthenticated)
+            {
+                @await Html.PartialAsync("_Header")
+                @await Html.PartialAsync("_MenuLeft")
+            }
+
+            <v-main :class="background">
+                <v-container fluid>
+                    @*<v-row v-if="breadcrums.length > 0" class="breadcrum-row">
+                        <v-breadcrumbs :items="breadcrums">
+                            <template v-slot:item="{ item }">
+                                <v-breadcrumbs-item :href="item.href"
+                                                    :disabled="item.disabled">
+                                    <span style="font-weight: bold;"> {{  item.text.toUpperCase() }}</span>
+                                </v-breadcrumbs-item>
+                            </template>
+                        </v-breadcrumbs>
+
+                    </v-row>*@
+
+                    @RenderBody()
+
+                    <v-snackbar v-model="notification.show"
+                                transition="scale-transition"
+                                :color="notification.type"
+                                :timeout="notification.timeout">
+
+                        <v-icon :color="notification.iconColor">
+                            {{notification.icon}}
+                        </v-icon>
+                        {{notification.message}}
+                    </v-snackbar>
+                </v-container>
+            </v-main>
+
+            @if (User.Identity.IsAuthenticated)
+            {
+                <v-footer app style="font-size:13px">
+                    {{jsglobals.PieDeAplicacion}}
+                </v-footer>
+            }
+        </v-app>
+
+    </div>
+
+    <script type="text/javascript">
+
+        var vueApp = null;
+        var vueAppParams = { vuetify: new Vuetify(), data: { errors: {} }, methods: {} };
+
+        vueAppParams.data.jsglobals = {};
+        vueAppParams.data.background = '';
+        vueAppParams.el = "#CDCApp";
+        vueAppParams.data.background = 'protevac-bg';
+        vueAppParams.data.readyForRender = true;
+
+        //Menu
+        vueAppParams.data.drawer = false;
+        vueAppParams.data.group = null;
+        //Breadcrums
+        vueAppParams.data.breadcrums = [];
+
+    </script>
+
+    <script src="~/js/Utils/site.js"></script>
+    <script src="~/js/Utils/errorHandler.js"></script>
+    <script src="~/js/Utils/notification.js"></script>
+    <script src="~/js/Utils/validationUtils.js"></script>
+    <script src="~/js/account/logout.js"></script>
+
+    @await Html.PartialAsync("_RecursosUI")
+
+    @RenderSection("scripts", required: false)
+
+    <script type="text/javascript">
+        vueApp = new Vue(vueAppParams);
+    </script>
+
+</body>
+</html>

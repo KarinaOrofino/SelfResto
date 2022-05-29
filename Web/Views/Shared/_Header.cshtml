@@ -1,0 +1,57 @@
+﻿@using Framework.Utils
+
+@section scripts{
+    <script type="text/javascript" src="~/js/account/logout.js" asp-append-version="true"></script>
+}
+
+<v-app-bar app
+           dark
+           style="background: linear-gradient(to top, #4074a5, #6492bd, #4074a5);">
+    <v-app-bar-nav-icon @@click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+    <v-spacer></v-spacer>
+    <v-toolbar-title>
+            <v-img style="background-color:rgba(255,255,255,0.8) !important" width="40%" class="rounded-lg offset-md-3" src="@Url.Content("../images/NombreTransparente.png")"></v-img>
+            </v-toolbar-title>
+    <v-spacer></v-spacer>
+    <v-toolbar-items>
+        <v-row justify="center">
+            <v-menu bottom
+                    min-width="200px"
+                    rounded
+                    offset-y>
+                <template v-slot:activator="{ on }">
+                    <v-btn icon
+                           x-large
+                           v-on="on"
+                           class="mt-4">
+                        <v-avatar>
+                            <img src="~/images/logo-avatar.png"
+                                 alt="Vacunatorio" />
+                        </v-avatar>
+                    </v-btn>
+                </template>
+                <v-card>
+                    <v-list-item-content class="justify-center">
+                        <div class="mx-auto text-center">
+                            <v-avatar large>
+                                <img src="~/images/logo-avatar.png"
+                                     alt="Protevac" />
+                            </v-avatar>
+                            <h3 class="pt-5">@Html.Raw(UserUtils.GetName(User))</h3>
+                            <p class="text-caption mt-1">
+                                @Html.Raw(UserUtils.GetRol(User))
+                            </p>
+                            <p>
+                                <v-btn icon
+                                       :loading="submiting"
+                                       :disabled="submiting"
+                                       v-on:click="onClickCerrarSesion()">{{jsglobals.CerrarSesion}}</v-btn>
+                            </p>
+                        </div>
+                    </v-list-item-content>
+                </v-card>
+            </v-menu>
+        </v-row>
+
+    </v-toolbar-items>
+</v-app-bar>

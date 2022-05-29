@@ -1,0 +1,366 @@
+﻿@model Web.Models.Aplicaciones.AplicacionViewModel
+
+@section scripts{
+    <script type="text/javascript" src="~/js/KO/aplicaciones/aplicaciones-detalle.js"></script>
+    <script type="text/javascript">
+        vueAppParams.data.model =@Html.Raw(Model.ToJsonModel())
+    </script>
+    <!-- CDNJS :: Sortable (https://cdnjs.com/) -->
+    <script src="//cdn.jsdelivr.net/npm/sortablejs@1.8.4/Sortable.min.js"></script>
+    <!-- CDNJS :: Vue.Draggable (https://cdnjs.com/) -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/Vue.Draggable/2.20.0/vuedraggable.umd.min.js"></script>
+}
+
+
+@*<template>
+    <v-container class="mt-8">
+        <v-row no-gutters
+               style="flex-wrap: nowrap;">
+            <v-col cols="1"
+                   class="flex-grow-0 flex-shrink-0">
+            </v-col>
+            <v-col cols="10"
+                   style="min-width: 100px; max-width: 100%;"
+                   class="flex-grow-1 flex-shrink-0">
+                <v-card class="notebook">
+                    <template>
+                        <v-form ref="form" lazy-validation>
+                            <v-container>
+                                <v-row class="mt-4 ml-4 mr-4 mb-0">
+                                    <v-col cols="12">
+                                        <v-text-field v-model="model.Nombre"
+                                                      :error-messages="errors.Nombre"
+                                                      counter="50"
+                                                      :rules="[ vrules.required , v => vrules.maxLength(v,50,jsglobals.Nombre) ]"
+                                                      :label="jsglobals.Nombre">
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" md="6" class="pb-0 pt-0">
+                                        <v-select v-model="model.GrupoGrado"
+                                                  :items="listaGrupo"
+                                                  item-text="nombre"
+                                                  item-value="codigoGrupo"
+                                                  :label="jsglobals.Grupo"
+                                                  @@change="actualizarCalidad"
+                                                  :disabled="model.Reserva"></v-select>
+                                    </v-col>
+                                    <v-col cols="12" md="6" class="pb-0 pt-0">
+                                        <v-autocomplete v-model="model.Grado"
+                                                        :items="listaGrado"
+                                                        item-text="calidad"
+                                                        item-value="codigoCalidad"
+                                                        :label="jsglobals.Grado"
+                                                        :disabled="model.Reserva"
+                                                        :rules="model.GrupoGrado == 0 && model.Reserva == false ? [vrules.required] : [] "></v-autocomplete>
+                                    </v-col>
+                                    <v-col cols="12" md="6" class="mr-10">
+                                        <v-text-field v-model="model.Cestas"
+                                                      :error-messages="errors.cestas"
+                                                      :rules="model.Reserva? [vrules.required] : [ vrules.required, vrules.dosOMas]"
+                                                      :label="jsglobals.Cestas"
+                                                      @@change="obtenerCestas"
+                                                      :disabled="model.Reserva">
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="5" md="2" class="mr-10">
+                                        <v-menu v-model="menuDesde"
+                                                :close-on-content-click="false"
+                                                transition="scale-transition"
+                                                offset-y
+                                                min-width="auto">
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <v-text-field v-model="model.ValidoDesde"
+                                                              :label="jsglobals.ValidoDesde"
+                                                              v-bind="attrs"
+                                                              v-on="on"></v-text-field>
+                                            </template>
+                                            <v-date-picker v-model="model.ValidoDesde"
+                                                           no-title
+                                                           scrollable
+                                                           locale="es-419"
+                                                           :min="fechaActual"
+                                                           @@input="menuDesde = false"
+                                                           :rules="[vrules.required]"></v-date-picker>
+                                        </v-menu>
+                                    </v-col>
+                                    <v-col cols="5" md="2">
+
+                                        <v-text-field v-model="model.Hora"
+                                                      label="Hora"
+                                                      :error-messages="errors.Hora"
+                                                      :rules="[vrules.required]"
+                                                      type="time"></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12"
+                                           md="4">
+                                        <v-radio-group row label="Estado: " v-model="model.Activo">
+                                            <v-radio :disabled=isDisabled name="active" :label="jsglobals.Activo" :value="true" v-on:change="onChangeCambioEstado()"></v-radio>
+                                            <v-radio :disabled=isDisabled name="active" :label="jsglobals.Inactivo" :value="false" v-on:change="onChangeCambioEstado()"></v-radio>
+                                        </v-radio-group>
+                                    </v-col>
+                                    <v-col cols="2">
+                                        <v-switch v-model="model.Reserva"
+                                                  :label="jsglobals.Reserva"
+                                                  @@change="cambioReserva">
+                                        </v-switch>
+                                    </v-col>
+                                </v-row>
+                                <v-row class="mt-0 mb-2">
+                                    <v-col cols="12">
+                                        <v-tooltip bottom>
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <v-btn v-show="model.IdReceta != 0"
+                                                       class="float-right"
+                                                       v-bind="attrs"
+                                                       v-on="on"
+                                                       v-on:click="onClickDuplicar"
+                                                       color="green"
+                                                       small
+                                                       :disabled="submiting"
+                                                       :loading="submiting"
+                                                       elevation="2">
+                                                    <v-icon small class="pr-1">mdi-content-save</v-icon>
+                                                    {{jsglobals.Duplicar}}
+                                                </v-btn>
+                                            </template>
+                                            <span>{{jsglobals.Duplicar}}</span>
+                                        </v-tooltip>
+                                        <v-tooltip bottom>
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <v-btn v-show="!model.Usado"
+                                                       class="float-right mr-3"
+                                                       v-bind="attrs"
+                                                       v-on="on"
+                                                       v-on:click="ConfirmarGuardado"
+                                                       color="primary"
+                                                       small
+                                                       :disabled="submiting"
+                                                       :loading="submiting"
+                                                       elevation="2">
+                                                    <v-icon small class="pr-1">mdi-content-save</v-icon>
+                                                    {{jsglobals.Guardar}}
+                                                </v-btn>
+                                            </template>
+                                            <span>{{jsglobals.Guardar}}</span>
+                                        </v-tooltip>
+                                        <v-tooltip bottom>
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <v-btn class="float-right mr-3"
+                                                       v-bind="attrs"
+                                                       v-on="on"
+                                                       v-on:click="onClickVolver"
+                                                       color="primary"
+                                                       small
+                                                       elevation="2"
+                                                       :disabled="submiting"
+                                                       :loading="submiting">
+                                                    <v-icon small class="pr-1">mdi-arrow-left-circle</v-icon>
+                                                    {{jsglobals.Volver}}
+                                                </v-btn>
+                                            </template>
+                                            <span>{{jsglobals.Volver}}</span>
+                                        </v-tooltip>
+                                    </v-col>
+                                </v-row>
+                                <v-expansion-panels popout focusable multiple>
+                                    <v-expansion-panel class="pt-0" v-for="(e, n) in parseInt(model.Cestas)">
+                                        <v-expansion-panel-header flat v-on:click="cestasOrdenables(n)">
+                                            <v-toolbar-title>CESTA {{ n+1 }}</v-toolbar-title>
+                                            <v-toolbar-title cols="2">{{jsglobals.PesoTotal}} : {{ sumaPeso[n] != undefined? sumaPeso[n].peso : "no hay peso" }}</v-toolbar-title>
+                                        </v-expansion-panel-header>
+                                        <v-expansion-panel-content eager cols="12" class="mt-0">
+                                            <v-data-table :headers="headers"
+                                                          :items="listaCestas[n]"
+                                                          class="elevation-2"
+                                                          item-key="carga"
+                                                          :no-data-text="jsglobals.SinDatos"
+                                                          :loading-text="jsglobals.ObteniendoListaDeCestas"
+                                                          disable-items-per-page
+                                                          disable-pagination
+                                                          hide-default-footer
+                                                          >
+                                                <template v-slot:top>
+                                                </template>
+                                                <template v-slot:body="{items}">
+                                                    <tbody :id="'cesta'+n">
+                                                        <tr v-for="item in items" :key="item.orden" class="" style="" :id="'c'+n+'c'+item.orden">
+                                                            <td class="text-center">
+                                                                <v-edit-dialog v-on:open="editOrden = item.orden"
+                                                                               v-on:close="guardarOrden(item, n)">
+                                                                    {{item.orden}}
+                                                                    <template v-slot:input>
+                                                                        <v-text-field v-model.number="editOrden"
+                                                                                      :error-messages="errors.Orden"
+                                                                                      :rules="[]"
+                                                                                      :label="jsglobals.Orden">
+                                                                        </v-text-field>
+                                                                    </template>
+                                                                </v-edit-dialog>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <v-edit-dialog :ref="'checkChatarra'+n"
+                                                                               v-on:open="editChatarra = item.chatarra"
+                                                                               v-on:close="guardarChatarra(item, n)">
+                                                                    {{listaChatarra.find(c => c.codigo == item.chatarra).nombre}}
+                                                                    <template v-slot:input>
+                                                                        <v-select v-model.number="editChatarra"
+                                                                                  :items="listaChatarra"
+                                                                                  item-text="nombre"
+                                                                                  item-value="codigo"
+                                                                                  :label="jsglobals.Chatarra"
+                                                                                  @@change="cerrarChatarra(n, item.orden)"></v-select>
+                                                                    </template>
+                                                                </v-edit-dialog>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <v-edit-dialog v-on:open="editPeso= item.peso"
+                                                                               v-on:close="guardarPeso(item, n)">
+                                                                    {{item.peso}}
+                                                                    <template v-slot:input>
+                                                                        <v-text-field v-model.number="editPeso"
+                                                                                      :error-messages="errors.Peso"
+                                                                                      :rules="[]"
+                                                                                      :label="jsglobals.Peso">
+                                                                        </v-text-field>
+                                                                    </template>
+                                                                </v-edit-dialog>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <v-tooltip left>
+                                                                    <template v-slot:activator="{ on, attrs }" v-slot:item.activo="{ item }">
+                                                                        <v-icon v-on="on" v-bind="attrs" small v-on:click="onClickBorrarCapa(item, n)" color="indigo">mdi-delete</v-icon>
+                                                                    </template>
+                                                                    <span>
+                                                                        {{jsglobals.Eliminar}}
+                                                                    </span>
+                                                                </v-tooltip>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </template>
+                                                <template v-slot:item.actions="{ item }">
+                                                    <v-tooltip left>
+                                                        <template v-slot:activator="{ on, attrs }" v-slot:item.activo="{ item }">
+                                                            <v-icon v-on="on" v-bind="attrs" small v-on:click="onClickBorrarCapa(item, n)" color="indigo">mdi-delete</v-icon>
+                                                        </template>
+                                                        <span>
+                                                            {{jsglobals.Eliminar}}
+                                                        </span>
+                                                    </v-tooltip>
+                                                </template>
+                                            </v-data-table>
+                                            <v-tooltip right>
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-btn class="float-left mr-3"
+                                                           v-bind="attrs"
+                                                           v-on="on"
+                                                           v-on:click="onClickAgregarCapa(n)"
+                                                           color="primary"
+                                                           small
+                                                           elevation="2">
+                                                        <v-icon small class="pr-1">mdi-plus</v-icon>
+                                                    </v-btn>
+                                                </template>
+                                                <span>{{jsglobals.AgregarCapa}}</span>
+                                            </v-tooltip>
+                                        </v-expansion-panel-content>
+                                        <v-col cols="2"></v-col>
+                                    </v-expansion-panel>
+                                </v-expansion-panels>
+                            </v-container>
+                        </v-form>
+                    </template>
+                </v-card>
+            </v-col>
+            <v-col cols="1"
+                   style="min-width: 100px;"
+                   class="flex-grow-0 flex-shrink-1">
+            </v-col>
+        </v-row>
+    </v-container>
+</template>
+
+<v-row justify="space-around">
+    <v-col cols="auto">
+        <v-dialog v-model="dialog" persistent transition="dialog-bottom-transition"
+                  width="500">
+            <template v-slot:default="dialog">
+                <v-card>
+                    <v-card-title class="text-h6">
+                        {{jsglobals.CambiarEstado}}
+                    </v-card-title>
+                    <v-card-text class="text-center mb-5">
+                        {{itemCambio.Activo==true?jsglobals.MensajeRecetaActivar:jsglobals.MensajeRecetaInactivar}}
+                    </v-card-text>
+                    <v-divider></v-divider>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn text
+                               v-on:click="onClickNoConfirma(itemCambio)"
+                               color="primary">
+                            {{jsglobals.No}}
+                        </v-btn>
+                        <v-btn text
+                               v-on:click="dialog.value = false"
+                               color="primary">
+                            {{jsglobals.Si}}
+                        </v-btn>
+                    </v-card-actions>
+                </v-card>
+            </template>
+        </v-dialog>
+    </v-col>
+</v-row>
+
+<v-row justify="space-around">
+    <v-col cols="auto">
+        <v-dialog v-model="dialogConfirmarGuardado" persistent transition="dialog-bottom-transition"
+                  width="500">
+            <template v-slot:default="dialogConfirmarGuardado">
+                <v-card>
+                    <v-card-title class="text-h6">
+                        {{jsglobals.Guardar}}
+                    </v-card-title>
+                    <v-card-text class="text-center mb-5" v-if="!model.Reserva">
+                        {{jsglobals.MensajeGuardarReceta}}
+                    </v-card-text>
+                    <v-card-text class="text-center mb-5" v-if="model.Reserva">
+                        {{jsglobals.MensajeGuardarReserva}}
+                    </v-card-text>
+                    <v-divider></v-divider>
+                    <v-card-text>
+                        <v-row>
+                            <v-col class="text-center black--text">
+                                Nombre: {{ model.Nombre }}
+                            </v-col>
+                        </v-row>
+                        <v-row v-if="!model.Reserva">
+                            <v-col class="text-center black--text">
+                                Grupo: {{ listaGrupo.find(x => x.codigoGrupo == model.GrupoGrado).nombre}} | Grado: {{ listaGrado.find(x => x.codigoCalidad == model.Grado)?.calidad ?? jsglobals.SinGrado}}
+                            </v-col>
+                        </v-row>
+                        <v-row>
+                            <v-col class="text-center black--text">
+                                Cestas: {{ model.Cestas }} | Valido desde: {{ model.ValidoDesde + ' ' + model.Hora}}
+                            </v-col>
+                        </v-row>
+                    </v-card-text>
+                    <v-divider></v-divider>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn text
+                               v-on:click="onClickCancelarGuardado()"
+                               color="primary">
+                            {{jsglobals.No}}
+                        </v-btn>
+                        <v-btn text
+                               v-on:click="onClickGuardar()"
+                               color="primary">
+                            {{jsglobals.Si}}
+                        </v-btn>
+                    </v-card-actions>
+                </v-card>
+            </template>
+        </v-dialog>
+    </v-col>
+</v-row>*@

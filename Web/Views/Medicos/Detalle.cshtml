@@ -1,0 +1,134 @@
+﻿@model KO.Web.Models.Medicos.MedicoViewModel
+@using Framework.Utils
+
+@section scripts
+{
+    <script type="text/javascript" src="~/js/KO/medicos/medicos-detalle.js"></script>
+    <script type="text/javascript">
+        vueAppParams.data.model =@Html.Raw(Model.ToJsonModel())
+    </script>
+}
+<link rel="stylesheet" href="~/css/vacunatorio.css" />
+
+<template>
+    <v-container class="mt-8">
+        <v-row no-gutters
+               style="flex-wrap: nowrap;">
+            <v-col cols="1"
+                   class="flex-grow-0 flex-shrink-0">
+            </v-col>
+            <v-col cols="10"
+                   style="min-width: 100px; max-width: 100%;"
+                   class="flex-grow-1 flex-shrink-0">
+                <v-card class="notebook">
+                    <template>
+                        <v-form ref="form" lazy-validation>
+                            <v-container>
+                                <v-row class="mt-4 ml-4 mr-4 mb-0">
+                                    <v-col cols="12">
+                                        <v-text-field v-model="model.nombre"
+                                                      :error-messages="errors.nombre"
+                                                      counter="50"
+                                                      :rules="[ vrules.required , v => vrules.maxLength(v,50,jsglobals.Nombre) ]"
+                                                      :label="jsglobals.Nombre">
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12">
+                                        <v-text-field v-model="model.apellido"
+                                                      :error-messages="errors.apellido"
+                                                      counter="200"
+                                                      :rules="[ vrules.required , v => vrules.maxLength(v,50,jsglobals.Descripcion) ]"
+                                                      :label="jsglobals.Apellido">
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12"
+                                           md="4">
+                                        <v-radio-group row label="Estado: " v-model="model.activo">
+                                            <v-radio :disabled=isDisabled() name="active" :label="jsglobals.Activo" :value="true" v-on:change="cambioEstado()"></v-radio>
+                                            <v-radio :disabled=isDisabled() name="active" :label="jsglobals.Inactivo" :value="false" v-on:change="cambioEstado()"></v-radio>
+                                        </v-radio-group>
+                                    </v-col>
+                                </v-row>
+                                <v-row class="mt-0 mb-2">
+                                    <v-col cols="12">
+                                        <v-tooltip bottom>
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <v-btn class="float-right"
+                                                       v-bind="attrs"
+                                                       v-on="on"
+                                                       v-on:click="guardar"
+                                                       color="primary"
+                                                       small
+                                                       :disabled="submiting"
+                                                       :loading="submiting"
+                                                       elevation="2">
+                                                    <v-icon small class="pr-1">mdi-content-save</v-icon>
+                                                    {{jsglobals.Guardar}}
+                                                </v-btn>
+                                            </template>
+                                            <span>   {{jsglobals.Guardar}}</span>
+                                        </v-tooltip>
+                                        <v-tooltip bottom>
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <v-btn class="float-right mr-3"
+                                                       v-bind="attrs"
+                                                       v-on="on"
+                                                       v-on:click="volver"
+                                                       color="primary"
+                                                       small
+                                                       elevation="2"
+                                                       :disabled="submiting"
+                                                       :loading="submiting">
+                                                    <v-icon small class="pr-1">mdi-arrow-left-circle</v-icon>
+                                                    {{jsglobals.Volver}}
+                                                </v-btn>
+                                            </template>
+                                            <span>{{jsglobals.Volver}}</span>
+                                        </v-tooltip>
+                                    </v-col>
+                                </v-row>
+                            </v-container>
+                        </v-form>
+                    </template>
+                </v-card>
+            </v-col>
+            <v-col cols="1"
+                   style="min-width: 100px;"
+                   class="flex-grow-0 flex-shrink-1">
+            </v-col>
+        </v-row>
+    </v-container>
+</template>
+
+<v-row justify="space-around">
+    <v-col cols="auto">
+        <v-dialog v-model="dialog" persistent transition="dialog-bottom-transition"
+                  width="500">
+            <template v-slot:default="dialog">
+                <v-card>
+                    <v-toolbar dense class="d-flex text-h6 mb-5 justify-center" color="primary"
+                               dark>
+                        <v-toolbar-title>{{jsglobals.CambiarEstado}} {{jsglobals.Medico}}</v-toolbar-title>
+                    </v-toolbar>
+                    <v-card-text class="text-subtitle-1 text-center mb-5">
+                        {{itemCambio.estado==true?jsglobals.MensajeActivar:jsglobals.MensajeInactivar}}
+                    </v-card-text>
+                    <v-divider></v-divider>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn text
+                               v-on:click="confirmaCambioEstado(itemCambio)"
+                               color="primary">
+                            {{jsglobals.No}}
+                        </v-btn>
+                        <v-btn text
+                               v-on:click="dialog.value = false"
+                               color="primary">
+                            {{jsglobals.Si}}
+                        </v-btn>
+                    </v-card-actions>
+                </v-card>
+            </template>
+        </v-dialog>
+    </v-col>
+</v-row>

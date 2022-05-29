@@ -1,0 +1,24 @@
+﻿<v-row justify="center" align="center" class="mt-6">
+    <v-col cols="12" sm="4">
+        <v-card elevation="2" max-width="600" style="text-align: center;">
+            <v-card-title>
+                <span class="material-icons mr-2" style="color:red;">
+                    error
+                </span>{{jsglobals.Error}}
+            </v-card-title>
+            <v-card-text>
+                {{jsglobals.ErrorGenerico}}
+            </v-card-text>
+            <v-card-actions style="justify-content: flex-end;">
+                <v-btn text
+                       class="float-right"
+                       onclick="window.location.href='/Home/Index'"
+                       color="primary">
+                    {{jsglobals.Volver}}
+                </v-btn>
+            </v-card-actions>
+        </v-card>
+    </v-col>
+</v-row>
+
+
