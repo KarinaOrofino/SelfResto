@@ -15,11 +15,11 @@ namespace Servicios.Implementaciones
     {
         protected readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        private IServicioGenerico _servicioGenerico { get; set; }
+        private IServicioGenerico ServicioGenerico { get; set; }
 
-        public ServicioFuncionalidad(IDatosGenerico datos, IServicioGenerico servicioGenerico) : base(datos)
+        public ServicioFuncionalidad(IDatosGenerico datos, IServicioGenerico servGenerico) : base(datos)
         {
-            _servicioGenerico = servicioGenerico;
+            ServicioGenerico = servGenerico;
         }
 
         public void AgregarFuncionalidad(Funcionalidad funcionalidad, IList<FuncionalidadRol> funcionalidadesRolesAAgregar)
@@ -33,7 +33,7 @@ namespace Servicios.Implementaciones
                 foreach (FuncionalidadRol fr in funcionalidadesRolesAAgregar)
                 {
                     fr.IdFuncionalidad = funcionalidad.Id;
-                    _servicioGenerico.Add(fr);
+                    ServicioGenerico.Add(fr);
 
                 }
             }
@@ -44,17 +44,17 @@ namespace Servicios.Implementaciones
         {
 
             using TransactionScope scope = new ();
-            this._servicioGenerico.Update(funcionalidad);
+            this.ServicioGenerico.Update(funcionalidad);
 
-            List<FuncionalidadRol> funcRoles = _servicioGenerico.GetAll<FuncionalidadRol>(r => r.IdFuncionalidad == funcionalidad.Id).ToList();
+            List<FuncionalidadRol> funcRoles = ServicioGenerico.GetAll<FuncionalidadRol>(r => r.IdFuncionalidad == funcionalidad.Id).ToList();
 
             //roles a agregar
             List<FuncionalidadRol> listaRolesAAgregar = funcionalidadesRolesAModificar.Where(ra => !funcRoles.Any(r => r.IdRol == ra.IdRol)).ToList();
-            listaRolesAAgregar.ForEach(rol => _servicioGenerico.Add<FuncionalidadRol>(rol));
+            listaRolesAAgregar.ForEach(rol => ServicioGenerico.Add<FuncionalidadRol>(rol));
 
             //roles a eliminar
             List<FuncionalidadRol> listaRelAEliminar = funcRoles.Where(re => !funcionalidadesRolesAModificar.Any(r => r.IdRol == re.IdRol)).ToList();
-            listaRelAEliminar.ForEach(rol => _servicioGenerico.Delete<FuncionalidadRol>(rol));
+            listaRelAEliminar.ForEach(rol => ServicioGenerico.Delete<FuncionalidadRol>(rol));
 
             scope.Complete();
         }

@@ -8,7 +8,7 @@ namespace KO.Framework.Web
 {
     public class CheckSession : IActionFilter
     {
-        private List<string> ignoreRoutes = new List<string>() {
+        private readonly List<string> ignoreRoutes = new () {
             "Account/Login",
             "Home/Index",
             "Home/ObtenerVersion",
@@ -51,7 +51,7 @@ namespace KO.Framework.Web
                 }
                 else
                 {
-                    RouteValueDictionary redirect = new RouteValueDictionary();
+                    RouteValueDictionary redirect = new ();
                     redirect.Add("action", "Login");
                     redirect.Add("controller", "Account");
                     filterContext.Result = new RedirectToRouteResult(redirect);

@@ -160,11 +160,11 @@ namespace KO.Recursos {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Agregar rol y tipo de acceso.
+        ///   Looks up a localized string similar to Agregar Vacuna.
         /// </summary>
-        public static string AgregarRolYTipoAcceso {
+        public static string AgregarVacuna {
             get {
-                return ResourceManager.GetString("AgregarRolYTipoAcceso", resourceCulture);
+                return ResourceManager.GetString("AgregarVacuna", resourceCulture);
             }
         }
         
@@ -214,7 +214,7 @@ namespace KO.Recursos {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cambiar estado.
+        ///   Looks up a localized string similar to Cambiar Estado.
         /// </summary>
         public static string CambiarEstado {
             get {
@@ -228,15 +228,6 @@ namespace KO.Recursos {
         public static string Cancelar {
             get {
                 return ResourceManager.GetString("Cancelar", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Cantidad.
-        /// </summary>
-        public static string Cantidad {
-            get {
-                return ResourceManager.GetString("Cantidad", resourceCulture);
             }
         }
         
@@ -309,15 +300,6 @@ namespace KO.Recursos {
         public static string Comentarios {
             get {
                 return ResourceManager.GetString("Comentarios", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Comenzar.
-        /// </summary>
-        public static string Comenzar {
-            get {
-                return ResourceManager.GetString("Comenzar", resourceCulture);
             }
         }
         
@@ -412,15 +394,6 @@ namespace KO.Recursos {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Editar / Ver Roles y tipo de acceso.
-        /// </summary>
-        public static string EditarRolesAcceso {
-            get {
-                return ResourceManager.GetString("EditarRolesAcceso", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Eliminar.
         /// </summary>
         public static string Eliminar {
@@ -493,15 +466,6 @@ namespace KO.Recursos {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Fecha de alta.
-        /// </summary>
-        public static string FechaAlta {
-            get {
-                return ResourceManager.GetString("FechaAlta", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Fecha Cambio.
         /// </summary>
         public static string FechaCambio {
@@ -525,15 +489,6 @@ namespace KO.Recursos {
         public static string FechaHasta {
             get {
                 return ResourceManager.GetString("FechaHasta", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Fecha de ultima modificación.
-        /// </summary>
-        public static string FechaModificacion {
-            get {
-                return ResourceManager.GetString("FechaModificacion", resourceCulture);
             }
         }
         
@@ -606,15 +561,6 @@ namespace KO.Recursos {
         public static string Id {
             get {
                 return ResourceManager.GetString("Id", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Identificador.
-        /// </summary>
-        public static string Identificador {
-            get {
-                return ResourceManager.GetString("Identificador", resourceCulture);
             }
         }
         
@@ -745,29 +691,11 @@ namespace KO.Recursos {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to La cesta se ha cerrado correctamente.
+        ///   Looks up a localized string similar to ¿Está seguro que desea ACTIVAR la vacuna?.
         /// </summary>
-        public static string MensajeCierreCestaOk {
+        public static string MensajeActivarVacuna {
             get {
-                return ResourceManager.GetString("MensajeCierreCestaOk", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to La capa se ha comenzado a cargar correctamente.
-        /// </summary>
-        public static string MensajeComienzoCapaOk {
-            get {
-                return ResourceManager.GetString("MensajeComienzoCapaOk", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ¿Está seguro que desea tomar el control?.
-        /// </summary>
-        public static string MensajeConfirmacionTomarControl {
-            get {
-                return ResourceManager.GetString("MensajeConfirmacionTomarControl", resourceCulture);
+                return ResourceManager.GetString("MensajeActivarVacuna", resourceCulture);
             }
         }
         
@@ -790,7 +718,16 @@ namespace KO.Recursos {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Datos guardados correctamente.
+        ///   Looks up a localized string similar to Datos Actualizados correctamente.
+        /// </summary>
+        public static string MensajeDatosActualizadosOk {
+            get {
+                return ResourceManager.GetString("MensajeDatosActualizadosOk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Datos Guardados correctamente.
         /// </summary>
         public static string MensajeDatosGuardadosOk {
             get {
@@ -799,38 +736,11 @@ namespace KO.Recursos {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Datos inactivados correctamente.
+        ///   Looks up a localized string similar to Datos Inactivados correctamente.
         /// </summary>
         public static string MensajeDatosInactivadosOk {
             get {
                 return ResourceManager.GetString("MensajeDatosInactivadosOk", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Existe una discrepancia en la cantidad de cestas. Por favor cree una receta de grupo: .
-        /// </summary>
-        public static string MensajeDiscrepanciaCantidadCargasParte1 {
-            get {
-                return ResourceManager.GetString("MensajeDiscrepanciaCantidadCargasParte1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Por favor cree una receta:.
-        /// </summary>
-        public static string MensajeDiscrepanciaCantidadCargasParte2 {
-            get {
-                return ResourceManager.GetString("MensajeDiscrepanciaCantidadCargasParte2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Colada Chequeada Correctamente.
-        /// </summary>
-        public static string MensajeGuardarChequeoOk {
-            get {
-                return ResourceManager.GetString("MensajeGuardarChequeoOk", resourceCulture);
             }
         }
         
@@ -840,6 +750,15 @@ namespace KO.Recursos {
         public static string MensajeInactivar {
             get {
                 return ResourceManager.GetString("MensajeInactivar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ¿Está seguro que desea INACTIVAR la vacuna?.
+        /// </summary>
+        public static string MensajeInactivarVacuna {
+            get {
+                return ResourceManager.GetString("MensajeInactivarVacuna", resourceCulture);
             }
         }
         
@@ -916,11 +835,20 @@ namespace KO.Recursos {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Obteniendo lista de cargas.
+        ///   Looks up a localized string similar to Obteniendo Médicos.
         /// </summary>
-        public static string ObteniendoListaDeCargas {
+        public static string ObteniendoMedicos {
             get {
-                return ResourceManager.GetString("ObteniendoListaDeCargas", resourceCulture);
+                return ResourceManager.GetString("ObteniendoMedicos", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Obteniendo Vacunas.
+        /// </summary>
+        public static string ObteniendoVacunas {
+            get {
+                return ResourceManager.GetString("ObteniendoVacunas", resourceCulture);
             }
         }
         
@@ -1159,15 +1087,6 @@ namespace KO.Recursos {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Totales.
-        /// </summary>
-        public static string Totales {
-            get {
-                return ResourceManager.GetString("Totales", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Usuario.
         /// </summary>
         public static string Usuario {
@@ -1177,20 +1096,11 @@ namespace KO.Recursos {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Usuario Alta.
+        ///   Looks up a localized string similar to Vacuna.
         /// </summary>
-        public static string UsuarioAlta {
+        public static string Vacuna {
             get {
-                return ResourceManager.GetString("UsuarioAlta", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Usuario ultima modificación.
-        /// </summary>
-        public static string UsuarioModificacion {
-            get {
-                return ResourceManager.GetString("UsuarioModificacion", resourceCulture);
+                return ResourceManager.GetString("Vacuna", resourceCulture);
             }
         }
         

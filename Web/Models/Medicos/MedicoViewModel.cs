@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Web.Models;
 
 namespace KO.Web.Models.Medicos
@@ -8,7 +7,7 @@ namespace KO.Web.Models.Medicos
     {
         public MedicoViewModel()
         {
-            //this.ListaCargas = new List<PacienteViewModel>(); 
+            this.ListaMatriculasMedicos = new List<string>(); 
         }
         public int Matricula { get; set; }
 
@@ -17,6 +16,10 @@ namespace KO.Web.Models.Medicos
         public string Apellido { get; set; }
 
         public bool Estado { get; set; }
+
+        public bool MedicoExistente { get; set; }
+
+        public List<string> ListaMatriculasMedicos { get; set; }
 
     }
 }

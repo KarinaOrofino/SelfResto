@@ -11,12 +11,12 @@ namespace KO.Datos.Implementacion
 {
     public class DatosVPacientes : DatosBase, IDatosVPacientes
     {
-        private IConfiguration Configuration;
+       // private IConfiguration Configuration;
 
 
         public DatosVPacientes(IConfiguration configuration, KOContext context) : base(context)
         {
-            this.Configuration = configuration;
+            //this.Configuration = configuration;
         }
 
      

@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace Web.Controllers.Medicos
 {
+    [Route("[controller]/[action]")]
     public class MedicosController : BaseController
     {
         #region Propiedades
@@ -41,42 +42,38 @@ namespace Web.Controllers.Medicos
         }
 
         [HttpGet]
-        public async Task<IActionResult> Detalle()
-        {
-            MedicoViewModel medicoVM = new();
-            try
-            {
-
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-
-            }
-
-            return View(medicoVM);
-        }
-
-        [Route("{matricula}")]
-        [HttpGet]
         public async Task<IActionResult> Detalle(int matricula)
         {
             MedicoViewModel medicoVM = new();
 
             try
             {
-                Medico medico = ServicioMedicos.Obtener(matricula);
 
-                medicoVM.Matricula = medico.Matricula;
-                medicoVM.Nombre = medico.Nombre;
-                medicoVM.Apellido = medico.Apellido;
-                medicoVM.Estado = medico.Estado;
+                if (matricula == 0) { 
+
+                    medicoVM.Estado = true;
+                    medicoVM.MedicoExistente = false;
+                    medicoVM.ListaMatriculasMedicos = ServicioMedicos.ObtenerTodos().Select(med => med.Matricula.ToString()).ToList();
+
+                }
+
+                else {
+
+                    Medico medico = ServicioMedicos.Obtener(matricula);
+                    medicoVM.Matricula = medico.Matricula;
+                    medicoVM.Nombre = medico.Nombre;
+                    medicoVM.Apellido = medico.Apellido;
+                    medicoVM.Estado = medico.Estado;
+                    medicoVM.MedicoExistente = true;
+
+                }
             }
 
             catch (Exception ex)
             {
-                log.Error("No se pudo obtener el médico con matricula: " + matricula, ex);
+                log.Error("No se pudo obtener el médico con matrícula: " + matricula, ex);
                 Response.StatusCode = Constantes.ERROR_HTTP;
+                return Redirect("/Home/Error");
             }
 
             return View(medicoVM);
@@ -166,7 +163,7 @@ namespace Web.Controllers.Medicos
 
         #region Métodos Pantalla Detalle
 
-        public JsonResult Guardar(MedicoViewModel medicoVM)
+        public JsonResult Agregar(MedicoViewModel medicoVM)
         {
             JsonData jsonData = new();
             Medico medico = new();
@@ -177,18 +174,9 @@ namespace Web.Controllers.Medicos
                 medico.Matricula = medicoVM.Matricula;
                 medico.Nombre = medicoVM.Nombre;
                 medico.Apellido = medicoVM.Apellido;
+                medico.Estado = true;
 
-                if (medico.Matricula == 0)
-                {
-                    medico.Estado = true;
-                    ServicioMedicos.Agregar(medico);
-                }
-
-                else
-                {
-                    medico.Estado = medicoVM.Estado;
-                    ServicioMedicos.Actualizar(medico);
-                }
+                ServicioMedicos.Agregar(medico);
 
                 jsonData.result = JsonData.Result.Ok;
             }
@@ -196,6 +184,33 @@ namespace Web.Controllers.Medicos
             catch (Exception ex)
             {
                 log.Error("No se pudo guardar el médico. Error: ", ex);
+                Response.StatusCode = Constantes.ERROR_HTTP;
+            }
+
+            return Json(jsonData);
+        }
+
+        public JsonResult Actualizar(MedicoViewModel medicoVM)
+        {
+            JsonData jsonData = new();
+            Medico medico = new();
+
+            try
+            {
+
+                medico.Matricula = medicoVM.Matricula;
+                medico.Nombre = medicoVM.Nombre;
+                medico.Apellido = medicoVM.Apellido;
+                medico.Estado = medicoVM.Estado;
+
+                ServicioMedicos.Actualizar(medico);
+
+                jsonData.result = JsonData.Result.Ok;
+            }
+
+            catch (Exception ex)
+            {
+                log.Error("No se pudo actualizar el médico: " + medico.Apellido +", Error: ", ex);
                 Response.StatusCode = Constantes.ERROR_HTTP;
             }
 

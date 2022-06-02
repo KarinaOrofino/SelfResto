@@ -12,12 +12,12 @@ namespace KO.Datos.Implementacion
 {
     public class DatosVAplicaciones : DatosBase, IDatosVAplicaciones
     {
-        private IConfiguration Configuration;
+        //private IConfiguration Configuration;
 
 
         public DatosVAplicaciones(IConfiguration configuration, KOContext context) : base(context)
         {
-            this.Configuration = configuration;
+            //this.Configuration = configuration;
         }
 
         //public List<Medico> ObtenerFiltrados(int? Matricula, string Nombre, string Apellido, bool? Estado)

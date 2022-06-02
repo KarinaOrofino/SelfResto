@@ -15,17 +15,22 @@ namespace Servicios.Implementaciones
     {
         protected readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         
-        private IServicioGenerico _servicioGenerico { get; set; }
+        //private IServicioGenerico _servicioGenerico { get; set; }
 
-        public ServicioVMedicos(/*IDatosGenerico datos, */IServicioGenerico servicioGenerico, IDatosVMedicos datos) : base(datos)
+        public ServicioVMedicos(/*IServicioGenerico servicioGenerico, */IDatosVMedicos datos) : base(datos)
         {
-            _servicioGenerico = servicioGenerico;
+            //_servicioGenerico = servicioGenerico;
         }
 
 
         public List<Medico> ObtenerTodos()
         {
             return _datos.ObtenerTodos();
+        }
+
+        public List<Medico> ObtenerFiltrados(int? Matricula, string Nombre, string Apellido, bool? Estado) 
+        {
+            return _datos.ObtenerFiltrados(Matricula, Nombre, Apellido, Estado);
         }
 
         public Medico Obtener(int Matricula) 

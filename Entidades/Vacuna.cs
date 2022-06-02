@@ -8,10 +8,6 @@ namespace KO.Entidades
 
         public string Nombre { get; set; }
 
-        public string Apellido { get; set; }
-
-        public DateTime Fecha { get; set; }
-
-        public bool Activo { get; set; }
+        public bool Estado { get; set; }
     }
 }

@@ -9,14 +9,13 @@ vueAppParams.data.medicoAActivar = '';
 vueAppParams.data.medicoAInactivar = '';
 
 vueAppParams.data.search = '';
+
 vueAppParams.data.filtros = {
 
-    matricula: '',
-    nombre: '',
-    apellido: '',
     estado: '',
 
 };
+
 vueAppParams.data.filtros.estado = 0;
 
 vueAppParams.data.headers = [
@@ -72,17 +71,17 @@ vueAppParams.methods.loadGrid = function () {
 };
 
 // Metodos
-vueAppParams.methods.onClickNuevo = function (event) {
+vueAppParams.methods.agregarMedico = function (event) {
     window.location = "Detalle/";
 };
 
-vueAppParams.methods.onClickInactivar = function (item) {
+vueAppParams.methods.inactivarMedico = function (item) {
 
     vueAppParams.data.dialogInactivar = true;
     vueAppParams.data.medicoAInactivar = item;
 };
 
-vueAppParams.methods.onClickConfirmaInactivar = function (matricula) {
+vueAppParams.methods.confirmaInactivar = function (matricula) {
 
     vueAppParams.data.dialogInactivar = false;
 
@@ -101,13 +100,13 @@ vueAppParams.methods.onClickConfirmaInactivar = function (matricula) {
 
 };
 
-vueAppParams.methods.onClickActivar = function (item) {
+vueAppParams.methods.activarMedico = function (item) {
 
     vueAppParams.data.dialogActivar = true;
     vueAppParams.data.medicoAActivar = item;
 };
 
-vueAppParams.methods.onClickConfirmaActivar = function (matricula) {
+vueAppParams.methods.confirmaActivar = function (matricula) {
 
     vueAppParams.data.dialogActivar = false;
 
@@ -126,19 +125,16 @@ vueAppParams.methods.onClickConfirmaActivar = function (matricula) {
 
 };
 
-vueAppParams.methods.onClickEditar = function (id) {
+vueAppParams.methods.editarMedico = function (matricula) {
 
-    window.location = "/Funcionalidad/Detalle/" + id;
+    window.location = "/Medicos/Detalle/?matricula=" + matricula;
 };
 
 
-vueAppParams.methods.onClickExportar = function () {
+vueAppParams.methods.exportarLista = function () {
     vueApp.loadingExportar = true;
 
-    var filters = "?matricula=" + vueApp.filtros.matricula
-        + "&nombre=" + vueApp.filtros.nombre
-        + "&apellido=" + vueApp.filtros.apellido
-        + "&estado=" + vueApp.filtros.estado;
+//pasarGridData
 
     return new Promise(resolve => {
         var urlToSend = "/Medicos/Exportar" + filters;

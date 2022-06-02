@@ -18,14 +18,14 @@ namespace Web.Controllers.Medicos
     {
         #region Propiedades de servicio
 
-        private IServicioGenerico ServicioGenerico { get; set; }
+        
         private IServicioVMedicos ServicioMedicos { get; set; }
 
         #endregion
 
-        public PacientesController(IServicioGenerico servicioGenerico, IServicioVMedicos servicioMedicos)
+        public PacientesController(IServicioVMedicos servicioMedicos)
         {
-            this.ServicioGenerico = servicioGenerico;
+            
             this.ServicioMedicos = servicioMedicos;
         }
 

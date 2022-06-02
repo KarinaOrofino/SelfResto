@@ -14,13 +14,13 @@ namespace Web.Controllers
 {
     public class HomeController : BaseController
     {
-        private readonly ILogger<HomeController> _logger;
+        //private readonly ILogger<HomeController> _logger;
 
         private readonly IAppInfo _appInfo;
 
-        public HomeController(ILogger<HomeController> logger, IAppInfo appInfo)
+        public HomeController(/*ILogger<HomeController> logger,*/ IAppInfo appInfo)
         {
-            _logger = logger;
+            //_logger = logger;
             _appInfo = appInfo;
         }
 
@@ -46,17 +46,17 @@ namespace Web.Controllers
 
 
 
-        public Task<JsonData> JSGlobales(string cultura)
+        public Task<JsonData> JSGlobales(/*string cultura*/)
         {
-            JsonData jsonData = new JsonData();
+            JsonData jsonData = new ();
 
             try
             {
-                ResourceManager MyResourceClass = new ResourceManager(typeof(Global));
+                ResourceManager MyResourceClass = new(typeof(Global));
                 ResourceSet resourceSet = MyResourceClass.GetResourceSet(CultureInfo.CurrentUICulture, true, true);
 
 
-                List<KeyValuePair<string, string>> data = new List<KeyValuePair<string, string>>();
+                List<KeyValuePair<string, string>> data = new();
                 foreach (DictionaryEntry resourceItem in resourceSet)
                 {
                     data.Add(new KeyValuePair<string, string>(resourceItem.Key.ToString(), resourceItem.Value.ToString()));
@@ -78,7 +78,7 @@ namespace Web.Controllers
         public Task<JsonData> ObtenerVersion()
         {
 
-            JsonData jsonData = new JsonData();
+            JsonData jsonData = new ();
 
             try
             {

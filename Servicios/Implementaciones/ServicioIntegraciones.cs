@@ -9,14 +9,14 @@ namespace KO.Servicios
 {
     public class ServicioIntegraciones : ServicioGenerico, IServicioIntegraciones
     {
-        private readonly IServicioGenerico _servicioGenerico;
-        private IDatosIntegraciones _datosIntegraciones { get; set; }
+        //private readonly IServicioGenerico _servicioGenerico;
+        //private IDatosIntegraciones _datosIntegraciones { get; set; }
 
-        public ServicioIntegraciones(IDatosGenerico datos ,IDatosIntegraciones datosIntegraciones, IServicioGenerico servicioGenerico) : base(datos)
+        public ServicioIntegraciones(IDatosGenerico datos /*,IDatosIntegraciones datosIntegraciones, IServicioGenerico servicioGenerico*/) : base(datos)
         {
             
-            _datosIntegraciones = datosIntegraciones;
-            _servicioGenerico = servicioGenerico;
+        //    _datosIntegraciones = datosIntegraciones;
+        //    _servicioGenerico = servicioGenerico;
         }
 
 

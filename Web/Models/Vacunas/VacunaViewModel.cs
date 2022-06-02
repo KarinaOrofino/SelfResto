@@ -8,16 +8,17 @@ namespace KO.Web.Models.Vacunas
     {
         public VacunaViewModel()
         {
+            this.ListaVacunas = new List<string>();
         }
         public int Id { get; set; }
 
         public string Nombre { get; set; }
 
-        public string Apellido { get; set; }
+        public bool Estado { get; set; }
 
-        public DateTime Fecha { get; set; }
+        public bool VacunaExistente { get; set; }
 
-        public bool Activo { get; set; }
+        public List<string> ListaVacunas { get; set; }
 
     }
 }

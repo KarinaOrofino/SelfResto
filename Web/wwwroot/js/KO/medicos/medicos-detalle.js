@@ -2,22 +2,21 @@
 vueAppParams.data.isValid = false;
 vueAppParams.data.itemCambio = "";
 vueAppParams.data.dialog = null;
-
-vueAppParams.data.breadcrums = [
-    { text: jsglobals.Inicio, disabled: false, href: '/Home/Index' },
-    { text: jsglobals.Medicos, disabled: false, href: '/Medicos/Listado' },
-    { text: jsglobals.Detalle, disabled: true, href: '' }
-];
+vueAppParams.data.breadcrums = [];
 
 vueAppParams.mounted = function () {
+    this.breadcrums = [
+        { text: jsglobals.Inicio, disabled: false, href: '/Home/Index' },
+        { text: jsglobals.Medicos, disabled: false, href: '/Medicos/Listado' },
+        { text: jsglobals.Detalle, href: '', disabled: true }
 
+    ];
 };
 
-vueAppParams.methods.isDisabled = function () {
-    if (this.model.matricula == null) {
-        return true
-    }
-};
+vueAppParams.methods.isDisabled = function (){
+    return this.model.MedicoExistente;
+}
+
 
 vueAppParams.methods.cambioEstado = function () {
 
@@ -27,17 +26,24 @@ vueAppParams.methods.cambioEstado = function () {
 
 vueAppParams.methods.confirmaCambioEstado = function (itemCambio) {
 
-    if (itemCambio.estado) {
-        itemCambio.estado = false;
+    if (itemCambio.Estado) {
+        itemCambio.Estado = false;
         vueAppParams.data.dialog = false;
     }
     else {
-        itemCambio.estado = true;
+        itemCambio.Estado = true;
         vueAppParams.data.dialog = false;
     }
 
 }
-vueAppParams.methods.guardar = function () {
+vueAppParams.methods.guardarMedico = function () {
+
+
+    var found = vueApp.model.ListaMatriculasMedicos.includes(vueApp.model.Matricula);
+    if (found) {
+        vueApp.notification.showWarning("La matrícula ingresada ya existe. Por favor ingrese una matrícula nueva");
+        return false;
+    }
 
     vueApp.isValid = vueApp.$refs.form.validate();
     if (!vueApp.isValid) {
@@ -47,18 +53,35 @@ vueAppParams.methods.guardar = function () {
     vueApp.clearErrors();
     vueApp.submiting = true;
 
-    $.ajax({
-        url: "/Medicos/Guardar",
-        method: "POST",
-        data: vueApp.model,
-        success: function (data) {
-            vueApp.notification.showSuccess(jsglobals.MensajeDatosGuardadosOk);
-            setTimeout(function () { window.location = '/Medicos/Listado' }, TIEMPO_CIERRE_FORMULARIO);
-        },
-        error: defaultErrorHandler
-    });
+    if (vueApp.model.Matricula == 0) {
+
+        $.ajax({
+            url: "/Medicos/Agregar",
+            method: "POST",
+            data: vueApp.model,
+            success: function (data) {
+                vueApp.notification.showSuccess(jsglobals.MensajeDatosGuardadosOk);
+                setTimeout(function () { window.location = '/Medicos/Listado' }, TIEMPO_CIERRE_FORMULARIO);
+            },
+            error: defaultErrorHandler
+        });
+    }
+
+    else
+    {
+        $.ajax({
+            url: "/Medicos/Actualizar",
+            method: "POST",
+            data: vueApp.model,
+            success: function (data) {
+                vueApp.notification.showSuccess(jsglobals.MensajeDatosActualizadosOk);
+                setTimeout(function () { window.location = '/Medicos/Listado' }, TIEMPO_CIERRE_FORMULARIO);
+            },
+            error: defaultErrorHandler
+        });
+    }
 };
 
-vueAppParams.methods.onClickVolver = function () {
+vueAppParams.methods.volver = function () {
     window.location = "/Medicos/Listado";
 };

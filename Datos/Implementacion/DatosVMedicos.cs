@@ -13,11 +13,11 @@ namespace KO.Datos.Implementacion
 {
     public class DatosVMedicos : DatosBase, IDatosVMedicos
     {
-        private IConfiguration Configuration;
+        //private IConfiguration Configuration;
 
         public DatosVMedicos(IConfiguration configuration, KOContext context) : base(context)
         {
-            this.Configuration = configuration;
+            //this.Configuration = configuration;
         }
 
         public List<Medico> ObtenerTodos()
@@ -60,6 +60,48 @@ namespace KO.Datos.Implementacion
             return listaMedicos;
         }
 
+        public List<Medico> ObtenerFiltrados(int? Matricula, string Nombre, string Apellido, bool? Estado)
+        {
+            List<Medico> listaMedicos = new ();
+            try
+            {
+                using SqlCommand command = new(Constantes.SP_OBTENER_MEDICOS_FILTRADOS, (SqlConnection)_context.Database.GetDbConnection());
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("Matricula", Matricula);
+                command.Parameters.AddWithValue("Nombre", Nombre);
+                command.Parameters.AddWithValue("Apellido", Apellido);
+                command.Parameters.AddWithValue("Estado", Estado);
+
+                using SqlDataAdapter da = new (command);
+                DataTable dt = new ();
+                da.Fill(dt);
+
+                if (dt != null)
+                {
+                    if (dt.Rows.Count > 0)
+                    {
+
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            Medico medico = new ();
+                            medico.Matricula = int.Parse(row["Matricula"].ToString());
+                            medico.Nombre = row["Nombre"].ToString();
+                            medico.Apellido = row["Apellido"].ToString();
+                            medico.Estado = (bool)row["Estado"];
+                            listaMedicos.Add(medico);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error método en Datos", ex);
+                throw new Exception(ex.Message);
+            }
+
+            return listaMedicos;
+        }
+
         public Medico Obtener(int Matricula)
         {
             Medico medico = new();
@@ -67,6 +109,7 @@ namespace KO.Datos.Implementacion
             {
                 using SqlCommand command = new(Constantes.SP_OBTENER_MEDICO, (SqlConnection)_context.Database.GetDbConnection());
                 command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@Matricula", Matricula);
 
                 using SqlDataAdapter da = new(command);
                 DataTable dt = new();
@@ -106,6 +149,7 @@ namespace KO.Datos.Implementacion
 
                 connection.Open();
                 command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@Matricula", medico.Matricula);
                 command.Parameters.AddWithValue("@Nombre", medico.Nombre);
                 command.Parameters.AddWithValue("@Apellido", medico.Apellido);
 

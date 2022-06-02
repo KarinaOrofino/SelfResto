@@ -57,7 +57,7 @@ namespace Framework.Utils
     {
         public static bool CreateExcelDocument<T>(List<T> list, string xlsxFilePath)
         {
-            DataSet ds = new DataSet();
+            DataSet ds = new ();
             ds.Tables.Add(ListToDataTable(list));
 
             return CreateExcelDocument(ds, xlsxFilePath);
@@ -67,7 +67,7 @@ namespace Framework.Utils
         //  My thanks to Carl Quirion, for making it "nullable-friendly".
         public static DataTable ListToDataTable<T>(List<T> list)
         {
-            DataTable dt = new DataTable();
+            DataTable dt = new ();
 
             foreach (PropertyInfo info in typeof(T).GetProperties())
             {
@@ -89,13 +89,12 @@ namespace Framework.Utils
         }
         public static DataTable ListToDataTable<T>(string name, List<T> list)
         {
-            DataTable dt = new DataTable();
+            DataTable dt = new ();
             dt.TableName = name;
 
             foreach (PropertyInfo info in typeof(T).GetProperties())
             {
-                var atributoDeExportacion = info.GetCustomAttributes(typeof(ExportableAttribute), true).FirstOrDefault() as ExportableAttribute;
-                if (atributoDeExportacion != null)
+                if (info.GetCustomAttributes(typeof(ExportableAttribute), true).FirstOrDefault() is ExportableAttribute atributoDeExportacion)
                 {
                     if (!atributoDeExportacion.SkipDrawing)
                     {
@@ -113,8 +112,7 @@ namespace Framework.Utils
                 DataRow row = dt.NewRow();
                 foreach (PropertyInfo info in typeof(T).GetProperties())
                 {
-                    var atributoDeExportacion = info.GetCustomAttributes(typeof(ExportableAttribute), true).FirstOrDefault() as ExportableAttribute;
-                    if (atributoDeExportacion != null)
+                    if (info.GetCustomAttributes(typeof(ExportableAttribute), true).FirstOrDefault() is ExportableAttribute atributoDeExportacion)
                     {
                         if (!atributoDeExportacion.SkipDrawing)
                         {
@@ -156,7 +154,7 @@ namespace Framework.Utils
 
         public static bool CreateExcelDocument(DataTable dt, string xlsxFilePath)
         {
-            DataSet ds = new DataSet();
+            DataSet ds = new ();
             ds.Tables.Add(dt);
             bool result = CreateExcelDocument(ds, xlsxFilePath);
             ds.Tables.Remove(dt);
@@ -201,7 +199,7 @@ namespace Framework.Utils
             //  If we don't add a "WorkbookStylesPart", OLEDB will refuse to connect to this .xlsx file !
             WorkbookStylesPart workbookStylesPart = spreadsheet.WorkbookPart.AddNewPart<WorkbookStylesPart>("rIdStyles");
 
-            Stylesheet stylesheet = new Stylesheet(
+            Stylesheet stylesheet = new (
                     new Fonts(
                         new Font(                                                               // Index 0 - The default font.
                             new FontSize() { Val = 11 },
@@ -297,7 +295,7 @@ namespace Framework.Utils
 
                 //  Create worksheet part, and add it to the sheets collection in workbook
                 WorksheetPart newWorksheetPart = spreadsheet.WorkbookPart.AddNewPart<WorksheetPart>();
-                Sheet sheet = new Sheet() { Id = spreadsheet.WorkbookPart.GetIdOfPart(newWorksheetPart), SheetId = worksheetNumber, Name = worksheetName };
+                Sheet sheet = new () { Id = spreadsheet.WorkbookPart.GetIdOfPart(newWorksheetPart), SheetId = worksheetNumber, Name = worksheetName };
                 sheets.Append(sheet);
 
                 //  Append this worksheet's data to our Workbook, using OpenXmlWriter, to prevent memory problems
@@ -315,7 +313,7 @@ namespace Framework.Utils
             writer.WriteStartElement(new Worksheet());
             writer.WriteStartElement(new SheetData());
 
-            string cellValue = "";
+            string cellValue;
 
             //  Create a Header Row in our Excel file, containing one header for each Column of data in our DataTable.
             //
@@ -347,7 +345,7 @@ namespace Framework.Utils
 
             //  Now, step through each row of data in our DataTable...
             //
-            double cellNumericValue = 0;
+            double cellNumericValue;
             foreach (DataRow dr in dt.Rows)
             {
                 // ...create a new row, and append a set of this row's data to it.
@@ -367,7 +365,7 @@ namespace Framework.Utils
                         cellNumericValue = 0;
                         if (double.TryParse(cellValue, out cellNumericValue))
                         {
-                            NumberFormatInfo nfi = new NumberFormatInfo();
+                            NumberFormatInfo nfi = new ();
                             nfi.NumberDecimalSeparator = ".";
                             cellValue = cellNumericValue.ToString(nfi);
                             AppendNumericCell(excelColumnNames[colInx] + rowIndex.ToString(), cellValue, ref writer);
@@ -376,8 +374,7 @@ namespace Framework.Utils
                     else
                     {
                         // Check for datetime
-                        DateTime dateTime;
-                        if (DateTime.TryParseExact(cellValue, "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTime))
+                        if (DateTime.TryParseExact(cellValue, "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dateTime))
                         {
                             AppendDateCell(excelColumnNames[colInx] + rowIndex.ToString(), cellValue, ref writer);
                         }
@@ -442,7 +439,7 @@ namespace Framework.Utils
         #region V2
         public static byte[] CreateExcelDocumentAsByte<T>(List<T> list)
         {
-            DataSet ds = new DataSet();
+            DataSet ds = new ();
             ds.Tables.Add(ListToDataTable(list));
 
             return CreateExcelDocumentAsByte(ds);
@@ -452,7 +449,7 @@ namespace Framework.Utils
         {
             try
             {
-                System.IO.MemoryStream stream = new System.IO.MemoryStream();
+                System.IO.MemoryStream stream = new();
                 using (SpreadsheetDocument document = SpreadsheetDocument.Create(stream, SpreadsheetDocumentType.Workbook, true))
                 {
                     WriteExcelFile(ds, document);
@@ -488,9 +485,8 @@ namespace Framework.Utils
         {
             var expression = (MemberExpression)propertyExpression.Body;
             var propertyInfo = (PropertyInfo)expression.Member;
-            var attr = propertyInfo.GetCustomAttributes(typeof(TAttribute), true).FirstOrDefault() as TAttribute;
 
-            if (attr == null)
+            if (propertyInfo.GetCustomAttributes(typeof(TAttribute), true).FirstOrDefault() is not TAttribute attr)
             {
                 throw new MissingMemberException(typeof(T).Name + "." + propertyInfo.Name, typeof(TAttribute).Name);
             }

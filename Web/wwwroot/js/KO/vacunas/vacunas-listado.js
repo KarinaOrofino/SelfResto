@@ -1,108 +1,174 @@
-﻿// Modelo
-vueAppParams.data.colada = '';
-vueAppParams.data.coladas = [{ id: '', nombre: '' }];
-vueAppParams.data.receta = [{ idReceta: '', nombreReceta: '' }];
-vueAppParams.data.Paso = 1;
-vueAppParams.data.cestas = [];
-vueAppParams.data.loadingCestas = false;
-vueAppParams.data.loadingColada = false;
-vueAppParams.data.cestaElegida = [];
+﻿//Model
+vueAppParams.data.gridData = [];
+vueAppParams.data.listadoFiltrado = [];
+vueAppParams.data.listaParaExportar = [];
+vueAppParams.data.loadingVacunas= true;
+vueAppParams.data.loadingExportar = false;
+vueAppParams.data.dialogActivar = false;
+vueAppParams.data.dialogInactivar = false;
+vueAppParams.data.vacunaAActivar = '';
+vueAppParams.data.vacunaAInactivar = '';
 
-vueAppParams.data.breadcrums = [
+vueAppParams.data.search = '';
 
-	{ text: jsglobals.CargaCestas, disabled: false, href: '/CargaCestas/Inicio' },
-	{ text: jsglobals.Inicio, disabled: true, href: '' }
+vueAppParams.data.filtros = {
+
+    estado: '',
+
+};
+
+vueAppParams.data.filtros.estado = 0;
+
+vueAppParams.data.headers = [
+
+    { value: 'id', align: ' d-none' },
+    { text: jsglobals.Nombre, value: 'nombre', align: 'center', class: 'protevac-headers upper' },
+    { text: jsglobals.Estado, value: 'estado', align: 'center text-uppercase', class: 'protevac-headers' },
+    { text: jsglobals.Acciones, value: 'acciones', align: 'center text-uppercase', class: 'protevac-headers' }
+
 ];
 
+vueAppParams.data.breadcrums = [
+    { text: jsglobals.Inicio, disabled: false, href: '/Home/Index' },
+    { text: jsglobals.Vacunas, disabled: false, href: '/Vacunas/Listado' },
+    { text: jsglobals.Listado, disabled: true, href: '' }
+];
+
+// Mounted
 vueAppParams.mounted = function () {
-
-	this.obtenerColadasEntrantes();
-}
-
-vueAppParams.methods.obtenerColadasEntrantes = function () {
-
-	$.ajax({
-		url: '/CargaCestas/ObtenerColadasEntrantes',
-		success: function (data) {
-			vueApp.coladas = data.content;
-		},
-		error: defaultErrorHandler
-	});
+    this.loadGrid(true);
 };
 
-vueAppParams.methods.obtenerColadaYReceta = function (item) {
+// Metodos
 
-	vueApp.loadingColada = true;
+vueAppParams.methods.filtrarPorEstado = function () {
 
-	$.ajax({
-		url: '/CargaCestas/ObtenerColadaYCargas',
-		method: 'POST',
-		data: { coladaVM: item },
-		success: function (data) {
-			vueApp.colada = data.content;
-			vueApp.Paso = 2;
-			vueApp.loadingColada = false;
-		},
-		error: defaultErrorHandler,
-		complete: function () {
-			vueApp.loadingColada = false;
-		}
-	});
+    if (vueAppParams.data.filtros.estado === 0) {
+        vueApp.listadoFiltrado = vueApp.gridData;
+    }
+    else {
+        vueApp.listadoFiltrado = vueApp.gridData.filter(m => m.estado == vueAppParams.data.filtros.estado);
+    }
+
 };
 
 
-vueAppParams.methods.obtenerVia = function (item) {
 
-	vueAppParams.data.cestaElegida = item;
-	vueAppParams.data.Paso = 3;
-}
 
-vueAppParams.methods.volverAPasoAnterior = function () {
+vueAppParams.methods.loadGrid = function () {
 
-	vueAppParams.data.Paso = 1;
-	if (vueAppParams.data.Paso == 1) {
-		vueAppParams.data.colada = '';
-		vueAppParams.data.cestas = [];
-	}
+    $.ajax({
+        url: "/Vacunas/ObtenerTodas",
+        method: "GET",
+        success: function (data) {
+            vueApp.gridData = data.content;
+            vueApp.listadoFiltrado = vueApp.gridData;
+        },
+        error: defaultErrorHandler,
+        complete: function () {
+            vueApp.loadingVacunas = false;
+        }
+    }).done(() => {
+        vueApp.loadingVacunas = false;
+    });
 };
 
-vueAppParams.methods.comenzarCestas = function () {
-
-	vueAppParams.data.Paso = 4;
-
-	vueAppParams.data.loadingCestas = true;
-	$.ajax({
-		url: '/CargaCestas/ComenzarCestas',
-		data: { cesta: vueAppParams.data.cestaElegida, nombreColada: vueAppParams.data.colada.nombre },
-		method: 'POST',
-		success: function (data) {
-			if (vueAppParams.data.cestaElegida.fechaHoraInicio == null) {
-				vueAppParams.methods.abrirCesta(vueAppParams.data.cestaElegida.id);
-			}
-			else {
-				window.location = "/CargaCestas/Detalle/" + vueAppParams.data.cestaElegida.id
-			}
-		},
-		error: defaultErrorHandler,
-		complete: function () {
-			vueAppParams.data.loadingCestas = false;
-		}
-	});
+// Metodos
+vueAppParams.methods.agregarVacuna = function (event) {
+    window.location = "Detalle/";
 };
 
-vueAppParams.methods.abrirCesta = function (id) {
+vueAppParams.methods.inactivarVacuna = function (item) {
 
-	$.ajax({
-		url: "/CargaCestas/AbrirCesta",
-		data: { idCarga: id },
-		method: "POST",
-		success: function (data) {
-			vueApp.notification.showSuccess(jsglobals.MensajeComienzoCargaOk);
-			setTimeout(function () { window.location = "/CargaCestas/Detalle/" + id });
-		},
-		error: defaultErrorHandler,
-		complete: function () {
-			vueAppParams.data.loadingCestas = false;
-		}
-	});
-}
+    vueAppParams.data.dialogInactivar = true;
+    vueAppParams.data.vacunaAInactivar = item;
+};
+
+vueAppParams.methods.confirmaInactivar = function (id) {
+
+    vueAppParams.data.dialogInactivar = false;
+
+    var indiceVacunaAInactivar = vueApp.gridData.findIndex(vac => vac.id == id)
+    vueApp.gridData[indiceVacunaAInactivar].estado = false;
+
+    $.ajax({
+        url: "/Vacunas/Inactivar?id=" + id,
+        method: "GET",
+        success: function (data) {
+            vueApp.notification.showSuccess(jsglobals.MensajeDatosInactivadosOk);
+            setTimeout(function () {  });
+        },
+        error: defaultErrorHandler
+    });
+
+};
+
+vueAppParams.methods.activarVacuna = function (item) {
+
+    vueAppParams.data.dialogActivar = true;
+    vueAppParams.data.vacunaAActivar = item;
+};
+
+vueAppParams.methods.confirmaActivar = function (id) {
+
+    vueAppParams.data.dialogActivar = false;
+
+    var indiceVacunaAActivar = vueApp.gridData.findIndex(med => med.id == id)
+    vueApp.gridData[indiceVacunaAActivar].estado = true;
+
+    $.ajax({
+        url: "/Vacunas/Activar?id=" + id,
+        method: "GET",
+        success: function (data) {
+            vueApp.notification.showSuccess(jsglobals.MensajeDatosActivadosOk);
+            setTimeout(function () { });
+        },
+        error: defaultErrorHandler
+    });
+
+};
+
+vueAppParams.methods.editarVacuna = function (id) {
+
+    window.location = "/Vacunas/Detalle/?id=" + id;
+};
+
+
+vueAppParams.methods.exportarListaVacunas = function () {
+    vueApp.loadingExportar = true;
+
+
+
+    return new Promise(resolve => {
+
+        const term = this.search.toLowerCase();
+        //const isMatched = str => str.toLowerCase().includes(term);
+        //vueApp.listaParaExportar = listadoFiltrado.filter(vac => isMatched(vac.nombre));
+        //var paramets = JSON.stringify(vueApp.listaParaExportar)
+
+        var urlToSend = "/Vacunas/Exportar?nombre=" + term + "&estado=" + vueAppParams.data.filtros.estado;
+        var req = new XMLHttpRequest();
+        req.open("GET", urlToSend);
+        req.responseType = "blob";
+        req.onload = function (event) {
+            var blob = req.response;
+            if (req.status == HTTP_ERROR) {
+                vueApp.notification.showError(jsglobals.ErrorGenerico);
+                return;
+            }
+            var fecha = new Date();
+            var fechaLocal = fecha.toLocaleDateString();
+            var fechaLocalSlash = fechaLocal.replaceAll("/", "-")
+            var fileName = "ReporteVacunas_" + fechaLocalSlash;
+            var link = document.createElement("a");
+            link.href = window.URL.createObjectURL(blob);
+            link.download = fileName;
+            link.click();
+            vueApp.loadingExportar = false;
+        };
+
+        req.send();
+
+        resolve(req.status);
+    });
+};

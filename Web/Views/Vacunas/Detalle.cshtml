@@ -1,279 +1,128 @@
-﻿<!--model KO.Web.Models.Vacunas.VacunaViewModel
-using Framework.Utils
+﻿@model KO.Web.Models.Vacunas.VacunaViewModel
+@using Framework.Utils
 
-{ string nombreUsuario = UserUtils.GetName(User);}
-
-section scripts
+@section scripts
 {
     <script type="text/javascript" src="~/js/KO/vacunas/vacunas-detalle.js"></script>
     <script type="text/javascript">
         vueAppParams.data.model =@Html.Raw(Model.ToJsonModel())
     </script>
 }
-<link rel="stylesheet" href="~/css/vacunatorio.css" />-->
+<link rel="stylesheet" href="~/css/vacunatorio.css" />
+<v-row v-if="breadcrums.length > 0" class="breadcrum-row">
+    <v-breadcrumbs :items="breadcrums">
+        <template v-slot:item="{ item }">
+            <v-breadcrumbs-item :href="item.href"
+                                :disabled="item.disabled">
+                <span style="font-weight: bold;"> {{  item.text.toUpperCase() }}</span>
+            </v-breadcrumbs-item>
+        </template>
+    </v-breadcrumbs>
 
-<!--Header-->
-<!--<v-row d-flex justify="center" class="ma-5 mt-7" style="font-size:12px !important;">
-    <v-col cols="7">
-        <v-card>
-            <v-row>
-                <v-col cols="3" class="px-10 text-center pt-1 pb-0">
-                    <v-label>{{jsglobals.Colada}}</v-label>
-                    <p class="teal lighten-4 rounded text-center pa-1 mt-1 font-weight-bold">
-                        {{model.Nombre}}
-                    </p>
-                </v-col>
-                <v-col cols="2" class="pl-10 text-center py-1">
-                    <v-label>{{jsglobals.Via}}</v-label>
-                    <p class="teal lighten-4 rounded text-center pa-1 mt-1 font-weight-bold">
-                        <span v-if="viaActual == 0">---</span>
-                        <span v-if="viaActual == 1">{{jsglobals.Recta}}</span>
-                        <span v-if="viaActual == 2">{{jsglobals.Curva}}</span>
-                    </p>
-                </v-col>
-                <v-col cols="1" class="pr-10 py-1 mt-3 align-self-center">
-                    <v-icon v-if="viaActual != 0" class="red--text">circle</v-icon>
-                    <v-icon v-if="viaActual == 0" class="grey--text">circle</v-icon>
-                </v-col>
-                <v-col cols="2" class="px-5 text-center py-1">
-                    <v-label>{{jsglobals.Grua}}</v-label>
-                    <p v-if="viaActual != 0" class="teal lighten-4 rounded text-center pa-1 mt-1 font-weight-bold">
-                        {{cestaActiva[0].nombreEquipo}}
-                    </p>
-                    <p v-else class="teal lighten-4 rounded text-center pa-1 mt-1 font-weight-bold">
-                        ---
-                    </p>
-                </v-col>
-                <v-col cols="4" class="px-10 text-center py-1">
-                    <v-label>{{jsglobals.Operador}}</v-label>
-                    <p class="teal lighten-4 rounded text-center pa-1 mt-1 font-weight-bold">
-                        nombreUsuario
-                    </p>
-                </v-col>
-            </v-row>
-        </v-card>
-    </v-col>
-    <v-col cols="4">
-        <v-card>
-            <v-row d-flex justify="space-around">
-                <v-col cols="6" class="text-center pl-5 pr-0 py-1">
-                    <v-label>{{jsglobals.Receta}}</v-label>
-                    <p class="teal lighten-4 rounded text-center pa-1 mt-1 font-weight-bold">
-                        {{model.NombreReceta}}
-                    </p>
-                </v-col>
-                <v-col v-model="model.CantidadCargas" cols="5" class="text-center py-1">
-                    <v-label>
-                        {{jsglobals.Cestas}}
-                    </v-label>
-                    <p>
-                        <v-icon large v-for="n in model.CantidadCargas" class="teal--text text-lighten-4 mt-2">
-                            shopping_basket
-                        </v-icon>
-                    </p>
-                </v-col>
-            </v-row>
-        </v-card>
-    </v-col>
-</v-row>-->
+</v-row>
+<template>
+    <v-container class="mt-8">
 
-<!--Loader-->
-<!--<v-row class="d-flex" justify="center">
-    <v-progress-circular v-if="loadingCestas" :size="50" color="primary" indeterminate style="position:absolute;z-index:10;margin-top:200px"></v-progress-circular>
-</v-row>-->
-
-<!--Cestas-->
-<!--<v-row class="d-flex" justify="center">
-    <v-card class="grey lighten-4 mx-5 pa-5" style="height:68vh;font-size:12px !important;width:80%">
-        <v-row class="justify-space-around">
-            <v-col class="text-center"
-                   v-for="cesta in cestas">
-                <v-card class="px-3">
-                    <v-card-title class="tituloCesta" style="">
-                        <span>{{jsglobals.Cesta}} {{cesta.numero}}</span>                       
-                        <span cols="2" v-if="!cesta.activo && (balanzaActiva == 0 || balanzaActiva != cesta.numero)">
-                            {{jsglobals.PesoTotal}} : {{ pesoBalanza[cesta.numero - 1].listaPesos.reduce((a, b) => a + b.peso, 0) ?? 0 }}Kg.
-                        </span>
-                        <span cols="2" v-else>
-                            {{jsglobals.Balanza}} : {{ pesoBalanza[cesta.numero-1]?.activo? totalBalanza : cesta.listaDetalles.reduce((a, b) => a + b.peso, 0) ?? -1 }}Kg.
-                        </span>
-                    </v-card-title>
-                    <v-expand-transition>
-                        <div class="d-flex" v-show="show" v-if="cesta.numero == balanzaActiva">
-                            <v-text-field v-model.number="editBalanza"
-                                          :rules="[]"
-                                          :label="jsglobals.Peso"
-                                          type="number">
-                            </v-text-field>
-                            <v-btn v-on:click="modificarBalanza(cesta.numero)"
-                                   color="primary">
-                                <v-icon small>
-                                    mdi-minus
-                                </v-icon>
-                            </v-btn>
-                        </div>
-                    </v-expand-transition>
-                    <v-card :color="cesta.color"
-                            elevation="5"
-                            height="47vh"
-                            outlined
-                            rounded
-                            shaped
-                            class="d-flex flex-column pa-3">
-                        <v-card v-for="item in cesta.listaDetalles"
-                                class="d-flex flex-grow-1"
-                                tile
-                                :color="item.color"
-                                >
-                            <v-row class="align-self-center">
-                                <v-col cols="2" v-if="item.peso != 0">{{ item.orden }}</v-col>
-                                <v-col cols="2" v-else>--</v-col>
-                                <v-col cols="8">
-                                    {{ item.nombreChatarra }} <br />
-                                    {{ item.peso }} {{jsglobals.Kgs}}
-                                </v-col>
-                                <v-col cols="11" v-if="item.activo" class="ma-auto pt-0 pb-3">
-                                    <v-progress-linear :height="20"
-                                                       :value="value"
-                                                       color="blue darken-4"
-                                                       class="white--text"
-                                                       v-show="item.cargandoCesta"
-                                                       style="width:50%;margin:auto">
-                                        <strong>{{ item.peso }}{{' kgs'}}</strong>
-                                    </v-progress-linear>
-                                </v-col>
-                                <v-col cols="2" v-if="!item.cargandoCesta">
-                                    <v-icon v-if="item.icon != ''" color="blue">
-                                        {{item.icon}}
-                                    </v-icon>
-                                </v-col>
-
-                            </v-row>
-                        </v-card>
-                    </v-card>
-                    <v-card-actions>
-                        <v-row class="d-flex justify-center ma-auto ml-0">
-                            <v-col sm="3" v-if="!cesta.activo && cesta.fechaHoraInicio == null">
-                                <v-tooltip bottom>
-                                    <template v-slot:activator="{ on, attrs }">
-                                        <v-btn small class="teal darken-2 teal--text text--lighten-4" v-bind="attrs" v-on="on"
-                                               @@click="abrirCesta(cesta)">
-                                            <v-icon class="teal--text text--lighten-4">lock_open</v-icon>
-                                        </v-btn>
-                                    </template>
-                                    <span>{{jsglobals.AbrirCesta}}</span>
-                                </v-tooltip>
-                            </v-col>
-                            <v-col sm="3" >
-                                <v-tooltip bottom>
-                                    <template v-slot:activator="{ on, attrs }">
-                                        <v-btn small class="teal darken-2 teal--text text--lighten-4"
-                                               @@click="tomarControl(cesta)" v-bind="attrs" v-on="on">
-                                            <v-icon class="teal--text text--lighten-4">people_alt</v-icon>
-                                        </v-btn>
-                                    </template>
-                                    <span>{{jsglobals.TomarControl}}</span>
-                                </v-tooltip>
-                            </v-col>
-                            <v-col sm="3">
-                                <v-tooltip bottom>
-                                    <template v-slot:activator="{ on, attrs }">
-                                        <v-btn small class="teal darken-2 teal--text text--lighten-4" v-on:click="verDetalleCesta(cesta.id)" v-bind="attrs" v-on="on">
-                                            <v-icon class="teal--text text--lighten-4">visibility</v-icon>
-                                        </v-btn>
-                                    </template>
-                                    <span>{{jsglobals.VerDetalle}}</span>
-                                </v-tooltip>
-                            </v-col>
-                            <v-col sm="3" >
-                                <v-tooltip bottom>
-                                    <template v-slot:activator="{ on, attrs }">
-                                        <v-btn small class="teal darken-2 teal--text text--lighten-4" v-on:click="cerrarCesta(cesta)" v-bind="attrs" v-on="on">
-                                            <v-icon class="teal--text text--lighten-4">shopping_basket</v-icon>
-                                            <v-icon small class="teal--text text--lighten-4" style="position: absolute; margin-left: 30px; margin-bottom: 15px;">close</v-icon>
-                                        </v-btn>
-                                    </template>
-                                    <span>{{jsglobals.CerrarCesta}}</span>
-                                </v-tooltip>
-                            </v-col>
-                            <v-col sm="3" v-if="!cesta.activa && cesta.fechaHoraCierre != null">
-                                <v-tooltip bottom>
-                                    <template v-slot:activator="{ on, attrs }">
-                                        <v-btn small disabled class="teal darken-2 teal--text text--lighten-4" v-on:click="cerrarCesta(cesta)" v-bind="attrs" v-on="on">
-                                            <v-icon class="teal--text text--lighten-4">shopping_basket</v-icon>
-                                            <v-icon class="teal--text text--lighten-4" style="position: absolute; font-size:40px">close</v-icon>
-                                        </v-btn>
-                                    </template>
-                                    <span>{{jsglobals.Cerrada}}</span>
-                                </v-tooltip>
-                            </v-col>
-                            <v-col>
-                                <v-tooltip bottom v-if="cesta.activo && balanzaActiva == cesta.numero">
-                                    <template v-slot:activator="{ on, attrs }">
-                                        <v-btn small v-on:click="desactivarBalanza(cesta.numero)" v-bind="attrs" v-on="on" :loading="subiendoBalanza">
-                                            <v-icon class="red--text ">save</v-icon>
-                                        </v-btn>
-                                    </template>
-                                    <span>{{jsglobals.GuardarCambiosCesta}}</span>
-                                </v-tooltip>
-                                <v-tooltip bottom v-if="!cesta.activo && cesta.fechaHoraCierre != null && ((cesta.idVia == 1 && rectasActivas == 0) || (cesta.idVia == 2 && curvasActivas == 0))">
-                                    <template v-slot:activator="{ on, attrs }">
-                                        <v-btn small v-on:click="activarBalanza(cesta.numero)" v-bind="attrs" v-on="on">
-                                            <v-icon class="teal--text ">scale</v-icon>
-                                        </v-btn>
-                                    </template>
-                                    <span>{{jsglobals.ActivarBalanza}}</span>
-                                </v-tooltip>
-                                <v-tooltip bottom v-if="(((cesta.idVia == 1 && rectasActivas > 0) || (cesta.idVia == 2 && curvasActivas > 0)) && !cesta.activo) || cesta.fechaHoraCierre == null">
-                                    <template v-slot:activator="{ on, attrs }">
-                                        <v-btn small v-on:click="activarBalanza(cesta.numero)" :disabled="true" v-bind="attrs" v-on="on">
-                                            <v-icon class="grey--text ">scale</v-icon>
-                                        </v-btn>
-                                    </template>
-                                    <span>{{jsglobals.ActivarBalanza}}</span>
-                                </v-tooltip>
-                            </v-col>
-                        </v-row>
-                    </v-card-actions>
+        <v-row no-gutters
+               style="flex-wrap: nowrap;">
+            <v-col cols="6"
+                   class="flex-grow-1 flex-shrink-0 mx-auto">
+                <v-card class="notebook">
+                    <template>
+                        <v-form ref="form" lazy-validation>
+                            <v-container>
+                                <v-row class="mt-4 ml-4 mr-4 mb-0">
+                                    <v-col cols="12" class="d-none">
+                                        <v-text-field v-model="model.id">
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12">
+                                        <v-text-field v-model="model.Nombre"
+                                                      :error-messages="errors.Nombre"
+                                                      counter="50"
+                                                      :rules="[ vrules.required , v => vrules.maxLength(v,50,jsglobals.Nombre) ]"
+                                                      :label="jsglobals.Nombre">
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12"
+                                           md="8">
+                                        <v-radio-group row label="Estado: " v-model="model.Estado">
+                                            <v-radio :disabled=!isDisabled() name="estado" :label="jsglobals.Activa" :value="true" v-on:change="cambioEstado()"></v-radio>
+                                            <v-radio :disabled=!isDisabled() name="estado" :label="jsglobals.Inactiva" :value="false" v-on:change="cambioEstado()"></v-radio>
+                                        </v-radio-group>
+                                    </v-col>
+                                </v-row>
+                                <v-row class="mt-0 mb-2 mr-2">
+                                    <v-col cols="12">
+                                        <v-tooltip bottom>
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <v-btn class="float-right"
+                                                       v-bind="attrs"
+                                                       v-on="on"
+                                                       v-on:click="guardarVacuna"
+                                                       color="primary"
+                                                       small
+                                                       :disabled="submiting"
+                                                       :loading="submiting"
+                                                       elevation="2">
+                                                    <v-icon small class="pr-1">mdi-content-save</v-icon>
+                                                    {{jsglobals.Guardar}}
+                                                </v-btn>
+                                            </template>
+                                            <span>   {{jsglobals.Guardar}}</span>
+                                        </v-tooltip>
+                                        <v-tooltip bottom>
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <v-btn class="float-right mr-3"
+                                                       v-bind="attrs"
+                                                       v-on="on"
+                                                       v-on:click="volver()"
+                                                       color="primary"
+                                                       small
+                                                       elevation="2"
+                                                       :disabled="submiting"
+                                                       :loading="submiting">
+                                                    <v-icon small class="pr-1">mdi-arrow-left-circle</v-icon>
+                                                    {{jsglobals.Volver}}
+                                                </v-btn>
+                                            </template>
+                                            <span>{{jsglobals.Volver}}</span>
+                                        </v-tooltip>
+                                    </v-col>
+                                </v-row>
+                            </v-container>
+                        </v-form>
+                    </template>
                 </v-card>
             </v-col>
         </v-row>
-    </v-card>
-    <v-col sm="2" class="text-center" style="position:absolute; bottom: 40px; right: -40px">
-        <v-btn small class="primary" v-on:click="volver()">
-            {{jsglobals.Volver}}
-        </v-btn>
-    </v-col>
-</v-row>-->
+    </v-container>
+</template>
 
-<!--Dialog Activacion-->
-<!--<v-row justify="space-around">
+<v-row justify="space-around">
     <v-col cols="auto">
-        <v-dialog v-model="dialogActivacion" persistent transition="dialog-bottom-transition"
+        <v-dialog v-model="dialog" persistent transition="dialog-bottom-transition"
                   width="500">
             <template v-slot:default="dialog">
                 <v-card>
-                    <v-card-title class="text-subtitle-1">
-                        {{jsglobals.ComienzoCarga}}
-                    </v-card-title>
-                    <v-card-text class="text-center mb-5 text-body-1">
-                        {{jsglobals.MensajeConfirmacionComenzarCarga}}
-                        </br>
-                        <strong>{{jsglobals.Cesta}} {{cesta.numero}}</strong>
+                    <v-toolbar dense class="d-flex text-h6 mb-5 justify-center" color="primary"
+                               dark>
+                        <v-toolbar-title>{{jsglobals.Vacuna}} - {{jsglobals.CambiarEstado}}</v-toolbar-title>
+                    </v-toolbar>
+                    <v-card-text class="text-subtitle-1 text-center mb-5">
+                        {{itemCambio.Estado==true?jsglobals.MensajeActivar:jsglobals.MensajeInactivar}}
                     </v-card-text>
                     <v-divider></v-divider>
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn small
-                               v-on:click="dialog.value = false"
+                               v-on:click="confirmaCambioEstado(itemCambio)"
                                color="primary">
                             {{jsglobals.No}}
                         </v-btn>
                         <v-btn small
-                               v-on:click="confirmaAbrirCesta(cesta.id)"
-                               color="primary"
-                               :disabled="comenzandoCarga"
-                               :loading="comenzandoCarga">
+                               v-on:click="dialog.value = false"
+                               color="primary">
                             {{jsglobals.Si}}
                         </v-btn>
                     </v-card-actions>
@@ -281,82 +130,4 @@ section scripts
             </template>
         </v-dialog>
     </v-col>
-</v-row>-->
-
-<!--Dialog Tomar Control-->
-<!--<v-row justify="space-around">
-    <v-col cols="auto">
-        <v-dialog v-model="dialogTomarControl" persistent transition="dialog-bottom-transition"
-                  width="500">
-            <template v-slot:default="dialog">
-                <v-card>
-                    <v-card-title class="text-subtitle-1">
-                        {{jsglobals.TomarControl}}
-                    </v-card-title>
-                    <v-card-text class="text-center mb-1 text-body-1">
-                        {{jsglobals.MensajeControlOtroOperador}}
-                        <br />
-                        {{jsglobals.MensajeConfirmacionTomarControl}}
-                        <br />
-                        <strong>{{jsglobals.Cesta}} {{cesta.numero}}</strong>
-                    </v-card-text>
-                    <v-divider></v-divider>
-                    <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn small
-                               v-on:click="dialog.value = false"
-                               color="primary">
-                            {{jsglobals.No}}
-                        </v-btn>
-                        <v-btn small
-                               v-on:click="confirmaTomarControl(cesta.id)"
-                               color="primary"
-                               :disabled="cambiandoControl"
-                               :loading="cambiandoControl">
-                            {{jsglobals.Si}}
-                        </v-btn>
-                    </v-card-actions>
-                </v-card>
-            </template>
-        </v-dialog>
-    </v-col>
-</v-row>-->
-
-<!--Dialog Cierre Cesta-->
-<!--<v-row justify="space-around">
-    <v-col cols="auto">
-        <v-dialog v-model="dialogCierreCesta" persistent transition="dialog-bottom-transition"
-                  width="500">
-            <template v-slot:default="dialog">
-                <v-card>
-                    <v-card-title class="text-subtitle-1">
-                        {{jsglobals.CerrarCesta}}
-                    </v-card-title>
-                    <v-card-text class="text-center mb-5 text-body-1">
-                        <span v-if="CapaSinCargar" class="text-decoration-underline">{{jsglobals.MensajeCapaSinCargar}}</span>
-                        </br>
-                        {{jsglobals.MensajeConfirmacionCierreCesta}}
-                        </br>
-                        <strong>{{jsglobals.Cesta}} {{cesta.numero}}</strong>
-                    </v-card-text>
-                    <v-divider></v-divider>
-                    <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn small
-                               v-on:click="dialog.value = false"
-                               color="primary">
-                            {{jsglobals.No}}
-                        </v-btn>
-                        <v-btn small
-                               v-on:click="confirmaCierreCesta(cesta)"
-                               color="primary"
-                               :disabled="loadingCerrarCesta"
-                               :loading="loadingCerrarCesta">
-                            {{jsglobals.Si}}
-                        </v-btn>
-                    </v-card-actions>
-                </v-card>
-            </template>
-        </v-dialog>
-    </v-col>
-</v-row>-->
+</v-row>

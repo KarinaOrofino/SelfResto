@@ -40,7 +40,7 @@ namespace KO.Web.Controllers
         [HttpGet]
         public JsonResult ObtenerFiltrados(int? Matricula, string Nombre, string Apellido, bool? Estado)
         {
-            JsonData jsonData = new JsonData();
+            JsonData jsonData = new ();
 
             //try
             //{

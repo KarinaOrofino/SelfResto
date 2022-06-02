@@ -49,7 +49,7 @@ html:not([dir=rtl]) .custom-select-sm {
 .breadcrum-row {
 	background-color: white !important;
 	/*width: 110%;*/
-	/*height: 40px;*/
+	height: 45px;
 	position: sticky;
 	/*top: 65px;*/
 	z-index: 2;
@@ -83,11 +83,11 @@ html:not([dir=rtl]) .custom-select-sm {
 	font-size: 14px;
 }
 
-.filterChip {
+/*.filterChip {
 	background-color: #a2a8ad !important;
 	color: white !important;
 	font-weight: 500 !important;
-}
+}*/
 
 .hide {
 	display: none;
@@ -95,23 +95,6 @@ html:not([dir=rtl]) .custom-select-sm {
 
 .show {
 	display: flex;
-}
-
-.canalActivo {
-	background-color: goldenrod;
-}
-
-.popupHeaderTablaEnCanales {
-	border-bottom: 1px gray solid !important;
-	border-right: 1px gray solid !important;
-	font-size: medium !important;
-	font-weight: bold !important;
-	color: black !important;
-	background-color: aliceblue !important;
-}
-
-.borderBodyTablaEnCanales {
-	border: 1px gray solid;
 }
 
 /*links <a> del Menu Left*/
@@ -141,9 +124,6 @@ html:not([dir=rtl]) .custom-select-sm {
 	padding: 6px;
 }
 
-.headerCestas > .v-input__control > .v-input__slot {
-	background: teal !important;
-}
 
 .theme--light.v-select .v-select__selections {
 	color: #E0F2F1;
@@ -155,39 +135,13 @@ html:not([dir=rtl]) .custom-select-sm {
 	font-weight: 500;
 }
 
-.tituloCesta {
-	text-transform: uppercase;
-	font-weight: 600;
-	font-size: 14px !important;
-	justify-content: space-around;
-	padding: 5px;
-}
-
 .rotar90der {
 	transform: rotate(90deg);
-}
-
-.v-stepper__label {
-	text-transform: uppercase !important;
-	font-size: 16px !important;
-	font-weight: 500;
-	color: teal !important;
-}
-
-.comboInicio > .v-input__control > .v-input__slot {
-	background: #B2DFDB !important;
-	width: 50%;
-}
-
-.comboReceta > .v-input__control > .v-input__slot {
-	background: #B2DFDB !important;
-	width: 75%;
 }
 
 .v-stepper__step__step.primary .v-icon__svg {
 	height: 42px;
 }
-
 
 .detalle.v-data-table tbody td {
 	font-size: 14px !important;
@@ -209,12 +163,10 @@ html:not([dir=rtl]) .custom-select-sm {
 	font-size: 22px !important;
 }
 
-.labelStepper {
-	text-transform: uppercase !important;
-	font-size: 16px;
-	font-weight: 500;
-	color: teal !important;
+.row-height-50.v-data-table tbody tr td {
+	line-height: 1 !important;
 }
+
 
 .protevac-bg {
 	background: linear-gradient(to top, #f1f1f1, #e9eaea, #d4dae0);
@@ -267,7 +219,6 @@ html:not([dir=rtl]) .custom-select-sm {
 	border-left: none;
 	border-right: none;
 }
-
 
 .v-data-footer {
 	text-transform: capitalize !important;

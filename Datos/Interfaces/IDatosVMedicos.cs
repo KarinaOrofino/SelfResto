@@ -8,6 +8,8 @@ namespace KO.Datos.Interfaces
 
         public List<Medico> ObtenerTodos();
 
+        public List<Medico> ObtenerFiltrados(int? Matricula, string Nombre, string Apellido, bool? Estado);
+
         public Medico Obtener(int Matricula);
 
         public void Agregar(Medico medico);

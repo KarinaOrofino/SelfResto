@@ -4,10 +4,22 @@ using System.Collections.Generic;
 
 namespace Servicios.Interfaces
 {
-    public interface IServicioVVacunas : IServicioGenerico
+    public interface IServicioVVacunas : IServicioBase
     {
 
-        //public void CrearColadaYCargas(Colada nuevaColada, Receta recetaDeLaColada, int idUser);
+        public List<Vacuna> ObtenerTodas();
+
+        public List<Vacuna> ObtenerFiltradas(string Nombre, bool? Estado);
+
+        public Vacuna Obtener(int id);
+
+        public void Agregar(Vacuna vacuna);
+
+        public void Actualizar(Vacuna vacuna);
+
+        public void Inactivar(int id);
+
+        public void Activar(int id);
 
 
     }
