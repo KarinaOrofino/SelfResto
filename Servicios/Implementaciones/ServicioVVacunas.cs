@@ -13,22 +13,19 @@ namespace Servicios.Implementaciones
     {
         protected readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        //private IServicioGenerico _servicioGenerico { get; set; }
-
-        public ServicioVVacunas(/*IServicioGenerico servicioGenerico, */IDatosVVacunas datos) : base(datos)
+        public ServicioVVacunas(IDatosVVacunas datos) : base(datos)
         {
-           // _servicioGenerico = servicioGenerico;
+          
         }
-
 
         public List<Vacuna> ObtenerTodas()
         {
             return _datos.ObtenerTodas();
         }
 
-        public List<Vacuna> ObtenerFiltradas(string Nombre, bool? Estado) 
+        public List<Vacuna> ObtenerFiltradas(string campoBusqueda, bool? estado) 
         {
-            return _datos.ObtenerFiltradas(Nombre, Estado);        
+            return _datos.ObtenerFiltradas(campoBusqueda, estado);        
         }
 
         public Vacuna Obtener(int id)

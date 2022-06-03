@@ -339,8 +339,8 @@
   <data name="Confirmar" xml:space="preserve">
     <value>Confirmar</value>
   </data>
-  <data name="SoloNumeros" xml:space="preserve">
-    <value>El campo debe ser numérico</value>
+  <data name="SoloNumerosYGuiones" xml:space="preserve">
+    <value>El campo permite sólo números y guiones</value>
   </data>
   <data name="AgregarComentarios" xml:space="preserve">
     <value>Agregar Comentarios</value>
@@ -497,5 +497,35 @@
   </data>
   <data name="MensajeDatosActualizadosOk" xml:space="preserve">
     <value>Datos Actualizados correctamente</value>
+  </data>
+  <data name="AgregarPaciente" xml:space="preserve">
+    <value>Agregar Paciente</value>
+  </data>
+  <data name="FechaNacimiento" xml:space="preserve">
+    <value>Fecha de Nacimiento</value>
+  </data>
+  <data name="NumeroObraSocial" xml:space="preserve">
+    <value>Número O. Social</value>
+  </data>
+  <data name="ObraSocial" xml:space="preserve">
+    <value>Obra Social</value>
+  </data>
+  <data name="ObteniendoPacientes" xml:space="preserve">
+    <value>Obteniendo Pacientes</value>
+  </data>
+  <data name="Paciente" xml:space="preserve">
+    <value>Paciente</value>
+  </data>
+  <data name="Formato" xml:space="preserve">
+    <value>DD/MM/AAAA</value>
+  </data>
+  <data name="Marca" xml:space="preserve">
+    <value>Marca</value>
+  </data>
+  <data name="Colapsar" xml:space="preserve">
+    <value>Colapsar</value>
+  </data>
+  <data name="Expandir" xml:space="preserve">
+    <value>Expandir</value>
   </data>
 </root>

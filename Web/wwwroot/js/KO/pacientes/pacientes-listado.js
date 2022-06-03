@@ -1,108 +1,97 @@
-﻿// Modelo
-vueAppParams.data.colada = '';
-vueAppParams.data.coladas = [{ id: '', nombre: '' }];
-vueAppParams.data.receta = [{ idReceta: '', nombreReceta: '' }];
-vueAppParams.data.Paso = 1;
-vueAppParams.data.cestas = [];
-vueAppParams.data.loadingCestas = false;
-vueAppParams.data.loadingColada = false;
-vueAppParams.data.cestaElegida = [];
+﻿//Model
+vueAppParams.data.gridData = [];
+vueAppParams.data.listadoFiltrado = [];
+vueAppParams.data.loadingPacientes = true;
+vueAppParams.data.loadingExportar = false;
 
-vueAppParams.data.breadcrums = [
+vueAppParams.data.search = '';
 
-	{ text: jsglobals.CargaCestas, disabled: false, href: '/CargaCestas/Inicio' },
-	{ text: jsglobals.Inicio, disabled: true, href: '' }
+vueAppParams.data.headers = [
+
+    { text: jsglobals.Id, align: ' d-none' },
+    { text: jsglobals.Nombre, value: 'nombre', align: 'center', class: 'protevac-headers' },
+    { text: jsglobals.Apellido, value: 'apellido', align: 'center text-uppercase', class: 'protevac-headers' },
+    { text: jsglobals.ObraSocial, value: 'obraSocial', align: 'center text-uppercase', class: 'protevac-headers' },
+    { text: jsglobals.NumeroObraSocial, value: 'numeroObraSocial', align: 'center text-uppercase', class: 'protevac-headers' },
+    { text: jsglobals.FechaNacimiento, value: 'fechaNacimientoString', align: 'center text-uppercase', class: 'protevac-headers' },
+    { text: jsglobals.Acciones, value: 'acciones', align: 'center text-uppercase', class: 'protevac-headers' }
+
 ];
 
+vueAppParams.data.breadcrums = [
+    { text: jsglobals.Inicio, disabled: false, href: '/Home/Index' },
+    { text: jsglobals.Pacientes, disabled: true },
+    { text: jsglobals.Listado, disabled: true }
+];
+
+// Mounted
 vueAppParams.mounted = function () {
-
-	this.obtenerColadasEntrantes();
-}
-
-vueAppParams.methods.obtenerColadasEntrantes = function () {
-
-	$.ajax({
-		url: '/CargaCestas/ObtenerColadasEntrantes',
-		success: function (data) {
-			vueApp.coladas = data.content;
-		},
-		error: defaultErrorHandler
-	});
+    this.loadGrid(true);
 };
 
-vueAppParams.methods.obtenerColadaYReceta = function (item) {
+// Metodos
 
-	vueApp.loadingColada = true;
 
-	$.ajax({
-		url: '/CargaCestas/ObtenerColadaYCargas',
-		method: 'POST',
-		data: { coladaVM: item },
-		success: function (data) {
-			vueApp.colada = data.content;
-			vueApp.Paso = 2;
-			vueApp.loadingColada = false;
-		},
-		error: defaultErrorHandler,
-		complete: function () {
-			vueApp.loadingColada = false;
-		}
-	});
+vueAppParams.methods.loadGrid = function () {
+
+    $.ajax({
+        url: "/Pacientes/ObtenerTodos",
+        method: "GET",
+        success: function (data) {
+            vueApp.gridData = data.content;
+        },
+        error: defaultErrorHandler,
+        complete: function () {
+            vueApp.loadingPacientes = false;
+        }
+    }).done(() => {
+        vueApp.loadingPacientes = false;
+    });
+};
+
+// Metodos
+vueAppParams.methods.agregarPaciente = function (event) {
+    window.location = "Detalle/";
 };
 
 
-vueAppParams.methods.obtenerVia = function (item) {
+vueAppParams.methods.editarPaciente = function (id) {
 
-	vueAppParams.data.cestaElegida = item;
-	vueAppParams.data.Paso = 3;
-}
-
-vueAppParams.methods.volverAPasoAnterior = function () {
-
-	vueAppParams.data.Paso = 1;
-	if (vueAppParams.data.Paso == 1) {
-		vueAppParams.data.colada = '';
-		vueAppParams.data.cestas = [];
-	}
+    window.location = "/Pacientes/Detalle/?id=" + id;
 };
 
-vueAppParams.methods.comenzarCestas = function () {
 
-	vueAppParams.data.Paso = 4;
+vueAppParams.methods.exportarLista = function () {
+    vueApp.loadingExportar = true;
 
-	vueAppParams.data.loadingCestas = true;
-	$.ajax({
-		url: '/CargaCestas/ComenzarCestas',
-		data: { cesta: vueAppParams.data.cestaElegida, nombreColada: vueAppParams.data.colada.nombre },
-		method: 'POST',
-		success: function (data) {
-			if (vueAppParams.data.cestaElegida.fechaHoraInicio == null) {
-				vueAppParams.methods.abrirCesta(vueAppParams.data.cestaElegida.id);
-			}
-			else {
-				window.location = "/CargaCestas/Detalle/" + vueAppParams.data.cestaElegida.id
-			}
-		},
-		error: defaultErrorHandler,
-		complete: function () {
-			vueAppParams.data.loadingCestas = false;
-		}
-	});
+    return new Promise(resolve => {
+
+        const term = this.search.toLowerCase();
+
+        var urlToSend = "/Pacientes/Exportar?campoBusqueda=" + term;
+
+        var req = new XMLHttpRequest();
+        req.open("GET", urlToSend, true);
+        req.responseType = "blob";
+        req.onload = function (event) {
+            var blob = req.response;
+            if (req.status == HTTP_ERROR) {
+                vueApp.notification.showError(jsglobals.ErrorGenerico);
+                return;
+            }
+            var fecha = new Date();
+            var fechaLocal = fecha.toLocaleDateString();
+            var fechaLocalSlash = fechaLocal.replaceAll("/", "-")
+            var fileName = "ReportePacientes_" + fechaLocalSlash;
+            var link = document.createElement("a");
+            link.href = window.URL.createObjectURL(blob);
+            link.download = fileName;
+            link.click();
+            vueApp.loadingExportar = false;
+        };
+
+        req.send()
+
+        resolve(req.status);
+    });
 };
-
-vueAppParams.methods.abrirCesta = function (id) {
-
-	$.ajax({
-		url: "/CargaCestas/AbrirCesta",
-		data: { idCarga: id },
-		method: "POST",
-		success: function (data) {
-			vueApp.notification.showSuccess(jsglobals.MensajeComienzoCargaOk);
-			setTimeout(function () { window.location = "/CargaCestas/Detalle/" + id });
-		},
-		error: defaultErrorHandler,
-		complete: function () {
-			vueAppParams.data.loadingCestas = false;
-		}
-	});
-}

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KO.Entidades;
+using System;
 using System.Collections.Generic;
 using Web.Models;
 
@@ -8,7 +9,8 @@ namespace KO.Web.Models.Pacientes
     {
         public PacienteViewModel()
         {
-            //this.ListaCargas = new List<PacienteViewModel>(); 
+            this.ListaPacientes = new List<PacienteViewModel>();
+            this.ListaObrasSociales = new List<ObraSocial>();
         }
         public int Id { get; set; }
 
@@ -16,9 +18,21 @@ namespace KO.Web.Models.Pacientes
 
         public string Apellido { get; set; }
 
-        public DateTime Fecha { get; set; }
+        public int IdObraSocial { get; set; }
 
-        public bool Activo { get; set; }
+        public string ObraSocial { get; set; }
+
+        public long NumeroObraSocial { get; set; }
+
+        public DateTime FechaNacimiento { get; set; }
+
+        public string FechaNacimientoString { get; set; }
+
+        public bool PacienteExistente { get; set; }
+
+        public List<PacienteViewModel> ListaPacientes { get; set; }
+
+        public List<ObraSocial> ListaObrasSociales { get; set; }
     }
 }
 

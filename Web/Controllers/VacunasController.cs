@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using Servicios.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -20,6 +21,8 @@ namespace Web.Controllers.vacunas
         #region Propiedades
 
         private IServicioVVacunas ServicioVacunas { get; set; }
+
+        public TextInfo myCapitalize = new CultureInfo("es-AR", false).TextInfo;
 
         public VacunasController(IServicioVVacunas servicioVacunas)
         {
@@ -57,7 +60,10 @@ namespace Web.Controllers.vacunas
 
                     vacunaVM.Estado = true;
                     vacunaVM.VacunaExistente = false;
-                    vacunaVM.ListaVacunas = ServicioVacunas.ObtenerTodas().Select(vac => vac.Nombre).ToList();
+                    vacunaVM.ListaVacunas = ServicioVacunas.ObtenerTodas().Select(vac => new VacunaViewModel {
+                        Nombre = vac.Nombre.ToUpper(),
+                        Marca = vac.Marca.ToUpper()
+                    }).ToList();
 
                 }
 
@@ -68,6 +74,7 @@ namespace Web.Controllers.vacunas
                     vacunaVM.Id = vacuna.Id;
                     vacunaVM.Nombre = vacuna.Nombre;
                     vacunaVM.Estado = vacuna.Estado;
+                    vacunaVM.Marca = vacuna.Marca;
                     vacunaVM.VacunaExistente = true;
 
                 }
@@ -101,7 +108,8 @@ namespace Web.Controllers.vacunas
                 listavacunasVM = listavacunas.Select(vac => new VacunaViewModel()
                 {
                     Id = vac.Id,
-                    Nombre = vac.Nombre,
+                    Nombre = vac.Nombre.ToUpper(),
+                    Marca = vac.Marca,
                     Estado = vac.Estado
 
                 }).OrderBy(vacuna => vacuna.Nombre).ToList();
@@ -164,22 +172,23 @@ namespace Web.Controllers.vacunas
         }
 
         [HttpGet]
-        public IActionResult Exportar(string nombre, bool? estado)
+        public IActionResult Exportar(string campoBusqueda, bool? estado)
         {
             try
             {
 
-                List<Vacuna> listavacunas = ServicioVacunas.ObtenerFiltradas(nombre, estado).ToList();
+                List<Vacuna> listaVacunas = ServicioVacunas.ObtenerFiltradas(campoBusqueda, estado).ToList();
 
-                List<VacunaViewModel> listavacunasVM = listavacunas.Select(vac => new VacunaViewModel()
+                List<VacunaViewModel> listaVacunasVM = listaVacunas.Select(vac => new VacunaViewModel()
                 {
                     Id = vac.Id,
                     Nombre = vac.Nombre,
+                    Marca = vac.Marca,
                     Estado = vac.Estado
 
                 }).OrderBy(vacuna => vacuna.Nombre).ToList();
 
-                var listaReducida = listavacunasVM.Select(vac => new
+                var listaReducida = listaVacunasVM.Select(vac => new
                 {
                     vac.Nombre,
                     Estado = vac.Estado == true ? Global.Activa : Global.Inactiva,
@@ -210,8 +219,9 @@ namespace Web.Controllers.vacunas
 
             try
             {
-
-                vacuna.Nombre = vacunaVM.Nombre;
+                
+                vacuna.Nombre = myCapitalize.ToTitleCase(vacunaVM.Nombre);
+                vacuna.Marca = myCapitalize.ToTitleCase(vacunaVM.Marca);
                 vacuna.Estado = true;
 
                 ServicioVacunas.Agregar(vacuna);
@@ -237,7 +247,7 @@ namespace Web.Controllers.vacunas
             {
 
                 vacuna.Id = vacunaVM.Id;
-                vacuna.Nombre = vacunaVM.Nombre;
+                vacuna.Nombre = myCapitalize.ToTitleCase(vacunaVM.Nombre);
                 vacuna.Estado = vacunaVM.Estado;
 
                 ServicioVacunas.Actualizar(vacuna);

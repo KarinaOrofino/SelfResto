@@ -28,14 +28,14 @@ namespace Servicios.Implementaciones
             return _datos.ObtenerTodos();
         }
 
-        public List<Medico> ObtenerFiltrados(int? Matricula, string Nombre, string Apellido, bool? Estado) 
+        public List<Medico> ObtenerFiltrados(string campoBusqueda, bool? estado) 
         {
-            return _datos.ObtenerFiltrados(Matricula, Nombre, Apellido, Estado);
+            return _datos.ObtenerFiltrados(campoBusqueda, estado);
         }
 
-        public Medico Obtener(int Matricula) 
+        public Medico Obtener(int matricula) 
         {
-            return _datos.Obtener(Matricula);
+            return _datos.Obtener(matricula);
         }
 
         public void Agregar(Medico medico) 
@@ -48,14 +48,14 @@ namespace Servicios.Implementaciones
             _datos.Actualizar(medico);
         }
 
-        public void Inactivar(int Matricula)
+        public void Inactivar(int matricula)
         {
-            _datos.Inactivar(Matricula);
+            _datos.Inactivar(matricula);
         }
 
-        public void Activar(int Matricula) 
+        public void Activar(int matricula) 
         {
-            _datos.Activar(Matricula);
+            _datos.Activar(matricula);
         }
     }
 }

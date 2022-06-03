@@ -8,30 +8,27 @@ vueAppParams.data.dialogActivar = false;
 vueAppParams.data.dialogInactivar = false;
 vueAppParams.data.vacunaAActivar = '';
 vueAppParams.data.vacunaAInactivar = '';
-
+vueAppParams.data.groupable = [];
+vueAppParams.data.expanded = [];
 vueAppParams.data.search = '';
-
-vueAppParams.data.filtros = {
-
-    estado: '',
-
-};
-
+vueAppParams.data.filtros = { estado: '', };
 vueAppParams.data.filtros.estado = 0;
+vueAppParams.data.agrupadosColapsados = false;
 
 vueAppParams.data.headers = [
 
     { value: 'id', align: ' d-none' },
-    { text: jsglobals.Nombre, value: 'nombre', align: 'center', class: 'protevac-headers upper' },
+    { text: jsglobals.Nombre, value: 'nombre', align: ' d-none', class: 'protevac-headers upper' },
+    { text: jsglobals.Marca, value: 'marca', align: 'center text-uppercase', class: 'protevac-headers' },
     { text: jsglobals.Estado, value: 'estado', align: 'center text-uppercase', class: 'protevac-headers' },
     { text: jsglobals.Acciones, value: 'acciones', align: 'center text-uppercase', class: 'protevac-headers' }
 
 ];
 
-vueAppParams.data.breadcrums = [
-    { text: jsglobals.Inicio, disabled: false, href: '/Home/Index' },
-    { text: jsglobals.Vacunas, disabled: false, href: '/Vacunas/Listado' },
-    { text: jsglobals.Listado, disabled: true, href: '' }
+vueAppParams.data.breadcrums =  [
+    { text: jsglobals.Inicio, disabled: false, href: '/Home/Index'},
+    { text: jsglobals.Vacunas, disabled: true},
+    { text: jsglobals.Listado, disabled: true}
 ];
 
 // Mounted
@@ -39,8 +36,7 @@ vueAppParams.mounted = function () {
     this.loadGrid(true);
 };
 
-// Metodos
-
+// Métodos
 vueAppParams.methods.filtrarPorEstado = function () {
 
     if (vueAppParams.data.filtros.estado === 0) {
@@ -51,9 +47,6 @@ vueAppParams.methods.filtrarPorEstado = function () {
     }
 
 };
-
-
-
 
 vueAppParams.methods.loadGrid = function () {
 
@@ -73,7 +66,19 @@ vueAppParams.methods.loadGrid = function () {
     });
 };
 
-// Metodos
+vueAppParams.methods.onClickToggleAll = function () {
+    vueApp.agrupadosColapsados = !vueApp.agrupadosColapsados;
+    Object.entries(vueApp.groupable).forEach(item => {
+        if (item[1].isOpen == vueApp.agrupadosColapsados) {
+            item[1].toggle()
+        }
+    })
+}
+
+vueAppParams.methods.setGroupable = function (group, isOpen, toggle) {
+    vueApp.groupable[group] = { group: group, isOpen: isOpen, toggle: toggle };
+}
+
 vueAppParams.methods.agregarVacuna = function (event) {
     window.location = "Detalle/";
 };
@@ -113,7 +118,7 @@ vueAppParams.methods.confirmaActivar = function (id) {
 
     vueAppParams.data.dialogActivar = false;
 
-    var indiceVacunaAActivar = vueApp.gridData.findIndex(med => med.id == id)
+    var indiceVacunaAActivar = vueApp.gridData.findIndex(vac => vac.id == id)
     vueApp.gridData[indiceVacunaAActivar].estado = true;
 
     $.ajax({
@@ -133,20 +138,14 @@ vueAppParams.methods.editarVacuna = function (id) {
     window.location = "/Vacunas/Detalle/?id=" + id;
 };
 
-
 vueAppParams.methods.exportarListaVacunas = function () {
     vueApp.loadingExportar = true;
-
-
 
     return new Promise(resolve => {
 
         const term = this.search.toLowerCase();
-        //const isMatched = str => str.toLowerCase().includes(term);
-        //vueApp.listaParaExportar = listadoFiltrado.filter(vac => isMatched(vac.nombre));
-        //var paramets = JSON.stringify(vueApp.listaParaExportar)
 
-        var urlToSend = "/Vacunas/Exportar?nombre=" + term + "&estado=" + vueAppParams.data.filtros.estado;
+        var urlToSend = "/Vacunas/Exportar?campoBusqueda=" + term + "&estado=" + vueAppParams.data.filtros.estado;
         var req = new XMLHttpRequest();
         req.open("GET", urlToSend);
         req.responseType = "blob";

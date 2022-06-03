@@ -92,7 +92,6 @@ namespace Web
             services.AddTransient<IServicioRoles, ServicioRolesMock>();
             services.AddTransient<IServicioSocket, ServicioSocketMock>();            
 #endif
-            services.AddSignalR();
             services.AddWebOptimizer(pipeline =>
             {
                 pipeline.MinifyJsFiles("js/**/*.js");

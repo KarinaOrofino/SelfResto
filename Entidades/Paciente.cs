@@ -10,8 +10,13 @@ namespace KO.Entidades
 
         public string Apellido { get; set; }
 
-        public DateTime Fecha { get; set; }
+        public int IdObraSocial { get; set; }
 
-        public bool Activo { get; set; }
+        public string ObraSocial { get; set; }
+
+        public long NumeroObraSocial { get; set; }
+
+        public DateTime FechaNacimiento { get; set; }
+
     }
 }

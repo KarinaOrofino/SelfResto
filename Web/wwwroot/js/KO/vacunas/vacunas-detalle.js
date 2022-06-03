@@ -39,7 +39,7 @@ vueAppParams.methods.confirmaCambioEstado = function (itemCambio) {
 vueAppParams.methods.guardarVacuna = function () {
 
 
-    var found = vueApp.model.ListaVacunas.includes(vueApp.model.Nombre);
+    var found = vueApp.model.ListaVacunas.some(vac=> vac.Nombre == vueApp.model.Nombre.toLocaleUpperCase() && vac.Marca == vueApp.model.Marca.toLocaleUpperCase());
     if (found) {
         vueApp.notification.showWarning("La vacuna ingresada ya existe. Por favor ingrese una vacuna nueva");
         return false;

@@ -160,6 +160,15 @@ namespace KO.Recursos {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Agregar Paciente.
+        /// </summary>
+        public static string AgregarPaciente {
+            get {
+                return ResourceManager.GetString("AgregarPaciente", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Agregar Vacuna.
         /// </summary>
         public static string AgregarVacuna {
@@ -282,6 +291,15 @@ namespace KO.Recursos {
         public static string ClickIngresar {
             get {
                 return ResourceManager.GetString("ClickIngresar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Colapsar.
+        /// </summary>
+        public static string Colapsar {
+            get {
+                return ResourceManager.GetString("Colapsar", resourceCulture);
             }
         }
         
@@ -439,6 +457,15 @@ namespace KO.Recursos {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Expandir.
+        /// </summary>
+        public static string Expandir {
+            get {
+                return ResourceManager.GetString("Expandir", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Exportar.
         /// </summary>
         public static string Exportar {
@@ -493,6 +520,15 @@ namespace KO.Recursos {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fecha de Nacimiento.
+        /// </summary>
+        public static string FechaNacimiento {
+            get {
+                return ResourceManager.GetString("FechaNacimiento", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Filas por página.
         /// </summary>
         public static string FilasPorPagina {
@@ -525,6 +561,15 @@ namespace KO.Recursos {
         public static string FiltroSinFecha {
             get {
                 return ResourceManager.GetString("FiltroSinFecha", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DD/MM/AAAA.
+        /// </summary>
+        public static string Formato {
+            get {
+                return ResourceManager.GetString("Formato", resourceCulture);
             }
         }
         
@@ -651,6 +696,15 @@ namespace KO.Recursos {
         public static string Login {
             get {
                 return ResourceManager.GetString("Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Marca.
+        /// </summary>
+        public static string Marca {
+            get {
+                return ResourceManager.GetString("Marca", resourceCulture);
             }
         }
         
@@ -826,6 +880,24 @@ namespace KO.Recursos {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Número O. Social.
+        /// </summary>
+        public static string NumeroObraSocial {
+            get {
+                return ResourceManager.GetString("NumeroObraSocial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Obra Social.
+        /// </summary>
+        public static string ObraSocial {
+            get {
+                return ResourceManager.GetString("ObraSocial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Observaciones.
         /// </summary>
         public static string Observaciones {
@@ -844,6 +916,15 @@ namespace KO.Recursos {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Obteniendo Pacientes.
+        /// </summary>
+        public static string ObteniendoPacientes {
+            get {
+                return ResourceManager.GetString("ObteniendoPacientes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Obteniendo Vacunas.
         /// </summary>
         public static string ObteniendoVacunas {
@@ -858,6 +939,15 @@ namespace KO.Recursos {
         public static string Operador {
             get {
                 return ResourceManager.GetString("Operador", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Paciente.
+        /// </summary>
+        public static string Paciente {
+            get {
+                return ResourceManager.GetString("Paciente", resourceCulture);
             }
         }
         
@@ -1024,11 +1114,11 @@ namespace KO.Recursos {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to El campo debe ser numérico.
+        ///   Looks up a localized string similar to El campo permite sólo números y guiones.
         /// </summary>
-        public static string SoloNumeros {
+        public static string SoloNumerosYGuiones {
             get {
-                return ResourceManager.GetString("SoloNumeros", resourceCulture);
+                return ResourceManager.GetString("SoloNumerosYGuiones", resourceCulture);
             }
         }
         

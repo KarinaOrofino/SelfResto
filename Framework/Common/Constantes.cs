@@ -32,30 +32,30 @@ namespace Framework.Common
         #endregion
 
         #region Stored Procedures
-        public const string SP_OBTENER_APLICACIONES_FILTRADAS = "sp_obtener_aplicaciones_filtradas";
-        public const string SP_AGREGAR_APLICACION = "sp_agregar_aplicacion";
-        public const string SP_ACTUALIZAR_APLICACION = "sp_actualizar_aplicacion";
+        public const string SPAPLICACIONES__OBTENER_FILTRADAS = "sp_aplicaciones_obtener_filtradas";
+        public const string SP_APLICACION_AGREGAR = "sp_aplicacion_agregar";
+        public const string SP_APLICACION_ACTUALIZAR = "sp_aplicacion_actualizar";
         //public const string SP_INACTIVAR_APLICACION = "sp_inactivar_aplicacion";
-        public const string SP_OBTENER_TODOS_LOS_MEDICOS = "sp_obtener_todos_los_medicos";
-        public const string SP_OBTENER_MEDICOS_FILTRADOS = "sp_obtener_medicos_filtrados";
-        public const string SP_OBTENER_MEDICO = "sp_obtener_medico";
-        public const string SP_AGREGAR_MEDICO = "sp_agregar_medico";
-        public const string SP_ACTUALIZAR_MEDICO = "sp_actualizar_medico";
-        public const string SP_INACTIVAR_MEDICO = "sp_inactivar_medico";
-        public const string SP_ACTIVAR_MEDICO = "sp_activar_medico";
-        public const string SP_OBTENER_TODOS_LOS_PACIENTES = "sp_obtener_todos_los_pacientes";
-        public const string SP_OBTENER_PACIENTES_FILTRADOS = "sp_obtener_pacientes_filtrados";
-        public const string SP_AGREGAR_PACIENTE = "sp_agregar_paciente";
-        public const string SP_ACTUALIZAR_PACIENTE = "sp_actualizar_paciente";
-        public const string SP_INACTIVAR_PACIENTE = "sp_inactivar_paciente";
-        public const string SP_ACTIVAR_PACIENTE = "sp_ictivar_paciente";
-        public const string SP_OBTENER_TODAS_LAS_VACUNAS = "sp_obtener_todas_las_vacunas";
-        public const string SP_OBTENER_VACUNAS_FILTRADAS = "sp_obtener_vacunas_filtradas";
-        public const string SP_AGREGAR_VACUNA = "sp_agregar_vacuna";
-        public const string SP_OBTENER_VACUNA = "sp_obtener_vacuna";
-        public const string SP_ACTUALIZAR_VACUNA = "sp_actualizar_vacuna";
-        public const string SP_INACTIVAR_VACUNA = "sp_inactivar_vacuna";
-        public const string SP_ACTIVAR_VACUNA = "sp_activar_vacuna";
+        public const string SP_MEDICOS_OBTENER_TODOS = "sp_medicos_obtener_todos";
+        public const string SP_MEDICOS_OBTENER_FILTRADOS = "sp_medicos_obtenerfiltrados";
+        public const string SP_MEDICO_OBTENER_POR_MATRICULA = "sp_medico_obtener_por_matricula";
+        public const string SP_MEDICO_AGREGAR = "sp_medico_agregar";
+        public const string SP_MEDICO_ACTUALIZAR = "sp_medico_actualizar";
+        public const string SP_MEDICO_INACTIVAR = "sp_medico_inactivar";
+        public const string SP_MEDICO_ACTIVAR = "sp_medico_activar";
+        public const string SP_PACIENTES_OBTENER_TODOS= "sp_pacientes_obtener_todos";
+        public const string SP_PACIENTES_OBTENER_FILTRADOS = "sp_pacientes_obtener_filtrados";
+        public const string SP_PACIENTE_OBTENER_POR_ID = "sp_paciente_obtener_por_id";
+        public const string SP_PACIENTE_AGREGAR = "sp_paciente_agregar";
+        public const string SP_PACIENTE_ACTUALIZAR = "sp_paciente_actualizar";
+        public const string SP_VACUNAS_OBTENER_TODAS = "sp_vacunas_obtener_todas";
+        public const string SP_VACUNAS_OBTENER_FILTRADAS = "sp_vacunas_obtener_filtradas";
+        public const string SP_VACUNA_AGREGAR = "sp_vacuna_agregar";
+        public const string SP_VACUNA_OBTENER_POR_ID = "sp_vacuna_obtener_por_id";
+        public const string SP_VACUNA_ACTUALIZAR= "sp_vacuna_actualizar";
+        public const string SP_VACUNA_INACTIVAR = "sp_vacuna_inactivar";
+        public const string SP_VACUNA_ACTIVAR = "sp_vacuna_activar";
+        public const string SP_OBRAS_SOCIALES_OBTENER = "sp_obras_sociales_obtener";
 
 
 

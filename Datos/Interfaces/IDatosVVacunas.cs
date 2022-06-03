@@ -8,7 +8,7 @@ namespace KO.Datos.Interfaces
 
         public List<Vacuna> ObtenerTodas();
 
-        public List<Vacuna> ObtenerFiltradas(string Nombre, bool? Estado);
+        public List<Vacuna> ObtenerFiltradas(string campoBusqueda, bool? estado);
 
         public Vacuna Obtener(int id);
 

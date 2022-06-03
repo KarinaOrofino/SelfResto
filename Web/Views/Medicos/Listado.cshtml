@@ -2,13 +2,23 @@
 
 @section scripts
 {
-    <script type="text/javascript" src="~/js/KO/medicos/medicos-listado.js"></script>
+    <script type="text/javascript" asp-src-include="~/js/KO/medicos/medicos-listado.js" asp-append-version="true"></script>
 }
-<link rel="stylesheet" href="~/css/vacunatorio.css" />
+<link rel="stylesheet" asp-href-include="~/css/vacunatorio.css" />
 
-<!--Grilla-->
-<v-row class="d-flex mt-2">
-    <v-col cols="11" class="text-end">
+
+<v-row class="d-flex mt-1" no-gutters>
+    <v-col lg="3" class="ml-5 mb-0 pt-3 pb-0">
+        <v-breadcrumbs :items="breadcrums" class="pb-0">
+            <template v-slot:item="{ item }">
+                <v-breadcrumbs-item :href="item.href"
+                                    :disabled="item.disabled">
+                    <span style="font-weight: bold;font-size:1.2em"> {{  item.text.toUpperCase() }}</span>
+                </v-breadcrumbs-item>
+            </template>
+        </v-breadcrumbs>
+    </v-col>
+    <v-col lg="3" class="text-end mr-10 mt-3">
         <v-tooltip bottom>
             <template v-slot:activator="{ on, attrs }">
                 <v-btn class="mb-1"
@@ -25,29 +35,20 @@
         </v-tooltip>
     </v-col>
 </v-row>
-<v-row class="d-flex justify-center align-center mt-3 ml-7 mr-7">
-    <v-col cols="11" class="mt-0">
+
+<!--Grilla-->
+<v-row class="d-flex mt-0 ml-7 mr-7">
+    <v-col cols="6" class="mt-0">
         <v-card class="my-0">
             <v-card-title v-if="breadcrums.length > 0" class="py-0">
-                <v-col lg="3" sm="5">
-                    <v-breadcrumbs :items="breadcrums" class="p-0 m-0 pt-10">
-                        <template v-slot:item="{ item }">
-                            <v-breadcrumbs-item :href="item.href"
-                                                :disabled="item.disabled">
-                                <span style="font-weight: bold;font-size:1.2em"> {{  item.text.toUpperCase() }}</span>
-                            </v-breadcrumbs-item>
-                        </template>
-                    </v-breadcrumbs>
-                </v-col>
-                <v-spacer></v-spacer>
-                <v-col lg="3" sm="5" class="mr-10">
+                <v-col lg="4" sm="5" class="pb-1">
                     <v-text-field v-model="search"
                                   append-icon="mdi-magnify"
                                   label="Filtrar"
                                   single-line
                                   hide-details></v-text-field>
                 </v-col>
-                <v-col lg="5" sm="5" class="pl-5">
+                <v-col lg="8" sm="5" class="">
                     <v-row justify="end">
                         <v-col lg="2" sm="4" class="mt-4">
                             <v-label>{{jsglobals.Estado}}:</v-label>
@@ -81,7 +82,7 @@
                 <template v-slot:item.estado="{ item }">
                     <v-tooltip left v-if="item.estado">
                         <template v-slot:activator="{ on, attrs }">
-                            <v-icon v-on="on" v-bind="attrs" large class="ma-2" color="indigo" v-on:click="inactivarMedico(item)">toggle_on</v-icon>
+                            <v-icon v-on="on" v-bind="attrs" large class="ma-0" color="indigo" v-on:click="inactivarMedico(item)">toggle_on</v-icon>
                         </template>
                         <span>
                             {{jsglobals.Activo}}
@@ -89,7 +90,7 @@
                     </v-tooltip>
                     <v-tooltip left v-if="!item.estado">
                         <template v-slot:activator="{ on, attrs }">
-                            <v-icon v-on="on" v-bind="attrs" large class="ma-2" color="red lighten-2" v-on:click="activarMedico(item)">toggle_off</v-icon>
+                            <v-icon v-on="on" v-bind="attrs" large class="ma-0" color="red lighten-2" v-on:click="activarMedico(item)">toggle_off</v-icon>
                         </template>
                         <span>
                             {{jsglobals.Inactivo}}
@@ -128,7 +129,98 @@
             </v-data-table>
         </v-card>
     </v-col>
+
+
+
+    <v-col v-if="verMedico">
+        <v-row no-gutters
+               style="flex-wrap: nowrap;">
+            <v-col cols="10"
+                   class="flex-grow-1 flex-shrink-0 mx-auto">
+                <v-card class="notebook">
+                    <template>
+                        <v-form ref="form" lazy-validation>
+                            <v-container>
+                                <v-row class="mt-4 ml-4 mr-4 mb-0">
+                                    <v-col cols="12">
+                                        <v-text-field v-model="model.Matricula"
+                                                      :error-messages="errors.Matricula"
+                                                      :rules="[ vrules.required , v => vrules.number(v) ]"
+                                                      :label="jsglobals.Matricula"
+                                                      :disabled=isDisabled()>
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12">
+                                        <v-text-field v-model="model.Nombre"
+                                                      :error-messages="errors.Nombre"
+                                                      counter="50"
+                                                      :rules="[ vrules.required , v => vrules.maxLength(v,50,jsglobals.Nombre) ]"
+                                                      :label="jsglobals.Nombre">
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12">
+                                        <v-text-field v-model="model.Apellido"
+                                                      :error-messages="errors.Apellido"
+                                                      counter="50"
+                                                      :rules="[ vrules.required , v => vrules.maxLength(v,50,jsglobals.Apellido) ]"
+                                                      :label="jsglobals.Apellido">
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12"
+                                           md="8">
+                                        <v-radio-group row label="Estado: " v-model="model.Estado">
+                                            <v-radio :disabled=!isDisabled() name="estado" :label="jsglobals.Activo" :value="true" v-on:change="cambioEstado()"></v-radio>
+                                            <v-radio :disabled=!isDisabled() name="estado" :label="jsglobals.Inactivo" :value="false" v-on:change="cambioEstado()"></v-radio>
+                                        </v-radio-group>
+                                    </v-col>
+                                </v-row>
+                                <v-row class="mt-0 mb-2 mr-2">
+                                    <v-col cols="12">
+                                        <v-tooltip bottom>
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <v-btn class="float-right"
+                                                       v-bind="attrs"
+                                                       v-on="on"
+                                                       v-on:click="guardarMedico"
+                                                       color="primary"
+                                                       small
+                                                       :disabled="submiting"
+                                                       :loading="submiting"
+                                                       elevation="2">
+                                                    <v-icon small class="pr-1">mdi-content-save</v-icon>
+                                                    {{jsglobals.Guardar}}
+                                                </v-btn>
+                                            </template>
+                                            <span>   {{jsglobals.Guardar}}</span>
+                                        </v-tooltip>
+                                        <v-tooltip bottom>
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <v-btn class="float-right mr-3"
+                                                       v-bind="attrs"
+                                                       v-on="on"
+                                                       v-on:click="volver()"
+                                                       color="primary"
+                                                       small
+                                                       elevation="2"
+                                                       :disabled="submiting"
+                                                       :loading="submiting">
+                                                    <v-icon small class="pr-1">mdi-arrow-left-circle</v-icon>
+                                                    {{jsglobals.Volver}}
+                                                </v-btn>
+                                            </template>
+                                            <span>{{jsglobals.Volver}}</span>
+                                        </v-tooltip>
+                                    </v-col>
+                                </v-row>
+                            </v-container>
+                        </v-form>
+                    </template>
+                </v-card>
+            </v-col>
+        </v-row>
+
 </v-row>
+
 
 <!--Dialog Inactivar-->
 <v-row justify="space-around">
@@ -201,3 +293,36 @@
         </v-dialog>
     </v-col>
 </v-row>
+
+
+<v-row justify="space-around">
+    <v-col cols="auto">
+        <v-dialog v-model="dialog2" persistent transition="dialog-bottom-transition"
+                  width="500">
+            <template v-slot:default="dialog">
+                <v-card>
+                    <v-toolbar dense class="d-flex text-h6 mb-5 justify-center" color="primary"
+                               dark>
+                        <v-toolbar-title>{{jsglobals.Medico}} - {{jsglobals.CambiarEstado}} </v-toolbar-title>
+                    </v-toolbar>
+                    <v-card-text class="text-subtitle-1 text-center mb-5">
+                        {{itemCambio.Estado==true?jsglobals.MensajeActivar:jsglobals.MensajeInactivar}}
+                    </v-card-text>
+                    <v-divider></v-divider>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn small
+                               v-on:click="confirmaCambioEstado(itemCambio)"
+                               color="primary">
+                            {{jsglobals.No}}
+                        </v-btn>
+                        <v-btn small
+                               v-on:click="dialog.value = false"
+                               color="primary">
+                            {{jsglobals.Si}}
+                        </v-btn>
+                    </v-card-actions>
+                </v-card>
+            </template>
+        </v-dialog>
+    </v-col>

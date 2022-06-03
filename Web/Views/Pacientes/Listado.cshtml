@@ -1,166 +1,103 @@
-﻿<!--model KO.Web.Models.Pacientes.PacienteViewModel
+﻿@model KO.Web.Models.Pacientes.PacienteViewModel
 
-section scripts
+@section scripts
 {
-    <script type="text/javascript" src="~/js/KO/pacientes/pacientes-listado.js"></script>
+    <script type="text/javascript" asp-src-include="~/js/KO/pacientes/pacientes-listado.js" asp-append-version="true"></script>
 }
-<link rel="stylesheet" href="~/css/vacunatorio.css" />
+<link rel="stylesheet"  asp-href-include="~/css/vacunatorio.css" />
 
-<v-row d-flex justify="center">
-    <v-col sm="12">
-        <v-card class="my-5">
-            <v-row class="d-flex mt-5" justify="center">
-                <v-progress-circular v-if="loadingColada || loadingCestas" :size="50" color="primary" indeterminate style="position:absolute;z-index:10;margin-top:200px"></v-progress-circular>
-            </v-row>
-            <v-card-text>
-                <template>
-                    <v-stepper v-model="Paso"
-                               vertical>
-                        <v-stepper-step :complete="Paso > 1"
-                                        step="1">
-                            <span v-if="Paso == 1">{{jsglobals.SeleccionarColada}}</span>
-                            <span v-if="Paso > 1">{{jsglobals.Colada}}: <span style="font-weight:800;font-size:20px;height:80px" readonly plain class="blue--text text--darken-4 mx-5 mb-1">{{colada.nombre}}</span></span>
-                        </v-stepper-step>
-                        <v-stepper-content step="1">
-                            <v-btn style="background-color:#BBDEFB !important;font-weight:800;font-size:20px;height:80px" outlined class="blue--text text--darken-4 mx-5 mb-2" elevation="4"
-                                   x-large v-for="item in coladas" v-on:click="obtenerColadaYReceta(item)"
-                                   :disabled="loadingColada">{{item.nombre}}</v-btn>
-                        </v-stepper-content>
-                        <v-stepper-step v-show="Paso >= 2" :complete="Paso >= 2"
-                                        step="2">
-                            <span>{{jsglobals.Receta}}: <span style="font-weight:800;font-size:20px;height:80px" readonly plain class="blue--text text--darken-4 mx-5 mb-1">{{colada.nombreReceta}}</span></span>
-                        </v-stepper-step>
-                        <v-stepper-content step="2">
-                        </v-stepper-content>
-                        <v-stepper-step v-show="Paso >= 3" :complete="Paso >= 3"
-                                        step="3">
-                            <span>{{jsglobals.Cesta}}: <span v-if="Paso > 2" style="font-weight:800;font-size:20px;height:80px" readonly plain class="blue--text text--darken-4 mx-5 mb-1">{{jsglobals.Cesta}} {{cestaElegida.numero}}</span></span>
-                        </v-stepper-step>
-                        <v-stepper-content step="2">
-                            <v-btn style="background-color:#BBDEFB !important;font-weight:800;font-size:20px;height:80px" outlined class="blue--text text--darken-4 mx-5 mb-2" elevation="4"
-                                   x-large v-for="item in colada.listaCestas" v-on:click="obtenerVia(item)">
-                                <span>{{jsglobals.Cesta}} {{item.numero}}</span>
-                                <span>
-                                    <v-icon v-if="item.fechaHoraCierre != null" class="blue--text text--darken-4">shopping_basket</v-icon>
-                                    <v-icon v-if="item.fechaHoraCierre != null" class="blue--text text--darken-4" style="position: absolute; font-size: 40px; right: -7px; top: -4px;">close</v-icon>
-                                </span>
-                            </v-btn>
-                        </v-stepper-content>
-                        <v-stepper-step v-show="Paso >= 4" :complete="Paso >= 4"
-                                        step="4">
-                            <span>
-                                {{jsglobals.Via}}:
-                                <span v-if="Paso >= 3 && cestaElegida.idVia == 1" style="font-weight:800;font-size:20px;height:80px" readonly plain class="blue--text text--darken-4 mx-5 mb-1">{{jsglobals.Recta}}</span>
-                                <span v-if="Paso >= 3 && cestaElegida.idVia == 2" style="font-weight:800;font-size:20px;height:80px" readonly plain class="blue--text text--darken-4 mx-5 mb-1">{{jsglobals.Curva}}</span>
-                            </span>
-                        </v-stepper-step>
-                        <v-stepper-content step="3">
-                            <v-radio-group row v-model="cestaElegida.idVia" class="blue--text text--darken-4 mx-5">
-                                <v-radio :disabled="cestaElegida.activo || cestaElegida.fechaHoraCierre != null" name="vias" :label="jsglobals.Recta" :value="1"></v-radio>
-                                <v-radio :disabled="cestaElegida.activo || cestaElegida.fechaHoraCierre != null" name="vias" :label="jsglobals.Curva" :value="2"></v-radio>
-                            </v-radio-group>
-                        </v-stepper-content>
-                </template>
-            </v-card-text>
-
-            <v-card-actions>
+<!--Grilla-->
+<v-row class="d-flex mt-2">
+    <v-col cols="11" class="text-end">
+        <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+                <v-btn class="mb-1"
+                       v-bind="attrs"
+                       v-on="on"
+                       v-on:click="agregarPaciente"
+                       color="primary"
+                       elevation="2">
+                    <v-icon small class="pr-1">mdi-plus</v-icon>
+                    {{jsglobals.Nuevo}} {{jsglobals.Paciente}}
+                </v-btn>
+            </template>
+            <span>{{jsglobals.AgregarPaciente}}</span>
+        </v-tooltip>
+    </v-col>
+</v-row>
+<v-row class="d-flex justify-center align-center mt-3 ml-7 mr-7">
+    <v-col cols="11" class="mt-0">
+        <v-card class="my-0">
+            <v-card-title v-if="breadcrums.length > 0" class="py-0">
+                <v-col lg="5" sm="5">
+                    <v-breadcrumbs :items="breadcrums" class="p-0 m-0 pt-10">
+                        <template v-slot:item="{ item }">
+                            <v-breadcrumbs-item :href="item.href"
+                                                :disabled="item.disabled">
+                                <span style="font-weight: bold;font-size:1.2em"> {{  item.text.toUpperCase() }}</span>
+                            </v-breadcrumbs-item>
+                        </template>
+                    </v-breadcrumbs>
+                </v-col>
                 <v-spacer></v-spacer>
-                <v-btn v-if="Paso >= 3" class="mb-5" color="primary"
-                       :disabled="Paso > 3"
-                       v-on:click="volverAPasoAnterior()">
-                    {{jsglobals.Volver}}
-                </v-btn>
-                <v-btn v-if="Paso >= 3" color="primary" class="mb-5 mr-10" v-on:click="comenzarCestas(colada.id)" :loading="loadingCestas">
-                    {{jsglobals.Comenzar}}
-                </v-btn>
-            </v-card-actions>
+                <v-col lg="5" sm="5" class="mr-10">
+                    <v-text-field v-model="search"
+                                  append-icon="mdi-magnify"
+                                  label="Filtrar"
+                                  single-line
+                                  hide-details></v-text-field>
+                </v-col>
+            </v-card-title>
+            <v-data-table :headers="headers"
+                          :items="gridData"
+                          :search="search"
+                          :items-per-page="10"
+                          class="elevation-2 row-height-50"
+                          item-key="matricula"
+                          style="position: relative;"
+                          :loading="loadingPacientes"
+                          :loading-text=jsglobals.ObteniendoPacientes
+                          :no-data-text=jsglobals.LabelNoCoincidences
+                          :footer-props="{
+                        'items-per-page-text':jsglobals.FilasPorPagina,
+                        'items-per-page-all-text':jsglobals.Todas,
+                        'items-per-page-options':[ 10,  25,  50,  -1],
+                            pageText: '{0} - {1} de {2}'
+                      }">
+                <template v-slot:item.acciones="{ item }">
+                    <v-tooltip left>
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-icon large v-on="on" v-bind="attrs" class="mr-2" v-on:click="editarPaciente(item.id)" color="indigo">edit_note</v-icon>
+                        </template>
+                        <span>
+                            {{jsglobals.Editar}}
+                        </span>
+                </template>
+                <template v-slot:footer>
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn v-on:click="exportarLista"
+                                   color="primary"
+                                   small
+                                   v-bind="attrs"
+                                   v-on="on"
+                                   elevation="2"
+                                   class="bkg-white margenMobile"
+                                   style="position: absolute; margin:15px">
+                                <v-icon small class="pr-1">
+                                    mdi-file-export
+                                </v-icon>
+                                {{jsglobals.Exportar}}
+                            </v-btn>
+                        </template>
+                        <span>{{jsglobals.ExportarExcel}}</span>
+                    </v-tooltip>
+                </template>
+            </v-data-table>
         </v-card>
     </v-col>
-</v-row>-->
+</v-row>
 
 
-@*<v-stepper-step :complete="Paso>3"
-                    step="3"
-                    class="labelsInicio">
-        <span v-if="Paso <= 3">{{jsglobals.SeleccionarVia}}</span>
-        <span v-if="Paso > 3">{{jsglobals.ViaSeleccionada}}</span>
-    </v-stepper-step>
 
-    <v-stepper-content step="3"
-                       :complete="Paso>3">*@
-@*<v-data-table dense
-                  hide-default-footer
-                  :headers="headers"
-                  :items="cestas"
-                  item-key="id"
-                  class="elevation-2 ma-auto"
-                  :expanded.sync="expanded"
-                  show-expand
-                  :single-expand="singleExpand"
-                  :loading="loadingCargas"
-                  :loading-text=jsglobals.ObteniendoCargas
-                  :no-data-text=jsglobals.SinRegistros>
-        <template v-slot:item.idVia="{ item }">
-            <v-layout justify-center align-center small>
-                <v-radio-group row v-model="item.idVia">
-                    <v-radio :disabled="item.activo || item.fechaHoraCierre != null" name="vias" :label="jsglobals.Recta" :value="1"></v-radio>
-                    <v-radio :disabled="item.activo || item.fechaHoraCierre != null" name="vias" :label="jsglobals.Curva" :value="2"></v-radio>
-                </v-radio-group>
-            </v-layout>
-        </template>
-        <template v-slot:item.estado="{ item }">
-            <v-layout justify-center align-center>
-                <v-tooltip left v-if="item.activo">
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-icon v-bind="attrs" class="teal--text text--lighten-1">
-                            file_upload
-                        </v-icon>
-                    </template>
-                    <span>
-                        {{jsglobals.Cargando}}
-                    </span>
-                </v-tooltip>
-                <v-tooltip left v-if="item.fechaHoraCierre != null">
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-icon v-bind="attrs" class="teal--text text--lighten-1">shopping_basket</v-icon>
-                        <v-icon v-bind="attrs" class="teal--text text--lighten-1" style="position: absolute; font-size:40px">close</v-icon>
-                    </template>
-                    <span>
-                        {{jsglobals.Cerrada}}
-                    </span>
-                </v-tooltip>
-                <v-tooltip left v-if="!item.activo && item.fechaHoraCierre == null">
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-icon v-bind="attrs" class="teal--text text--lighten-1 ml-5">
-                            scheduled
-                        </v-icon>
 
-                    </template>
-                    <span>
-                        {{jsglobals.Pendiente}}
-                    </span>
-                </v-tooltip>
-            </v-layout>
-
-        </template>
-        <template v-slot:expanded-item="{ headers, item }">
-            <td :colspan="headers.length" class="py-5 px-15">
-                <v-data-table :headers="capasHeaders"
-                              :items="item.listaDetalles"
-                              item-key="Orden"
-                              dense
-                              class="elevation-1 mx-15"
-                              hide-default-footer
-                              :sort-by="['orden']"
-                              :sort-desc="[true]">
-                    <template v-slot:item.orden="{ item}">
-                        <p cols="2" v-if="item.fechaHoraActivacion != null">{{ item.orden }}</p>
-                        <p cols="2" v-else>--</p>
-                    </template>
-                </v-data-table>
-            </td>
-
-        </template>
-    </v-data-table>
-    </v-stepper>
-                  </template>*@

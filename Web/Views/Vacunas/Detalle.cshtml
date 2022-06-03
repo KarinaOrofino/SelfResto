@@ -1,14 +1,14 @@
 ﻿@model KO.Web.Models.Vacunas.VacunaViewModel
-@using Framework.Utils
 
 @section scripts
 {
-    <script type="text/javascript" src="~/js/KO/vacunas/vacunas-detalle.js"></script>
+    <script type="text/javascript" asp-src-include="~/js/KO/vacunas/vacunas-detalle.js" asp-append-version="true"></script>
     <script type="text/javascript">
         vueAppParams.data.model =@Html.Raw(Model.ToJsonModel())
     </script>
 }
-<link rel="stylesheet" href="~/css/vacunatorio.css" />
+<link rel="stylesheet" asp-href-include="~/css/vacunatorio.css" />
+
 <v-row v-if="breadcrums.length > 0" class="breadcrum-row">
     <v-breadcrumbs :items="breadcrums">
         <template v-slot:item="{ item }">
@@ -41,7 +41,18 @@
                                                       :error-messages="errors.Nombre"
                                                       counter="50"
                                                       :rules="[ vrules.required , v => vrules.maxLength(v,50,jsglobals.Nombre) ]"
-                                                      :label="jsglobals.Nombre">
+                                                      :label="jsglobals.Nombre"
+                                                      class="uppers">
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12">
+                                        <v-text-field v-model="model.Marca"
+                                                      :error-messages="errors.Marca"
+                                                      counter="50"
+                                                      :rules="[ vrules.required , v => vrules.maxLength(v,50,jsglobals.Nombre) ]"
+                                                      :label="jsglobals.Marca"
+                                                      class="uppers"
+                                                      :disabled="isDisabled()">
                                         </v-text-field>
                                     </v-col>
                                     <v-col cols="12"

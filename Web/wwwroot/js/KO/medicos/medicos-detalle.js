@@ -11,6 +11,7 @@ vueAppParams.mounted = function () {
         { text: jsglobals.Detalle, href: '', disabled: true }
 
     ];
+
 };
 
 vueAppParams.methods.isDisabled = function (){
@@ -53,7 +54,7 @@ vueAppParams.methods.guardarMedico = function () {
     vueApp.clearErrors();
     vueApp.submiting = true;
 
-    if (vueApp.model.Matricula == 0) {
+    if (!vueApp.model.MedicoExistente) {
 
         $.ajax({
             url: "/Medicos/Agregar",

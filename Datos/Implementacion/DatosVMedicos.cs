@@ -13,11 +13,8 @@ namespace KO.Datos.Implementacion
 {
     public class DatosVMedicos : DatosBase, IDatosVMedicos
     {
-        //private IConfiguration Configuration;
-
         public DatosVMedicos(IConfiguration configuration, KOContext context) : base(context)
         {
-            //this.Configuration = configuration;
         }
 
         public List<Medico> ObtenerTodos()
@@ -25,7 +22,7 @@ namespace KO.Datos.Implementacion
             List<Medico> listaMedicos = new();
             try
             {
-                using SqlCommand command = new(Constantes.SP_OBTENER_TODOS_LOS_MEDICOS, (SqlConnection)_context.Database.GetDbConnection());
+                using SqlCommand command = new(Constantes.SP_MEDICOS_OBTENER_TODOS, (SqlConnection)_context.Database.GetDbConnection());
                 command.CommandType = CommandType.StoredProcedure;
 
                 using SqlDataAdapter da = new(command);
@@ -60,17 +57,15 @@ namespace KO.Datos.Implementacion
             return listaMedicos;
         }
 
-        public List<Medico> ObtenerFiltrados(int? Matricula, string Nombre, string Apellido, bool? Estado)
+        public List<Medico> ObtenerFiltrados(string campoBusqueda, bool? estado)
         {
             List<Medico> listaMedicos = new ();
             try
             {
-                using SqlCommand command = new(Constantes.SP_OBTENER_MEDICOS_FILTRADOS, (SqlConnection)_context.Database.GetDbConnection());
+                using SqlCommand command = new(Constantes.SP_MEDICOS_OBTENER_FILTRADOS, (SqlConnection)_context.Database.GetDbConnection());
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("Matricula", Matricula);
-                command.Parameters.AddWithValue("Nombre", Nombre);
-                command.Parameters.AddWithValue("Apellido", Apellido);
-                command.Parameters.AddWithValue("Estado", Estado);
+                command.Parameters.AddWithValue("CampoBusqueda", campoBusqueda);
+                command.Parameters.AddWithValue("Estado", estado);
 
                 using SqlDataAdapter da = new (command);
                 DataTable dt = new ();
@@ -107,7 +102,7 @@ namespace KO.Datos.Implementacion
             Medico medico = new();
             try
             {
-                using SqlCommand command = new(Constantes.SP_OBTENER_MEDICO, (SqlConnection)_context.Database.GetDbConnection());
+                using SqlCommand command = new(Constantes.SP_MEDICO_OBTENER_POR_MATRICULA, (SqlConnection)_context.Database.GetDbConnection());
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.AddWithValue("@Matricula", Matricula);
 
@@ -145,7 +140,7 @@ namespace KO.Datos.Implementacion
             try
             {
                 var connection = (SqlConnection)_context.Database.GetDbConnection();
-                using SqlCommand command = new(Constantes.SP_AGREGAR_MEDICO, connection);
+                using SqlCommand command = new(Constantes.SP_MEDICO_AGREGAR, connection);
 
                 connection.Open();
                 command.CommandType = CommandType.StoredProcedure;
@@ -171,7 +166,7 @@ namespace KO.Datos.Implementacion
             try
             {
                 var connection = (SqlConnection)_context.Database.GetDbConnection();
-                using SqlCommand command = new(Constantes.SP_ACTUALIZAR_MEDICO, connection);
+                using SqlCommand command = new(Constantes.SP_MEDICO_ACTUALIZAR, connection);
 
                 connection.Open();
                 command.CommandType = CommandType.StoredProcedure;
@@ -198,7 +193,7 @@ namespace KO.Datos.Implementacion
             try
             {
                 var connection = (SqlConnection)_context.Database.GetDbConnection();
-                using SqlCommand command = new(Constantes.SP_INACTIVAR_MEDICO, connection);
+                using SqlCommand command = new(Constantes.SP_MEDICO_INACTIVAR, connection);
 
                 connection.Open();
                 command.CommandType = CommandType.StoredProcedure;
@@ -222,7 +217,7 @@ namespace KO.Datos.Implementacion
             try
             {
                 var connection = (SqlConnection)_context.Database.GetDbConnection();
-                using SqlCommand command = new(Constantes.SP_ACTIVAR_MEDICO, connection);
+                using SqlCommand command = new(Constantes.SP_MEDICO_ACTIVAR, connection);
 
                 connection.Open();
                 command.CommandType = CommandType.StoredProcedure;

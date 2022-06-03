@@ -1,6 +1,8 @@
 ﻿using Framework.Common;
+using Framework.Utils;
 using Framework.Web;
 using KO.Entidades;
+using KO.Recursos;
 using KO.Web.Models.Medicos;
 using Microsoft.AspNetCore.Mvc;
 using Servicios.Interfaces;
@@ -79,6 +81,49 @@ namespace Web.Controllers.Medicos
             return View(medicoVM);
         }
 
+        [HttpGet]
+        public JsonResult VerMedico(int matricula)
+        {
+            JsonData jsonData = new();
+            MedicoViewModel medicoVM = new();
+
+            try
+            {
+
+                if (matricula == 0)
+                {
+
+                    medicoVM.Estado = true;
+                    medicoVM.MedicoExistente = false;
+                    medicoVM.ListaMatriculasMedicos = ServicioMedicos.ObtenerTodos().Select(med => med.Matricula.ToString()).ToList();
+
+                }
+
+                else
+                {
+
+                    Medico medico = ServicioMedicos.Obtener(matricula);
+                    medicoVM.Matricula = medico.Matricula;
+                    medicoVM.Nombre = medico.Nombre;
+                    medicoVM.Apellido = medico.Apellido;
+                    medicoVM.Estado = medico.Estado;
+                    medicoVM.MedicoExistente = true;
+
+                }
+            
+
+                jsonData.content = medicoVM;
+                jsonData.result = JsonData.Result.Ok;
+            }
+            catch (Exception ex)
+            {
+                log.Error("No se pudo obtener el médico con matrícula: " + matricula, ex);
+                Response.StatusCode = Constantes.ERROR_HTTP;
+            }
+
+            return Json(jsonData); ;
+        }
+
         #endregion
 
         #region Métodos Pantalla Listado 
@@ -118,19 +163,19 @@ namespace Web.Controllers.Medicos
             return Json(jsonData);
         }
 
-        public JsonResult Inactivar(int Matricula)
+        public JsonResult Inactivar(int matricula)
         {
             JsonData jsonData = new();
 
             try
             {
-                ServicioMedicos.Inactivar(Matricula);
+                ServicioMedicos.Inactivar(matricula);
 
                 jsonData.result = JsonData.Result.Ok;
             }
             catch (Exception ex)
             {
-                log.Error("No se pudo inactivar el médico con matrícula: " + Matricula, ex);
+                log.Error("No se pudo inactivar el médico con matrícula: " + matricula, ex);
                 Response.StatusCode = Constantes.ERROR_HTTP;
                 jsonData.errorUi = "No se pudo inactivar el médico";
                 jsonData.result = JsonData.Result.Error;
@@ -139,19 +184,19 @@ namespace Web.Controllers.Medicos
             return Json(jsonData);
         }
 
-        public JsonResult Activar(int Matricula)
+        public JsonResult Activar(int matricula)
         {
             JsonData jsonData = new();
 
             try
             {
-                ServicioMedicos.Activar(Matricula);
+                ServicioMedicos.Activar(matricula);
 
                 jsonData.result = JsonData.Result.Ok;
             }
             catch (Exception ex)
             {
-                log.Error("No se pudo activar el médico con matrícula: " + Matricula, ex);
+                log.Error("No se pudo activar el médico con matrícula: " + matricula, ex);
                 Response.StatusCode = Constantes.ERROR_HTTP;
                 jsonData.errorUi = "No se pudo activar el médico";
                 jsonData.result = JsonData.Result.Error;
@@ -159,6 +204,47 @@ namespace Web.Controllers.Medicos
 
             return Json(jsonData);
         }
+
+        [HttpGet]
+        public IActionResult Exportar(string campoBusqueda, bool? estado)
+        {
+            try
+            {
+
+                List<Medico> listaMedicos = ServicioMedicos.ObtenerFiltrados(campoBusqueda, estado).ToList();
+
+                List<MedicoViewModel> listaMedicosVM = listaMedicos.Select(med => new MedicoViewModel()
+                {
+                    Matricula = med.Matricula,
+                    Nombre = med.Nombre,
+                    Apellido = med.Apellido,
+                    Estado = med.Estado
+
+                }).OrderBy(medico => medico.Nombre).ToList();
+
+                var listaReducida = listaMedicosVM.Select(med => new
+                {
+                    med.Matricula,
+                    med.Nombre,
+                    med.Apellido,
+                    Estado = med.Estado == true ? Global.Activo : Global.Inactivo,
+                }).ToList();
+
+                var fileBytes = CreateExcelFile.CreateExcelDocumentAsByte(listaReducida);
+                log.Info("Método crear excel OK");
+                this.HttpContext.Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                this.HttpContext.Response.Headers.Add("content-disposition", "attachment");
+                return File(fileBytes, this.HttpContext.Response.ContentType);
+            }
+            catch (Exception ex)
+            {
+                this.HttpContext.Response.StatusCode = Constantes.ERROR_HTTP;
+                log.Error(ex);
+            }
+
+            return Content(string.Empty);
+        }
+
         #endregion
 
         #region Métodos Pantalla Detalle

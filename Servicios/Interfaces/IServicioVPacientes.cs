@@ -4,12 +4,20 @@ using System.Collections.Generic;
 
 namespace Servicios.Interfaces
 {
-    public interface IServicioVPaciente : IServicioGenerico
+    public interface IServicioVPacientes : IServicioBase
     {
 
-        //public void CrearColadaYCargas(Colada nuevaColada, Receta recetaDeLaColada, int idUser);
+        public List<Paciente> ObtenerTodos();
 
+        public List<Paciente> ObtenerFiltrados(string campoBusqueda);
 
+        public Paciente Obtener(int id);
+
+        public void Agregar(Paciente paciente);
+
+        public void Actualizar(Paciente paciente);
+
+        public List<ObraSocial> ObtenerObrasSociales();
     }
 }
 

@@ -3,7 +3,7 @@ vueAppParams.data.vrules = {
 	required: v => (!!v && v != "") || "El campo es requerido",
 	maxLength: (v, l, txt) => (!!v && (v + "").length <= l) || "El campo " + txt + " no debe superar los " + l + " caracteres",
 	number: v => parseInt(v) || "Debe ingresar un número",
-	numerico: v => (v && new RegExp('^[0-9]*$').test(v)) || jsglobals.SoloNumeros,
+	numeroYGuion: v => (v && new RegExp('^[0-9-]*$').test(v)) || jsglobals.SoloNumerosYGuiones,
 	mayorQueCero: v => (v && v != 0) || jsglobals.CampoNoCero,
 	mayorOIgualCero: v => (v>= 0) || jsglobals.CampoMayorIgualCero,
 	decimalesConPunto: v => (new RegExp('^[0-9]+([.][0-9]+)?$').test(v)) || jsglobals.FormatoDecimal,

@@ -6,7 +6,17 @@ namespace KO.Datos.Interfaces
     public interface IDatosVPacientes : IDatosBase
     {
 
-       // public void CrearoActualizarCestaEnSGP(string nombreColada, Carga carga, CargaDetalle capa);
+        public List<Paciente> ObtenerTodos();
+
+        public List<Paciente> ObtenerFiltrados(string campoBusqueda);
+
+        public Paciente Obtener(int id);
+ 
+        public void Agregar(Paciente paciente);
+
+        public void Actualizar(Paciente paciente);
+
+        public List<ObraSocial> ObtenerObrasSociales();
 
     }
 }

@@ -1,14 +1,14 @@
 ﻿@model KO.Web.Models.Medicos.MedicoViewModel
-@using Framework.Utils
 
 @section scripts
 {
-    <script type="text/javascript" src="~/js/KO/medicos/medicos-detalle.js"></script>
+    <script type="text/javascript" asp-src-include="~/js/KO/medicos/medicos-detalle.js" asp-append-version="true"></script>
     <script type="text/javascript">
         vueAppParams.data.model =@Html.Raw(Model.ToJsonModel())
     </script>
 }
-<link rel="stylesheet" href="~/css/vacunatorio.css" />
+<link rel="stylesheet" asp-href-include="~/css/vacunatorio.css" />
+
         <v-row v-if="breadcrums.length > 0" class="breadcrum-row">
             <v-breadcrumbs :items="breadcrums">
                 <template v-slot:item="{ item }">
@@ -35,8 +35,7 @@
                                     <v-col cols="12">
                                         <v-text-field v-model="model.Matricula"
                                                       :error-messages="errors.Matricula"
-                                                      counter="50"
-                                                      :rules="[ vrules.required , v => vrules.numerico(v) ]"
+                                                      :rules="[ vrules.required , v => vrules.number(v) ]"
                                                       :label="jsglobals.Matricula"
                                                       :disabled=isDisabled() >
                                         </v-text-field>
@@ -123,7 +122,7 @@
                         <v-toolbar-title>{{jsglobals.Medico}} - {{jsglobals.CambiarEstado}} </v-toolbar-title>
                     </v-toolbar>
                     <v-card-text class="text-subtitle-1 text-center mb-5">
-                        {{itemCambio.estado==true?jsglobals.MensajeActivar:jsglobals.MensajeInactivar}}
+                        {{itemCambio.Estado==true?jsglobals.MensajeActivar:jsglobals.MensajeInactivar}}
                     </v-card-text>
                     <v-divider></v-divider>
                     <v-card-actions>

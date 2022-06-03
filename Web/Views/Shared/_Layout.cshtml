@@ -23,24 +23,14 @@
 
             <v-main :class="background">
                 <v-container fluid>
-                    @*<v-row v-if="breadcrums.length > 0" class="breadcrum-row">
-                        <v-breadcrumbs :items="breadcrums">
-                            <template v-slot:item="{ item }">
-                                <v-breadcrumbs-item :href="item.href"
-                                                    :disabled="item.disabled">
-                                    <span style="font-weight: bold;"> {{  item.text.toUpperCase() }}</span>
-                                </v-breadcrumbs-item>
-                            </template>
-                        </v-breadcrumbs>
-
-                    </v-row>*@
 
                     @RenderBody()
 
                     <v-snackbar v-model="notification.show"
                                 transition="scale-transition"
                                 :color="notification.type"
-                                :timeout="notification.timeout">
+                                :timeout="notification.timeout"
+                                >
 
                         <v-icon :color="notification.iconColor">
                             {{notification.icon}}
