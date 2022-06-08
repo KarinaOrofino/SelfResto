@@ -82,5 +82,5 @@ vueAppParams.methods.guardarVacuna = function () {
 };
 
 vueAppParams.methods.volver = function () {
-    window.location = "/Vacunas/Listado";
+    window.history.back();
 };

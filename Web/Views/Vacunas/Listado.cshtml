@@ -8,39 +8,39 @@
 
 <!--Grilla-->
 <v-row class="d-flex justify-space-around mt-1 mx-auto" no-gutters>
-            <v-col lg="4" class="ml-5 mb-0 pt-3 pb-0">
-                <v-breadcrumbs :items="breadcrums" class="pb-0">
-                    <template v-slot:item="{ item }">
-                        <v-breadcrumbs-item :href="item.href"
-                                            :disabled="item.disabled">
-                            <span style="font-weight: bold;font-size:1.2em"> {{  item.text.toUpperCase() }}</span>
-                        </v-breadcrumbs-item>
-                    </template>
-                </v-breadcrumbs>
-            </v-col>
-            <v-col lg="4" class="text-end mr-10 mt-3">
-                <v-tooltip left>
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-btn v-bind="attrs"
-                               v-on="on"
-                               v-on:click="agregarVacuna"
-                               color="primary"
-                               elevation="2">
-                            <v-icon small class="pr-1">mdi-plus</v-icon>
-                            {{jsglobals.Nueva}} {{jsglobals.Vacuna}}
-                        </v-btn>
-                    </template>
-                    <span>{{jsglobals.AgregarVacuna}}</span>
-                </v-tooltip>
-            </v-col>
+    <v-col lg="4" class="ml-5 mb-0 pt-3 pb-0">
+        <v-breadcrumbs :items="breadcrums" class="pb-0">
+            <template v-slot:item="{ item }">
+                <v-breadcrumbs-item :href="item.href"
+                                    :disabled="item.disabled">
+                    <span style="font-weight: bold;font-size:1.2em"> {{  item.text.toUpperCase() }}</span>
+                </v-breadcrumbs-item>
+            </template>
+        </v-breadcrumbs>
+    </v-col>
+    <v-col lg="4" class="text-end mr-10 mt-3">
+        <v-tooltip left>
+            <template v-slot:activator="{ on, attrs }">
+                <v-btn v-bind="attrs"
+                       v-on="on"
+                       v-on:click="agregarVacuna"
+                       color="primary"
+                       elevation="2">
+                    <v-icon small class="pr-1">mdi-plus</v-icon>
+                    {{jsglobals.Nueva}} {{jsglobals.Vacuna}}
+                </v-btn>
+            </template>
+            <span>{{jsglobals.AgregarVacuna}}</span>
+        </v-tooltip>
+    </v-col>
 </v-row>
 <v-row class="d-flex justify-center align-center ml-7 mr-7 mt-0">
     <v-col cols="10" class="mt-0">
         <v-card class="my-0">
             <v-card-title>
                 <v-col lg="4" sm="5" class="pt-5">
-                    <v-btn class="blue lighten-4" v-if="!agrupadosColapsados" v-on:click="onClickToggleAll()">{{jsglobals.Colapsar}}</v-btn>
-                    <v-btn class="blue lighten-4" v-if="agrupadosColapsados" v-on:click="onClickToggleAll()">{{jsglobals.Expandir}}</v-btn>
+                    <v-btn class="blue lighten-4" v-if="!agrupadosColapsados" v-on:click="toggleAll()">{{jsglobals.Colapsar}}</v-btn>
+                    <v-btn class="blue lighten-4" v-if="agrupadosColapsados" v-on:click="toggleAll()">{{jsglobals.Expandir}}</v-btn>
                 </v-col>
                 <v-spacer></v-spacer>
                 <v-col lg="3" sm="5" class="pb-1">
@@ -131,7 +131,9 @@
                                    v-on="on"
                                    elevation="2"
                                    class="bkg-white margenMobile"
-                                   style="position: absolute; margin:15px">
+                                   style="position: absolute; margin:15px"
+                                   :loading="loadingExportar"
+                                   :disabled="loadingExportar">
                                 <v-icon small class="pr-1">
                                     mdi-file-export
                                 </v-icon>

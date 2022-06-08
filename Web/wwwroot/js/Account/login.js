@@ -15,7 +15,7 @@ vueAppParams.methods.onClickIniciarSesion = function () {
             success: function (data) {
 
                 if (data.result == AJAX_OK) {
-                    window.location = '/Home/Index';
+                    window.location = '/Aplicaciones/Listado';
                 }
                 else {
                     vueApp.notification.showError(data.content.mensajes[0]);

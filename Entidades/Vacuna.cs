@@ -10,7 +10,11 @@ namespace KO.Entidades
 
         public bool Estado { get; set; }
 
+        public int IdMarca { get; set; }
+
         public string Marca { get; set; }
+
+        public int IdAplicacion { get; set; }
 
     }
 }

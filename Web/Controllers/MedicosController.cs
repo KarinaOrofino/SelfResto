@@ -81,50 +81,7 @@ namespace Web.Controllers.Medicos
             return View(medicoVM);
         }
 
-        [HttpGet]
-        public JsonResult VerMedico(int matricula)
-        {
-            JsonData jsonData = new();
-            MedicoViewModel medicoVM = new();
-
-            try
-            {
-
-                if (matricula == 0)
-                {
-
-                    medicoVM.Estado = true;
-                    medicoVM.MedicoExistente = false;
-                    medicoVM.ListaMatriculasMedicos = ServicioMedicos.ObtenerTodos().Select(med => med.Matricula.ToString()).ToList();
-
-                }
-
-                else
-                {
-
-                    Medico medico = ServicioMedicos.Obtener(matricula);
-                    medicoVM.Matricula = medico.Matricula;
-                    medicoVM.Nombre = medico.Nombre;
-                    medicoVM.Apellido = medico.Apellido;
-                    medicoVM.Estado = medico.Estado;
-                    medicoVM.MedicoExistente = true;
-
-                }
-            
-
-                jsonData.content = medicoVM;
-                jsonData.result = JsonData.Result.Ok;
-            }
-            catch (Exception ex)
-            {
-                log.Error("No se pudo obtener el médico con matrícula: " + matricula, ex);
-                Response.StatusCode = Constantes.ERROR_HTTP;
-            }
-
-            return Json(jsonData); ;
-        }
-
-        #endregion
+         #endregion
 
         #region Métodos Pantalla Listado 
 

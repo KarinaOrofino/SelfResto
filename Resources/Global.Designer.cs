@@ -142,6 +142,15 @@ namespace KO.Recursos {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Agregar Aplicación.
+        /// </summary>
+        public static string AgregarAplicacion {
+            get {
+                return ResourceManager.GetString("AgregarAplicacion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Agregar Comentarios.
         /// </summary>
         public static string AgregarComentarios {
@@ -183,6 +192,15 @@ namespace KO.Recursos {
         public static string Apellido {
             get {
                 return ResourceManager.GetString("Apellido", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Aplicación.
+        /// </summary>
+        public static string Aplicacion {
+            get {
+                return ResourceManager.GetString("Aplicacion", resourceCulture);
             }
         }
         
@@ -489,6 +507,15 @@ namespace KO.Recursos {
         public static string Fecha {
             get {
                 return ResourceManager.GetString("Fecha", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fecha de Aplicación.
+        /// </summary>
+        public static string FechaAplicacion {
+            get {
+                return ResourceManager.GetString("FechaAplicacion", resourceCulture);
             }
         }
         
@@ -997,6 +1024,15 @@ namespace KO.Recursos {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Realizado por Karina Orofino.
+        /// </summary>
+        public static string RealizadoPorKarinaOrofino {
+            get {
+                return ResourceManager.GetString("RealizadoPorKarinaOrofino", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Registrarse.
         /// </summary>
         public static string Registrarse {
@@ -1218,6 +1254,15 @@ namespace KO.Recursos {
         public static string Vacunatorio {
             get {
                 return ResourceManager.GetString("Vacunatorio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vacunatorio Protevac.
+        /// </summary>
+        public static string VacunatorioProtevac {
+            get {
+                return ResourceManager.GetString("VacunatorioProtevac", resourceCulture);
             }
         }
         

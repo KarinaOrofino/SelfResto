@@ -14,6 +14,8 @@ namespace KO.Web.Models.Vacunas
 
         public string Nombre { get; set; }
 
+        public int IdMarca { get; set; }
+
         public string Marca { get; set; }
 
         public bool Estado { get; set; }

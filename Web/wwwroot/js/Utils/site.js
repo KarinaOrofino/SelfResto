@@ -9,3 +9,5 @@ const AJAX_REDIRECT = 1;
 const AJAX_INVALID = 2;
 const HTTP_ERROR = 500;
 
+
+

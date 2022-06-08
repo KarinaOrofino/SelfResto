@@ -528,4 +528,19 @@
   <data name="Expandir" xml:space="preserve">
     <value>Expandir</value>
   </data>
+  <data name="Aplicacion" xml:space="preserve">
+    <value>Aplicación</value>
+  </data>
+  <data name="AgregarAplicacion" xml:space="preserve">
+    <value>Agregar Aplicación</value>
+  </data>
+  <data name="RealizadoPorKarinaOrofino" xml:space="preserve">
+    <value>Realizado por Karina Orofino</value>
+  </data>
+  <data name="VacunatorioProtevac" xml:space="preserve">
+    <value>Vacunatorio Protevac</value>
+  </data>
+  <data name="FechaAplicacion" xml:space="preserve">
+    <value>Fecha de Aplicación</value>
+  </data>
 </root>

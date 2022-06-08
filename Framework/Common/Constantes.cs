@@ -32,12 +32,15 @@ namespace Framework.Common
         #endregion
 
         #region Stored Procedures
-        public const string SPAPLICACIONES__OBTENER_FILTRADAS = "sp_aplicaciones_obtener_filtradas";
+        public const string SP_APLICACIONES_OBTENER_TODAS = "sp_aplicaciones_obtener_todas";
+        public const string SP_APLICACIONES_OBTENER_FILTRADAS = "sp_aplicaciones_obtener_filtradas";
+        public const string SP_APLICACION_OBTENER_VACUNAS_POR_APLICACION = "sp_aplicaciones_obtener_vacunas_por_aplicacion";
+        public const string SP_APLICACION_OBTENER_POR_ID = "sp_aplicacion_obtener_por_id";
         public const string SP_APLICACION_AGREGAR = "sp_aplicacion_agregar";
-        public const string SP_APLICACION_ACTUALIZAR = "sp_aplicacion_actualizar";
-        //public const string SP_INACTIVAR_APLICACION = "sp_inactivar_aplicacion";
+        public const string SP_APLICACION_ELIMINAR = "sp_aplicacion_eliminar";
+        public const string SP_APLICACION_DETALLE_AGREGAR = "sp_aplicacion_detalle_agregar";
         public const string SP_MEDICOS_OBTENER_TODOS = "sp_medicos_obtener_todos";
-        public const string SP_MEDICOS_OBTENER_FILTRADOS = "sp_medicos_obtenerfiltrados";
+        public const string SP_MEDICOS_OBTENER_FILTRADOS = "sp_medicos_obtener_filtrados";
         public const string SP_MEDICO_OBTENER_POR_MATRICULA = "sp_medico_obtener_por_matricula";
         public const string SP_MEDICO_AGREGAR = "sp_medico_agregar";
         public const string SP_MEDICO_ACTUALIZAR = "sp_medico_actualizar";
@@ -56,8 +59,6 @@ namespace Framework.Common
         public const string SP_VACUNA_INACTIVAR = "sp_vacuna_inactivar";
         public const string SP_VACUNA_ACTIVAR = "sp_vacuna_activar";
         public const string SP_OBRAS_SOCIALES_OBTENER = "sp_obras_sociales_obtener";
-
-
 
         #endregion
 

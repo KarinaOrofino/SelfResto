@@ -123,8 +123,8 @@ html:not([dir=rtl]) .custom-select-sm {
 
 
 .theme--light.v-select .v-select__selections {
-	color: #E0F2F1;
-	font-size: 14px !important
+	color: rgba(0,0,0,.87);
+	font-size: 16px !important
 }
 
 .theme--light.v-label {
@@ -238,5 +238,9 @@ html:not([dir=rtl]) .custom-select-sm {
 }
 
 .theme--light.v-data-table .v-row-group__header {
+	background: #BBDEFB !important;
+}
+
+.theme--light.v-data-table > .v-data-table__wrapper > table > tbody > tr.v-data-table__expanded__row {
 	background: #BBDEFB !important;
 }

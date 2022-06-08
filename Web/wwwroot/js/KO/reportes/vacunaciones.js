@@ -4,275 +4,158 @@ const TODOS = "todos";
 
 //Model
 vueAppParams.data.gridData = [];
-vueAppParams.data.menuDesde = false;
-vueAppParams.data.menuHasta = false;
+vueAppParams.data.menuFecha = false;
 vueAppParams.data.mostrarFecha = true;
-vueAppParams.data.loadingColadaInicial = true;
-vueAppParams.data.loadingColadaFinal = true;
-vueAppParams.data.loadingEstado = true;
-vueAppParams.data.loadingCesta = true;
-vueAppParams.data.loadingVia = true;
-vueAppParams.data.loadingReportes = true;
+vueAppParams.data.loadingMedicos = true;
+vueAppParams.data.loadingPacientes = true;
+vueAppParams.data.loadingVacunas = true;
 vueAppParams.data.loadingExportar = false;
-vueAppParams.data.coladaInicial = [];
-vueAppParams.data.coladaFinal = [];
-vueAppParams.data.estado = [{ id: '', nombre: '' }]; 
-vueAppParams.data.cesta = [];
-vueAppParams.data.via = [{ id: '', nombre: '' }]; 
-vueAppParams.data.fechaDesdeSeleccionada = vueAppParams.methods.primerDiaMes();
-vueAppParams.data.fechaHastaSeleccionada = vueAppParams.methods.hoy();
+vueAppParams.data.fechaSeleccionada = vueAppParams.methods.hoy();
+vueAppParams.data.medico = {};
+vueAppParams.data.paciente = {};
+vueAppParams.data.vacuna = {};
 
 vueAppParams.data.filtros = {
 
-    fechaDesdeSeleccionada: vueAppParams.methods.formatoFecha(vueAppParams.data.fechaDesdeSeleccionada),
-    fechaHastaSeleccionada: vueAppParams.methods.formatoFecha(vueAppParams.data.fechaHastaSeleccionada),
-    coladaInicialSeleccionado: SELECCIONE,
-    coladaFinalSeleccionado: SELECCIONE,
-    estadoSeleccionado: SELECCIONE,
-    cestaSeleccionado: SELECCIONE,
-    viaSeleccionado: SELECCIONE
-};
-vueAppParams.data.estadoSeleccionado = [];
-vueAppParams.data.coladaInicialSeleccionado = [];
-vueAppParams.data.coladaFinalSeleccionado = [];
-vueAppParams.data.cestaSeleccionado = [];
-vueAppParams.data.viaSeleccionado = [];
+    fechaSeleccionada: vueAppParams.methods.formatoFecha(vueAppParams.data.fechaSeleccionada),
+    medico: SELECCIONE,
+    vacuna: SELECCIONE,
+    paciente: SELECCIONE
 
-vueAppParams.data.parentHeaders = [
-    { text: "", colspan: 3, rowspan: 2, class: 'text-center protevac-headers-border'},
-    { text: jsglobals.Recetas, colspan: 3, rowspan: 2, class: 'text-center protevac-headers-border' },
-    { text: jsglobals.Real, colspan: 4, rowspan: 1, class: 'text-center protevac-headers-border' },
-    { text: "", colspan: 5, rowspan: 1, class: 'text-center protevac-headers' },
-];
+};
+//vueAppParams.data.medico = [];
+//vueAppParams.data.vacuna = [];
+//vueAppParams.data.paciente = [];
 
 vueAppParams.data.headers = [
 
     { text: jsglobals.Fecha, value: 'fecha', align: 'center', sortable: false, class: 'protevac-headers protevac-headers-border', width: '110px' },
-    { text: jsglobals.Colada, value: 'colada', align: 'center text-uppercase', sortable: false, class: 'protevac-headers protevac-headers-border' },
-    { text: jsglobals.Cesta, value: 'cesta', align: 'center text-uppercase', sortable: false, class: 'protevac-headers protevac-headers-border', width: '86px' },
-    { text: jsglobals.Capa, value: 'recetaCapa', align: 'center', sortable: false, class: 'protevac-headers protevac-headers-border' },
-    { text: jsglobals.Material, value: 'recetaMaterial', align: 'center text-uppercase', sortable: false, class: 'protevac-headers protevac-headers-border', width: '180px' },
-    { text: jsglobals.Peso, value: 'recetaPeso', align: 'center', sortable: false, class: 'protevac-headers protevac-headers-border' },
-    { text: jsglobals.Capa, value: 'realCapa', align: 'center', sortable: false, class: 'protevac-headers protevac-headers-border' },
-    { text: jsglobals.Material, value: 'realMaterial', align: 'center text-uppercase', sortable: false, class: 'protevac-headers protevac-headers-border', width: '180px' },
-    { text: jsglobals.Peso, value: 'realPeso', align: 'center', sortable: false, class: 'protevac-headers protevac-headers-border' },
-    { text: jsglobals.HoraCarga, value: 'realHoraCarga', align: 'center', sortable: false, class: 'protevac-headers protevac-headers-border', width: '170px'},
-    { text: jsglobals.HoraFin, value: 'horaFin', align: 'center', sortable: false, class: 'protevac-headers protevac-headers-border', width: '170px'},
-    { text: jsglobals.Comentarios, value: 'comentario', align: 'center', sortable: false, class: 'protevac-headers protevac-headers-border', width: '140px'},
-    { text: jsglobals.Estado, value: 'estado', align: 'center text-uppercase', sortable: false, class: 'protevac-headers protevac-headers-border' },
-    { text: jsglobals.Por, value: 'por', align: 'center text-uppercase', sortable: false, class: 'protevac-headers protevac-headers-border' },
-    { text: jsglobals.Via, value: 'via', align: 'center text-uppercase', sortable: false, class: 'protevac-headers protevac-headers-border' }
+    { text: jsglobals.Paciente, value: 'paciente', align: 'center text-uppercase', sortable: false, class: 'protevac-headers protevac-headers-border' },
+    { text: jsglobals.Medico, value: 'medico', align: 'center text-uppercase', sortable: false, class: 'protevac-headers protevac-headers-border', width: '86px' },
+    { text: jsglobals.Acciones, value: 'actions', align: 'center text-uppercase', sortable: false, class: 'protevac-headers protevac-headers-border' },
 
 ];
 
 vueAppParams.data.breadcrums = [
-    { text: jsglobals.Reportes, disabled: false, href: '/Reportes/CargaDeCestas' },
-    { text: jsglobals.CargaCestasDeChatarra, disabled: true, href: '' }
+    { text: jsglobals.Inicio, disabled: false, href: '/Home/Index' },
+    { text: jsglobals.Aplicaciones, disabled: true, href: '' }
 ];
 
 // Mounted
 vueAppParams.mounted = function () {
     this.loadGrid(true);
-    this.obtenerVia();
-    this.obtenerEstado();
-    
 };
-vueAppParams.watch = {   
-    fechaDesdeSeleccionada (val) {
-        vueApp.filtros.fechaDesdeSeleccionada = vueAppParams.methods.formatoFecha(vueApp.fechaDesdeSeleccionada);
-    },
-    fechaHastaSeleccionada(val) {
-        vueApp.filtros.fechaHastaSeleccionada = vueAppParams.methods.formatoFecha(vueApp.fechaHastaSeleccionada);
-        
+
+vueAppParams.watch = {
+    fechaSeleccionada(val) {
+        vueApp.filtros.fechaSeleccionada = vueAppParams.methods.formatoFecha(vueApp.fechaSeleccionada);
+
     }
 }
 
 vueAppParams.methods.analizarFecha = function (fecha) {
-    if (!fecha ) return null
+    if (!fecha) return null
 
     const [day, month, year] = fecha.split('/');
-  return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+    return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
 }
 
 
-vueAppParams.methods.onClickLimpiarFiltros = function (filterName) {
-    
+vueAppParams.methods.limpiarFiltros = function (filterName) {
+
     if (filterName == TODOS) {
-        vueAppParams.data.fechaDesdeSeleccionada = vueAppParams.methods.primerDiaMes();
-        vueAppParams.data.fechaHastaSeleccionada = vueAppParams.methods.hoy();
-        vueAppParams.data.filtros.fechaDesdeSeleccionada = vueAppParams.methods.formatoFecha(vueAppParams.methods.primerDiaMes());
-        vueAppParams.data.filtros.fechaHastaSeleccionada = vueAppParams.methods.formatoFecha(vueAppParams.methods.hoy());
+        vueAppParams.data.fechaSeleccionada = vueAppParams.methods.hoy();
         vueAppParams.data.mostrarFecha = true;
-        vueAppParams.data.filtros.viaSeleccionado = [];
-        vueAppParams.data.filtros.estadoSeleccionado = [];
-        vueAppParams.data.filtros.coladaInicialSeleccionado = [];
-        vueAppParams.data.filtros.coladaFinalSeleccionado = [];
-        vueAppParams.data.filtros.cestaSeleccionado = [];
-        vueApp.coladaInicial = [];
-        vueApp.coladaFinal = [];
-        vueApp.cesta = [];
-    }
+        vueAppParams.data.filtros.medico = SELECCIONE;
+        vueAppParams.data.filtros.paciente = SELECCIONE;
+        vueAppParams.data.filtros.vacuna = SELECCIONE;
 
+    }
     else {
-        if (filterName == 'viaSeleccionado' || filterName == 'estadoSeleccionado' || filterName == 'coladaFinalSeleccionado' || filterName == 'cestaSeleccionado') {
-            vueApp.filtros[filterName] = [];
-        } else if (filterName == 'fechaDesdeSeleccionada' || filterName == 'fechaHastaSeleccionada') {
-            vueAppParams.data.mostrarFecha = false;
-            vueAppParams.data.filtros.viaSeleccionado = [];
-            vueAppParams.data.filtros.estadoSeleccionado = [];
-            vueAppParams.data.filtros.coladaInicialSeleccionado = [];
-            vueAppParams.data.filtros.coladaFinalSeleccionado = [];
-            vueAppParams.data.filtros.cestaSeleccionado = [];
-            vueApp.coladaInicial = [];
-            vueApp.coladaFinal = [];
-            vueApp.cesta = [];
-        } else if (filterName == 'coladaInicialSeleccionado' ) {
-            vueAppParams.data.filtros.coladaInicialSeleccionado = [];
-            vueAppParams.data.filtros.coladaFinalSeleccionado = [];
-            vueApp.coladaFinal = [];
+        if (filterName == 'medico' || filterName == 'paciente' || filterName == 'vacuna') {
+            vueApp.filtros[filterName] = SELECCIONE;
         }
-    }
-    if (vueAppParams.data.mostrarFecha != true && vueApp.coladaInicial.length == 0) {
-        vueApp.loadingColadaInicial = true;
-        vueApp.obtenerColadaInicialSinFecha();
-
+        else if (filterName == 'fechaSeleccionada') {
+            vueAppParams.data.mostrarFecha = false;
+        }
     }
     this.loadGrid();
 };
 
-vueAppParams.methods.onClickFiltrar = function () {
+vueAppParams.methods.filtrar = function () {
 
     this.loadGrid(false);
 
 }
 
-vueAppParams.methods.obtenerColadaInicialSinFecha = function () {
-    $.ajax({
-        url: "/Reportes/obtenerColadaSinFecha",
-        method: "GET",
-        success: function (data) {
-            vueApp.coladaInicial = data.content;
-            vueApp.loadingColadaInicial = false;
-        },
-        error: defaultErrorHandler
-    }).done(() => { vueApp.loadingColadaInicial = false; });
-}
+vueAppParams.methods.obtenerPacientes = function () {
 
-vueAppParams.methods.obtenerColadaInicial = function () {
-
-    var cantidadColadas = vueApp.gridData.length;
-    for (i = 0; i < cantidadColadas; i++) {
-        if (!vueApp.gridData[i].colada.includes('BACKUP')) {
-            vueApp.coladaInicial.push({
-                //id: vueApp.gridData[i].id,
-                nombre: vueApp.gridData[i].colada
-            });
-        }
-    }
-    vueApp.coladaInicial.sort((a, b) => (a.nombre > b.nombre) ? 1 : ((b.nombre > a.nombre) ? -1 : 0));
-    vueApp.loadingColadaInicial = false;
-}
-
-vueAppParams.methods.isDisabled = function () {
-    if (vueAppParams.data.mostrarFecha != true) {
-        return true
-    } 
-};
-
-vueAppParams.methods.onClickObtenerColadaFinal = function (value, ci) {
-    if (vueApp.filtros.coladaFinalSeleccionado != null || vueApp.filtros.coladaFinalSeleccionado != '') {
-        vueApp.coladaFinal = [];
-    }
-    var colaFinal = 0;
-    var cantidadColadas = ci.length;
-    for (i = 0; i < cantidadColadas; i++) {
-        colaFinal = parseInt(ci[i].nombre);
-        if (colaFinal >= parseInt(value)) {
-        vueApp.coladaFinal.push({            
-            //id: vueApp.gridData[i].id,
-            nombre: ci[i].nombre
-        });
-    }
-    }
-    vueApp.coladaFinal.sort((a, b) => (a.nombre > b.nombre) ? 1 : ((b.nombre > a.nombre) ? -1 : 0));
-    vueApp.loadingColadaFinal = false;
-}
-
-vueAppParams.methods.obtenerCesta = function () {
-    var cantCesta = vueApp.gridData.length;
-    for (i = 0; i < cantCesta; i++) {
-        vueApp.cesta.push({
-            nombre: vueApp.gridData[i].cesta
-        });
-    }
-    vueApp.cesta.sort((a, b) => (a.nombre > b.nombre) ? 1 : ((b.nombre > a.nombre) ? -1 : 0));
-    vueApp.loadingCesta = false;
-};
-
-vueAppParams.methods.obtenerVia = function () {
+    vueApp.loadingPacientes = true;
 
     $.ajax({
-        url: "/Reportes/ObtenerVia",
+        url: "/Reportes/ObtenerPacientes",
         method: "GET",
         success: function (data) {
-            vueApp.via = data.content;
-            vueApp.loadingVia = false;
+            vueApp.pacientes = data.content;
+            vueApp.loadingPacientes = false;
         },
         error: defaultErrorHandler
-    }).done(() => { vueApp.loadingVia = false; });
+    }).done(() => { vueApp.loadingPacientes = false; });
+}
 
-};
+vueAppParams.methods.obtenerMedicos = function () {
 
-vueAppParams.methods.obtenerEstado = function () {
+    vueApp.loadingMedicos = true;
+    
     $.ajax({
-        url: "/Reportes/ObtenerEstado",
+        url: "/Reportes/ObtenerMedicos",
         method: "GET",
         success: function (data) {
-            vueApp.estado = data.content;
-            vueApp.loadingEstado = false;
+            vueApp.medicos = data.content;
+            vueApp.loadingMedicos = false;
         },
         error: defaultErrorHandler
-    }).done(() => { vueApp.loadingEstado = false; });
+    }).done(() => { vueApp.loadingMedicos = false; });
+}
+
+vueAppParams.methods.obtenerVacunas = function () {
+
+    vueApp.loadingVacunas = true;
+
+    $.ajax({
+        url: "/Reportes/ObtenerVacunas",
+        method: "GET",
+        success: function (data) {
+            vueApp.vacunas = data.content;
+            vueApp.loadingVacunas = false;
+        },
+        error: defaultErrorHandler
+    }).done(() => { vueApp.loadingVacunas = false; });
 }
 
 
 vueAppParams.methods.loadGrid = function (isDefault) {
 
     var filters = {};
-    var fechaDesde;
-    var fechaHasta = "";
+    var fecha;
 
-    if (isDefault) {
-       
-        filters = { idEstado: null, idVia: null, idColadaInicial: null, idColadaFinal: null, cesta: null, fechaDesde: vueAppParams.data.fechaDesdeSeleccionada, fechaHasta: vueAppParams.data.fechaHastaSeleccionada }
+    vueApp.loadingAplicaciones = true;
+
+    if (vueAppParams.data.mostrarFecha == true) {
+        fecha = vueApp.filtros.fechaSeleccionada;
     }
-    else {
-        vueApp.loadingReportes = true;
-               
-        if (vueAppParams.data.mostrarFecha == true) {           
-            fechaDesde = vueApp.filtros.fechaDesdeSeleccionada;
-            fechaHasta = vueApp.filtros.fechaHastaSeleccionada;
-        }        
-     
-        filters = { idEstado: parseInt(vueApp.filtros.estadoSeleccionado), idVia: vueApp.filtros.viaSeleccionado, idColadaInicial: vueApp.filtros.coladaInicialSeleccionado, idColadaFinal: vueApp.filtros.coladaFinalSeleccionado, cesta: vueApp.filtros.cestaSeleccionado, fechaDesde: fechaDesde, fechaHasta: fechaHasta }
-    }
+
+    filters = { idMedico: vueApp.filtros.medico, idPaciente: vueApp.filtros.paciente, idVacuna: vueApp.filtros.idVacuna, fecha: fecha }
 
     $.ajax({
-        url: "/Reportes/ObtenerReporteCargaCestas",
+        url: "/Reportes/ObtenerVacunaciones",
         method: "POST",
         data: filters,
         success: function (data) {
             vueApp.gridData = data.content;
-            if (isDefault) {
-                vueApp.gridDataDefault = data.content;
-            }
-           
-            if (vueAppParams.data.mostrarFecha == true) {
-                vueApp.obtenerColadaInicial(); 
-            }
-          
-            vueApp.loadingReportes = false;
-            vueApp.obtenerCesta();           
+            vueApp.obtenerMedicos;
+            vueApp.obtenerPacientes;
+            vueApp.obtenerVacunas;
         },
         error: defaultErrorHandler
     }).done(() => {
@@ -281,24 +164,16 @@ vueAppParams.methods.loadGrid = function (isDefault) {
 };
 
 
-vueAppParams.methods.onClickExportar = function () {
+vueAppParams.methods.exportar = function () {
 
     vueApp.loadingExportar = true;
     return new Promise(resolve => {
-        var fechaDesde = "";
-        var fechaHasta = "";
-        if (vueAppParams.data.mostrarFecha == true) {
-            fechaDesde = vueApp.filtros.fechaDesdeSeleccionada;
-            fechaHasta = vueApp.filtros.fechaHastaSeleccionada;
-        }
+        var fecha = "";
 
-        var urlToSend = "/Reportes/ExportarReporteCargaCestas?fechaDesde=" + fechaDesde
-            + "&fechaHasta=" + fechaHasta
-            + "&idVia=" + vueApp.filtros.viaSeleccionado
-            + "&idEstado=" + parseInt(vueApp.filtros.estadoSeleccionado)
-            + "&idColadaInicial=" + vueApp.filtros.coladaInicialSeleccionado
-            + "&idColadaFinal=" + vueApp.filtros.coladaFinalSeleccionado
-            + "&cesta=" + vueApp.filtros.cestaSeleccionado;
+        var urlToSend = "/Reportes/Exportar?fecha=" + fecha
+            + "&idMedico=" + vueAppParams.data.medico
+            + "&idPaciente=" + vueAppParams.data.paciente
+            + "&idVacuna=" + vueAppParams.data.vacuna
 
 
         var req = new XMLHttpRequest();

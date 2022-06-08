@@ -12,7 +12,7 @@ vueAppParams.methods.onClickCerrarSesion = function () {
         method: 'GET',
         success: function (data) {
             if (data.result == AJAX_OK) {
-                window.location = '/Home/Index';
+                window.location = '/Aplicaciones/Listado';
             }
         },
         error: defaultErrorHandler,

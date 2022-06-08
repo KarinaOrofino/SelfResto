@@ -41,6 +41,7 @@ namespace KO.Datos.Implementacion
                             {
                                 Id = int.Parse(dataRow["Id"].ToString()),
                                 Nombre = dataRow["Nombre"].ToString(),
+                                IdMarca = int.Parse(dataRow["IdMarca"].ToString()),
                                 Marca = dataRow["Marca"].ToString(),
                                 Estado = (bool)dataRow["Estado"]
                             };

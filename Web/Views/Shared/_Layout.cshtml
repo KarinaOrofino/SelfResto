@@ -42,9 +42,39 @@
 
             @if (User.Identity.IsAuthenticated)
             {
-                <v-footer app style="font-size:13px">
-                    {{jsglobals.PieDeAplicacion}}
-                </v-footer>
+        <v-footer app style="font-size:13px">
+            <v-row class="justify-space-between">
+                <v-col class="blue--text">
+                    <v-avatar size="30">
+                        <img src="~/images/logo-avatar2.png"
+                             alt="Vacunatorio" />
+                    </v-avatar>
+                    {{jsglobals.VacunatorioProtevac}}
+                </v-col>
+                <v-col class="blue--text text-center">
+                    <ul style=" list-style-type: none; display:inline">
+                        <li style="display:inline">
+                            <a href="">
+                                <v-avatar size="25">
+                                    <img src="~/images/facebook.png" />
+                                </v-avatar>
+                            </a>
+                        </li>
+                        <li style="display:inline">
+                            <a href="">
+                                <v-avatar size="28">
+                                    <img src="~/images/instagram.png" />
+                                </v-avatar>
+                            </a>
+
+                        </li>
+                    </ul>
+                </v-col>
+
+
+                    <v-col class="blue--text text-end mt-2">{{jsglobals.RealizadoPorKarinaOrofino}}</v-col>
+            </v-row>
+        </v-footer>
             }
         </v-app>
 

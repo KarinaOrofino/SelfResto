@@ -110,6 +110,7 @@ namespace Web.Controllers.vacunas
                     Id = vac.Id,
                     Nombre = vac.Nombre.ToUpper(),
                     Marca = vac.Marca,
+                    IdMarca = vac.IdMarca,
                     Estado = vac.Estado
 
                 }).OrderBy(vacuna => vacuna.Nombre).ToList();

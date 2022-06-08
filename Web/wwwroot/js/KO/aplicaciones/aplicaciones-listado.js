@@ -1,38 +1,27 @@
 ﻿//Model
 vueAppParams.data.gridData = [];
 vueAppParams.data.listadoFiltrado = [];
-vueAppParams.data.loadingMedicos = true;
+vueAppParams.data.listaParaExportar = [];
+vueAppParams.data.loadingAplicaciones = true;
 vueAppParams.data.loadingExportar = false;
-vueAppParams.data.dialogActivar = false;
-vueAppParams.data.dialogInactivar = false;
-vueAppParams.data.medicoAActivar = '';
-vueAppParams.data.medicoAInactivar = '';
-
+vueAppParams.data.expanded = [];
 vueAppParams.data.search = '';
-vueAppParams.data.filtros = {
-
-    matricula: '',
-    nombre: '',
-    apellido: '',
-    estado: '',
-
-};
-vueAppParams.data.filtros.estado = 0;
 
 vueAppParams.data.headers = [
 
-    { text: jsglobals.Matricula, value: 'matricula', align: 'center', class: 'protevac-headers' },
-    { text: jsglobals.Nombre, value: 'nombre', align: 'center', class: 'protevac-headers' },
-    { text: jsglobals.Apellido, value: 'apellido', align: 'center text-uppercase', class: 'protevac-headers' },
-    { text: jsglobals.Estado, value: 'estado', align: 'center text-uppercase', class: 'protevac-headers' },
+    { value: 'id', align: ' d-none' },
+    { text: jsglobals.Fecha, value: 'fechaString', align: '', class: 'protevac-headers' },
+    { text: jsglobals.Paciente, value: 'nombrePaciente', align: '', class: 'protevac-headers upper' },
+    { text: jsglobals.Medico, value: 'nombreMedico', align: '', class: 'protevac-headers' },
+    { text: jsglobals.Vacuna, value: 'listaDetalles', align: ' d-none', class: 'protevac-headers' },
     { text: jsglobals.Acciones, value: 'acciones', align: 'center text-uppercase', class: 'protevac-headers' }
 
 ];
 
 vueAppParams.data.breadcrums = [
     { text: jsglobals.Inicio, disabled: false, href: '/Home/Index' },
-    { text: jsglobals.Medicos, disabled: false, href: '/Medicos/Listado' },
-    { text: jsglobals.Listado, disabled: true, href: '' }
+    { text: jsglobals.Aplicaciones, disabled: true },
+    { text: jsglobals.Listado, disabled: true }
 ];
 
 // Mounted
@@ -40,23 +29,10 @@ vueAppParams.mounted = function () {
     this.loadGrid(true);
 };
 
-// Metodos
-
-vueAppParams.methods.filtrarPorEstado = function () {
-
-    if (vueAppParams.data.filtros.estado === 0) {
-        vueApp.listadoFiltrado = vueApp.gridData;
-    }
-    else {
-        vueApp.listadoFiltrado = vueApp.gridData.filter(m => m.estado == vueAppParams.data.filtros.estado);
-    }
-};
-
-
 vueAppParams.methods.loadGrid = function () {
 
     $.ajax({
-        url: "/Medicos/ObtenerTodos",
+        url: "/Aplicaciones/ObtenerTodas",
         method: "GET",
         success: function (data) {
             vueApp.gridData = data.content;
@@ -64,87 +40,46 @@ vueAppParams.methods.loadGrid = function () {
         },
         error: defaultErrorHandler,
         complete: function () {
-            vueApp.loadingMedicos = false;
+            vueApp.loadingAplicaciones = false;
         }
     }).done(() => {
-        vueApp.loadingMedicos = false;
+        vueApp.loadingAplicaciones = false;
     });
 };
 
-// Metodos
-vueAppParams.methods.onClickNuevo = function (event) {
+vueAppParams.methods.colapsar = function () {
+
+    vueAppParams.data.expanded = [];
+
+};
+
+vueAppParams.methods.agregarAplicacion= function (event) {
     window.location = "Detalle/";
 };
 
-vueAppParams.methods.onClickInactivar = function (item) {
-
-    vueAppParams.data.dialogInactivar = true;
-    vueAppParams.data.medicoAInactivar = item;
-};
-
-vueAppParams.methods.onClickConfirmaInactivar = function (matricula) {
-
-    vueAppParams.data.dialogInactivar = false;
-
-    var indiceMedicoAInactivar = vueApp.gridData.findIndex(med => med.matricula == matricula)
-    vueApp.gridData[indiceMedicoAInactivar].estado = false;
+vueAppParams.methods.eliminarAplicacion = function (id) {
 
     $.ajax({
-        url: "/Medicos/Inactivar?matricula=" + matricula,
+        url: "/Aplicaciones/Eliminar/?idAplicacion=" + id,
         method: "GET",
         success: function (data) {
             vueApp.notification.showSuccess(jsglobals.MensajeDatosInactivadosOk);
-            setTimeout(function () { /*window.location = '/Medicos/Listado'*/ });
+            setTimeout(function () { window.location.reload() });
         },
         error: defaultErrorHandler
     });
-
 };
 
-vueAppParams.methods.onClickActivar = function (item) {
-
-    vueAppParams.data.dialogActivar = true;
-    vueAppParams.data.medicoAActivar = item;
-};
-
-vueAppParams.methods.onClickConfirmaActivar = function (matricula) {
-
-    vueAppParams.data.dialogActivar = false;
-
-    var indiceMedicoAActivar = vueApp.gridData.findIndex(med => med.matricula == matricula)
-    vueApp.gridData[indiceMedicoAActivar].estado = true;
-
-    $.ajax({
-        url: "/Medicos/Activar?matricula=" + matricula,
-        method: "GET",
-        success: function (data) {
-            vueApp.notification.showSuccess(jsglobals.MensajeDatosActivadosOk);
-            setTimeout(function () { /*window.location = '/Medicos/Listado'*/ });
-        },
-        error: defaultErrorHandler
-    });
-
-};
-
-vueAppParams.methods.editar = function (matricula) {
-
-    window.location = "/Medicos/Detalle/?matricula=" + matricula;
-};
-
-
-vueAppParams.methods.onClickExportar = function () {
+vueAppParams.methods.exportarAplicaciones = function () {
     vueApp.loadingExportar = true;
 
-    var filters = "?matricula=" + vueApp.filtros.matricula
-        + "&nombre=" + vueApp.filtros.nombre
-        + "&apellido=" + vueApp.filtros.apellido
-        + "&estado=" + vueApp.filtros.estado;
-
     return new Promise(resolve => {
-        var urlToSend = "/Medicos/Exportar" + filters;
 
+        const term = this.search.toLowerCase();
+
+        var urlToSend = "/Aplicaciones/Exportar?campoBusqueda=" + term;
         var req = new XMLHttpRequest();
-        req.open("GET", urlToSend, true);
+        req.open("GET", urlToSend);
         req.responseType = "blob";
         req.onload = function (event) {
             var blob = req.response;
@@ -155,7 +90,7 @@ vueAppParams.methods.onClickExportar = function () {
             var fecha = new Date();
             var fechaLocal = fecha.toLocaleDateString();
             var fechaLocalSlash = fechaLocal.replaceAll("/", "-")
-            var fileName = "ReporteMedicos_" + fechaLocalSlash;
+            var fileName = "ReporteAplicaciones_" + fechaLocalSlash;
             var link = document.createElement("a");
             link.href = window.URL.createObjectURL(blob);
             link.download = fileName;
@@ -163,7 +98,7 @@ vueAppParams.methods.onClickExportar = function () {
             vueApp.loadingExportar = false;
         };
 
-        req.send()
+        req.send();
 
         resolve(req.status);
     });

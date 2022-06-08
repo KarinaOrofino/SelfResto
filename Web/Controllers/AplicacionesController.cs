@@ -1,117 +1,239 @@
-﻿using KO.Entidades;
-using KO.Recursos;
-using KO.Servicios.Interfaces;
-using Framework.Common;
+﻿using Framework.Common;
 using Framework.Utils;
 using Framework.Web;
-using Microsoft.AspNetCore.Http;
+using KO.Entidades;
+using KO.Servicios.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Transactions;
+using KO.Web.Models.Aplicaciones;
+using Servicios.Interfaces;
 
-namespace KO.Web.Controllers
+namespace Web.Controllers.Aplicaciones
 {
     [Route("[controller]/[action]")]
     public class AplicacionesController : BaseController
     {
-        #region Propiedades de servicio
-        //public AplicacionesController(IServicioGenerico servicioGenerico, IServicioIntegraciones servicioIntegraciones, IConfiguration configuration, IServicioLogEventos servicioLogEventos)
-        //{
-        //    this._servicioGenerico = servicioGenerico;
-        //    this._servicioIntegraciones = servicioIntegraciones;
-        //    this.Configuration = configuration;
-        //    this._servicioLogEventos = servicioLogEventos;
-        //}
+        #region Propiedades
+
+        private IServicioVAplicaciones ServicioAplicaciones { get; set; }
+
+        private IServicioVPacientes ServicioPacientes { get; set; }
+
+        public TextInfo myCapitalize = new CultureInfo("es-AR", false).TextInfo;
+
+        public AplicacionesController(IServicioVAplicaciones servicioAplicaciones, IServicioVPacientes servicioPacientes)
+        {
+            this.ServicioAplicaciones = servicioAplicaciones;
+            this.ServicioPacientes = servicioPacientes;
+        }
         #endregion
 
-        #region Páginas
+        #region Páginas 
 
         [HttpGet]
-        public IActionResult Listado()
+        public async Task<IActionResult> Listado()
         {
+            try
+            {
+
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
+
             return View();
         }
 
         [HttpGet]
-        public JsonResult ObtenerFiltrados(int? Matricula, string Nombre, string Apellido, bool? Estado)
+        public async Task<IActionResult> Detalle()
         {
-            JsonData jsonData = new ();
+            AplicacionViewModel aplicacionVM = new();
+            try
+            {
+                
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
 
-            //try
-            //{
-            //    List<Medico> listaMedicos = ServicioMedicos.ObtenerFiltrados(Matricula, Nombre, Apellido, Estado).ToList();
+            return View(aplicacionVM);
+        }
 
-            //    List<MedicoViewModel> listaMedicosVM = new List<MedicoViewModel>();
+        [HttpPost]
+        public async Task<IActionResult> Detalle(int id)
+        {
+            AplicacionViewModel aplicacionVM = new();
 
-            //    listaMedicosVM = listaMedicos.Select(med => new MedicoViewModel()
-            //    {
-            //        Matricula = med.Matricula,
-            //        Nombre = med.Nombre,
-            //        Apellido = med.Apellido,
-            //        Estado = med.Estado
+            try
+            {
+                    Aplicacion aplicacion = ServicioAplicaciones.Obtener(id);
+                    aplicacionVM.Id = aplicacion.Id;
+                    aplicacionVM.Fecha = aplicacion.Fecha;
+                    aplicacionVM.IdPaciente = aplicacion.IdPaciente;
+                    aplicacionVM.IdMedico = aplicacion.IdMedico;
+                    aplicacionVM.ListaPacientes = ServicioPacientes.ObtenerTodos().ToList();
+            }
 
-            //    }).OrderBy(medico => medico.Apellido).ToList();
+            catch (Exception ex)
+            {
+                log.Error("No se pudo obtener la aplicación con id: " + id, ex);
+                Response.StatusCode = Constantes.ERROR_HTTP;
+                return Redirect("/Home/Error");
+            }
 
-            //    jsonData.content = listaMedicosVM;
-            //    jsonData.result = JsonData.Result.Ok;
-            //}
-            //catch (Exception ex)
-            //{
-            //    log.Error("No se pudo obtener la lista de médicos", ex);
-            //    Response.StatusCode = Constantes.ERROR_HTTP;
-            //    jsonData.errorUi = "No se pudo obtener la lista de médicos";
-            //    jsonData.result = JsonData.Result.Error;
+            return View(aplicacionVM);
+        }
 
-            //}
+        #endregion
+
+        #region Métodos Pantalla Listado 
+
+        [HttpGet]
+        public JsonResult ObtenerTodas()
+        {
+            JsonData jsonData = new();
+
+            try
+            {
+                List<Aplicacion> listaAplicaciones = ServicioAplicaciones.ObtenerTodas().ToList();
+
+                List<AplicacionViewModel> listaAplicacionesVM = new();
+
+                listaAplicacionesVM = listaAplicaciones.Select(app => new AplicacionViewModel()
+                {
+                    Id = app.Id,
+                    Fecha = app.Fecha,
+                    FechaString = app.Fecha.ToShortDateString(),
+                    IdPaciente = app.IdPaciente,
+                    NombrePaciente = app.NombrePaciente,
+                    IdMedico = app.IdMedico,
+                    NombreMedico = app.NombreMedico,
+                    ListaDetalles = ServicioAplicaciones.ObtenerVacunasPorAplicacion(app.Id),
+
+                }).OrderByDescending(ap=>ap.Fecha).ToList();
+
+                jsonData.content = listaAplicacionesVM;
+                jsonData.result = JsonData.Result.Ok;
+            }
+
+            catch (Exception ex)
+            {
+                log.Error("No se pudo obtener la lista de aplicaciones", ex);
+                Response.StatusCode = Constantes.ERROR_HTTP;
+                jsonData.errorUi = "No se pudo obtener la lista de vacunas";
+                jsonData.result = JsonData.Result.Error;
+            }
 
             return Json(jsonData);
         }
 
-        //[Route("{id}")]
-        //[HttpGet]
-        //public JsonResult ObtenerCestas(int id)
-        //{
-        //    JsonData jsonData = new JsonData();
-        //    try
-        //    {
-        //        List<CapasReceta> capasRecetas = _servicioGenerico.GetAll<CapasReceta>(c => c.IdReceta == id).ToList();
-        //        List<List<CapaViewModel>> cestas = new();
-        //        var capasAgrupadas = capasRecetas.GroupBy(x => x.NumeroCarga);
+        [HttpGet]
+        public IActionResult Exportar(string campoBusqueda)
+        {
+            try
+            {
 
-        //        foreach (var grupoCapa in capasAgrupadas)
-        //        {
-        //            List<CapaViewModel> cesta = new List<CapaViewModel>();
-        //            foreach (CapasReceta capa in grupoCapa)
-        //            {
-        //                CapaViewModel capaVM = CargarCestaVMDesdeEntidad(capa);
-        //                cesta.Add(capaVM);
-        //            }
-        //            cestas.Add(cesta);
-        //        }
+                List<Aplicacion> listaAplicaciones = ServicioAplicaciones.ObtenerFiltradas(campoBusqueda).ToList();
 
-        //        jsonData.content = cestas;
-        //        jsonData.result = JsonData.Result.Ok;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        log.Error("No se pudo obtener las capas correspondientes a la receta con id: " + id + " Error: " + ex.Message);
-        //        Response.StatusCode = Constantes.ERROR_HTTP;
-        //        jsonData.result = JsonData.Result.Error;
-        //        jsonData.errorUi = Global.ErrorGenerico;
-        //    }
+                List<AplicacionViewModel> listaAplicacionesVM = listaAplicaciones.Select(app => new AplicacionViewModel()
+                {
+                    Fecha = app.Fecha,
+                    FechaString = app.Fecha.ToShortDateString(),
+                    NombrePaciente = app.NombrePaciente,
+                    NombreMedico = app.NombreMedico,
+                    NombreVacuna = app.NombreVacuna,
+                    MarcaVacuna = app.MarcaVacuna
 
-        //    return Json(jsonData);
-        //}
+                }).OrderByDescending(e=>e.Fecha).ToList();
 
+                var listaReducida = listaAplicacionesVM.Select(app => new
+                {
 
+                    Fecha = app.FechaString,
+                    app.NombrePaciente,
+                    app.NombreMedico,
+                    app.NombreVacuna,
+                    app.MarcaVacuna
+
+                }).ToList();
+
+                var fileBytes = CreateExcelFile.CreateExcelDocumentAsByte(listaReducida);
+                log.Info("Método crear excel OK");
+                this.HttpContext.Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                this.HttpContext.Response.Headers.Add("content-disposition", "attachment");
+                return File(fileBytes, this.HttpContext.Response.ContentType);
+            }
+            catch (Exception ex)
+            {
+                this.HttpContext.Response.StatusCode = Constantes.ERROR_HTTP;
+                log.Error(ex);
+            }
+
+            return Content(string.Empty);
+        }
         #endregion
 
-        #region Privados
+        #region Métodos Pantalla Detalle
+
+        public JsonResult Agregar(AplicacionViewModel aplicacionVM)
+        {
+            JsonData jsonData = new();
+            Aplicacion aplicacion = new();
+
+            try
+            {
+                aplicacion.Fecha = aplicacionVM.Fecha;
+                aplicacion.IdPaciente = aplicacionVM.IdPaciente;
+                aplicacion.IdMedico = aplicacionVM.IdMedico;
+                aplicacion.ListaIdsVacunas = aplicacionVM.ListaIdsVacunas;
+
+                ServicioAplicaciones.Agregar(aplicacion);
+
+                jsonData.result = JsonData.Result.Ok;
+            }
+
+            catch (Exception ex)
+            {
+                log.Error("No se pudo guardar la aplicacion. Error: ", ex);
+                Response.StatusCode = Constantes.ERROR_HTTP;
+            }
+
+            return Json(jsonData);
+        }
+
+        public JsonResult Eliminar(int idAplicacion)
+        {
+            JsonData jsonData = new();
+
+            try
+            {
+
+                ServicioAplicaciones.Eliminar(idAplicacion);
+
+                jsonData.result = JsonData.Result.Ok;
+            }
+
+            catch (Exception ex)
+            {
+                log.Error("No se pudo actualizar la aplicación, Error: ", ex);
+                Response.StatusCode = Constantes.ERROR_HTTP;
+            }
+
+            return Json(jsonData);
+        }
+
+  
         #endregion
+
+
+
+
     }
 }
+

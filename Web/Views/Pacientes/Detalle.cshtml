@@ -73,8 +73,7 @@
                                                 offset-y
                                                 min-width="auto">
                                             <template v-slot:activator="{ on, attrs }">
-                                                <v-text-field 
-                                                              :value="formatoFecha(filtros.FechaNacimientoSeleccionada)"
+                                                <v-text-field :value="formatoFecha(filtros.FechaNacimientoSeleccionada)"
                                                               :label="jsglobals.FechaNacimiento"
                                                               prepend-icon="mdi-calendar"
                                                               :hint="jsglobals.Formato"
@@ -85,6 +84,7 @@
                                                            no-title
                                                            scrollable
                                                            locale="es-419"
+                                                           :max="hoy()"
                                                            @@input="menuFechaNacimiento = false">
                                             </v-date-picker>
                                         </v-menu>

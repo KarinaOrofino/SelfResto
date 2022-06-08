@@ -152,7 +152,6 @@ namespace Web.Controllers.Pacientes
 
                 var listaReducida = listaPacientesVM.Select(pac => new
                 {
-                    pac.Id,
                     pac.Nombre,
                     pac.Apellido,
                     pac.ObraSocial,

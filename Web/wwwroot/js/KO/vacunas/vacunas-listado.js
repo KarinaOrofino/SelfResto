@@ -66,7 +66,7 @@ vueAppParams.methods.loadGrid = function () {
     });
 };
 
-vueAppParams.methods.onClickToggleAll = function () {
+vueAppParams.methods.toggleAll = function () {
     vueApp.agrupadosColapsados = !vueApp.agrupadosColapsados;
     Object.entries(vueApp.groupable).forEach(item => {
         if (item[1].isOpen == vueApp.agrupadosColapsados) {

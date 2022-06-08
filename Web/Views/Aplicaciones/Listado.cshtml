@@ -1,327 +1,115 @@
-﻿@model KO.Web.Models.Medicos.MedicoViewModel
-section scripts
+﻿@model KO.Web.Models.Aplicaciones.AplicacionViewModel
+
+@section scripts
 {
-<script type="text/javascript" src="~/js/KO/aplicaciones/aplicaciones-listado.js"></script>
+    <script type="text/javascript" asp-src-include="~/js/KO/aplicaciones/aplicaciones-listado.js" asp-append-version="true"></script>
 }
-
-<link rel="stylesheet" href="~/css/vacunatorio.css" />
-
-<!--Filtros-->
-<v-row class="pb-0 mb-0 d-flex justify-center align-center ml-7 mr-7">
-    <v-col cols="1"></v-col>
-    <v-col cols="12" class="pb-0 mb-0">
-        <v-expansion-panels>
-            <v-expansion-panel elevation="2" class="pb-0 text-subtitle-2" style="color: #4074a5;">
-                <v-expansion-panel-header class="pb-0 pt-0">
-                    {{jsglobals.Filtros}}
-                </v-expansion-panel-header>
-                <v-expansion-panel-content>
-                    <v-row dense class="mt-0 mb-0 pt-0 pb-0">
-
-                        <v-col cols="8"
-                               sm="4"
-                               md="2"
-                               lg="2">
-                            <v-menu v-model="menuDesde"
-                                    :disabled=isDisabled()
-                                    :close-on-content-click="false"
-                                    :nudge-right="40"
-                                    transition="scale-transition"
-                                    offset-y
-                                    min-width="auto">
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-text-field v-model="filtros.fechaDesdeSeleccionada"
-                                                  :value="filtros.fechaDesdeSeleccionada"
-                                                  :disabled=isDisabled()
-                                                  :label="jsglobals.FechaDesde"
-                                                  :hint="jsglobals.Formato"
-                                                  persistent-hint
-                                                  prepend-icon="mdi-calendar"
-                                                  @@change="fechaDesdeSeleccionada = analizarFecha(filtros.fechaDesdeSeleccionada)"
-                                                  v-bind="attrs"
-                                                  v-on="on"></v-text-field>
-                                </template>
-                                <v-date-picker v-model="fechaDesdeSeleccionada"
-                                               :disabled=isDisabled()
-                                               no-title
-                                               scrollable
-                                               locale="es-419"
-                                               :max="fechaHastaSeleccionada"
-                                               @@blur="menuDesde = false">
-                                </v-date-picker>
-                            </v-menu>
-                        </v-col>
-                        <v-col cols="4" lg="1" md="1" sm="2" class="pb-0 mr-md-3 mr-lg-0 pr-lg-3">
-                            <v-text-field class=""
-                                          v-model="filtros.horaDesdeSeleccionada"
-                                          :disabled=isDisabled()
-                                          :label="jsglobals.HoraDesde"
-                                          type="time">
-                            </v-text-field>
-                        </v-col>
-                        <v-col cols="8" lg="2"
-                               sm="4"
-                               md="2">
-                            <v-menu v-model="menuHasta"
-                                    :disabled=isDisabled()
-                                    :close-on-content-click="false"
-                                    :nudge-right="40"
-                                    transition="scale-transition"
-                                    offset-y
-                                    min-width="auto">
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-text-field v-model="filtros.fechaHastaSeleccionada"
-                                                  :value="filtros.fechaHastaSeleccionada"
-                                                  :disabled=isDisabled()
-                                                  :label="jsglobals.FechaHasta"
-                                                  :hint="jsglobals.Formato"
-                                                  persistent-hint
-                                                  prepend-icon="mdi-calendar"
-                                                  @@change="fechaHastaSeleccionada = analizarFecha(filtros.fechaHastaSeleccionada)"
-                                                  v-bind="attrs"
-                                                  v-on="on"></v-text-field>
-                                </template>
-                                <v-date-picker v-model="fechaHastaSeleccionada"
-                                               :disabled=isDisabled()
-                                               no-title
-                                               scrollable
-                                               locale="es-419"
-                                               :min="fechaDesdeSeleccionada"
-                                               :max="hoy()"
-                                               @@blur="menuHasta = false">
-                                </v-date-picker>
-                            </v-menu>
-                        </v-col>
-                        <v-col cols="4" lg="1" md="1" sm="2" class="pb-0 mr-md-3 mr-lg-0 pr-lg-3">
-                            <v-text-field v-model="filtros.horaHastaSeleccionada"
-                                          :disabled=isDisabled()
-                                          :label="jsglobals.HoraHasta"
-                                          type="time">
-                            </v-text-field>
-                        </v-col>
-                        <v-col cols="12" lg="2" md="2" sm="4" class="pb-0">
-                            <v-autocomplete v-model="filtros.coladaInicialSeleccionado"
-                                            :items="coladaInicial"
-                                            item-text="nombre"
-                                            :label="jsglobals.ColadaInicial"
-                                            :loading="loadingColadaInicial"
-                                            :no-data-text="jsglobals.SinDatos"
-                                            @@input="onClickObtenerColadaFinal(filtros.coladaInicialSeleccionado, coladaInicial)"
-                                            @@change="onClickLimpiarFiltros('coladaFinalSeleccionado')">
-
-                            </v-autocomplete>
-                        </v-col>
-                        <v-col cols="12" lg="2" md="2" sm="4" class="pb-0">
-                            <v-autocomplete v-model="filtros.coladaFinalSeleccionado"
-                                            :items="coladaFinal"
-                                            item-text="nombre"
-                                            item-value="id"
-                                            :label="jsglobals.ColadaFinal"
-                                            :no-data-text="jsglobals.SinDatos"
-                                            :loading="loadingReportes">
-                            </v-autocomplete>
-                        </v-col>
-                        <v-col cols="12" lg="2" md="1" sm="4" class="pb-0">
-                            <v-select v-model="filtros.cestaSeleccionado"
-                                      :items="cesta"
-                                      item-text="nombre"
-                                      :label="jsglobals.Cesta"
-                                      :loading="loadingCesta"
-                                      :no-data-text="jsglobals.SinDatos">
-                            </v-select>
-                        </v-col>
-                        <v-col cols="12" lg="3" md="3" sm="5" class="pb-0 pt-md-4 pt-sm-0">
-                            <v-layout row class="flex: nowrap pl-4 pt-0 pb-0">
-                                <v-radio-group row :label='jsglobals.Via + ": "' v-model="filtros.viaSeleccionado">
-                                    <div class="pt-4 pl-3 row">
-                                        <v-radio v-for="i in via"
-                                                 :key="i.id"
-                                                 :label="i.nombre"
-                                                 :value="i.id"></v-radio>
-                                    </div>
-                                </v-radio-group>
-                            </v-layout>
-                        </v-col>
-                        <v-col cols="12" lg="4" sm="7" md="5" class="pb-0 pt-md-4 pt-sm-0 ">
-                            <v-layout row class="flex: nowrap pl-4 pt-0 pb-0">
-                                <v-radio-group row :label='jsglobals.Chequeada + ": "' v-model="filtros.estadoSeleccionado">
-                                    <div class="pt-4 pl-3 row">
-                                        <v-radio v-for="i in estado"
-                                                 :key="i.id"
-                                                 :label="i.nombre"
-                                                 :value="i.id"></v-radio>
-                                    </div>
-                                </v-radio-group>
-                            </v-layout>
-                        </v-col>
-                        <v-col cols="12" lg="5" md="4" sm="12" dense class="pb-0 pt-sm-0 pt-4 pt-md-4 mt-4">
-                            <v-tooltip bottom>
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-btn class="float-right"
-                                           :loading="loadingReportes"
-                                           v-on="on"
-                                           v-on:click="onClickFiltrar()"
-                                           color="primary"
-                                           small
-                                           elevation="2">
-                                        <v-icon small class="pr-1">
-                                            mdi-magnify
-                                        </v-icon>
-                                        {{jsglobals.Buscar}}
-                                    </v-btn>
-                                </template>
-                                <span>{{jsglobals.AplicarFiltros}}</span>
-                            </v-tooltip>
-                            <v-tooltip bottom>
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-btn class="float-right mr-3"
-                                           v-bind="attrs"
-                                           v-on="on"
-                                           v-on:click="onClickLimpiarFiltros('todos')"
-                                           color="primary"
-                                           small
-                                           elevation="2">
-                                        <v-icon small class="pr-1">mdi-autorenew</v-icon>
-                                        {{jsglobals.Limpiar}}
-                                    </v-btn>
-                                </template>
-                                <span>{{jsglobals.LimpiarFiltros}}</span>
-                            </v-tooltip>
-                        </v-col>
-                    </v-row>
-                </v-expansion-panel-content>
-            </v-expansion-panel>
-        </v-expansion-panels>
-    </v-col>
-    <v-col cols="1"></v-col>
-</v-row>
-<!--Botones y filterChips-->
-<v-row class="pb-0 pt-0 mb-0 mt-0 d-flex justify-center align-center ml-7 mr-7">
-    @* <v-col cols="1"></v-col>*@
-    <v-col class="pb-0 pt-0" cols="12">
-        <v-chip v-if="mostrarFecha == false "
-                close
-                class="ma-2 filterChip"
-                @@click:close="onClickLimpiarFiltros('todos')">
-
-            {{jsglobals.Filtros}}: {{ jsglobals.FiltroSinFecha}}
-        </v-chip>
-        <v-chip v-if="filtros.fechaDesdeSeleccionada != '' && mostrarFecha == true"
-                close
-                class="ma-2 filterChip"
-                @@click:close="onClickLimpiarFiltros('fechaDesdeSeleccionada')">
-
-            {{jsglobals.FechaDesde}}: {{filtros.fechaDesdeSeleccionada}}
-        </v-chip>
-        <v-chip v-if="filtros.horaDesdeSeleccionada != '' && mostrarFecha == true"
-                close
-                class="ma-2 filterChip"
-                @@click:close="onClickLimpiarFiltros('horaDesdeSeleccionada')">
-
-            {{jsglobals.HoraDesde}}: {{filtros.horaDesdeSeleccionada + " hs"}}
-        </v-chip>
-        <v-chip v-if="filtros.fechaHastaSeleccionada != '' && mostrarFecha == true"
-                close
-                class="ma-2 filterChip"
-                @@click:close="onClickLimpiarFiltros('fechaHastaSeleccionada')">
-
-            {{jsglobals.FechaHasta}}: {{filtros.fechaHastaSeleccionada}}
-        </v-chip>
-        <v-chip v-if="filtros.horaHastaSeleccionada != '' && mostrarFecha == true"
-                close
-                class="ma-2 filterChip"
-                @@click:close="onClickLimpiarFiltros('horaHastaSeleccionada')">
-
-            {{jsglobals.HoraHasta}}: {{filtros.horaHastaSeleccionada  + " hs"}}
-        </v-chip>
-        <v-chip v-if="filtros.estadoSeleccionado != '' "
-                close
-                class="ma-2 filterChip"
-                @@click:close="onClickLimpiarFiltros('estadoSeleccionado')">
-
-            {{jsglobals.Chequeada}}: {{ estado.filter(x => x.id == filtros.estadoSeleccionado)[0].nombre }}
-        </v-chip>
-        <v-chip v-if="filtros.coladaInicialSeleccionado != '' "
-                close
-                class="ma-2 filterChip"
-                @@click:close="onClickLimpiarFiltros('coladaInicialSeleccionado')">
-            {{jsglobals.ColadaInicial}}: {{ filtros.coladaInicialSeleccionado }}
-        </v-chip>
-        <v-chip v-if="filtros.coladaFinalSeleccionado != '' "
-                class="ma-2 filterChip"
-                close
-                @@click:close="onClickLimpiarFiltros('coladaFinalSeleccionado')">
-            {{jsglobals.ColadaFinal}}: {{ filtros.coladaFinalSeleccionado }}
-        </v-chip>
-        <v-chip v-if="filtros.viaSeleccionado != '' "
-                class="ma-2 filterChip"
-                close
-                @@click:close="onClickLimpiarFiltros('viaSeleccionado')">
-            {{jsglobals.Via}}: {{via.filter(x => x.id == filtros.viaSeleccionado)[0].nombre}}
-        </v-chip>
-        <v-chip v-if="filtros.cestaSeleccionado != '' "
-                class="ma-2 filterChip"
-                close
-                @@click:close="onClickLimpiarFiltros('cestaSeleccionado')">
-            {{jsglobals.Cesta}}: {{ filtros.cestaSeleccionado }}
-        </v-chip>
-    </v-col>
-    @*<v-col cols="1"></v-col>*@
-</v-row>
+<link rel="stylesheet" asp-href-include="~/css/vacunatorio.css" />
 
 <!--Grilla-->
-<v-row class="pt-0 d-flex justify-center align-center ml-7 mr-7">
-    <v-col cols="12" class="mt-0">
-        <v-data-table :headers="headers"
-                      :items="gridData"
-                      :items-per-page="10"
-                      class="elevation-2"
-                      item-key="id"
-                      style="position: relative;"
-                      :loading="loadingReportes"
-                      :loading-text=jsglobals.ObteniendoListaDeCargas
-                      :no-data-text=jsglobals.LabelNoCoincidences
-                      :footer-props="{
+<v-row class="d-flex justify-center mt-1 mx-auto" no-gutters>
+
+    <v-col lg="4" class="mb-0 pt-3 pb-0">
+        <v-breadcrumbs :items="breadcrums" class="pb-0">
+            <template v-slot:item="{ item }">
+                <v-breadcrumbs-item :href="item.href"
+                                    :disabled="item.disabled">
+                    <span style="font-weight: bold;font-size:1.2em"> {{  item.text.toUpperCase() }}</span>
+                </v-breadcrumbs-item>
+            </template>
+        </v-breadcrumbs>
+    </v-col>
+    <v-col lg="1"></v-col>
+    <v-col lg="2" class="text-end mr-10 mt-3">
+        <v-tooltip left>
+            <template v-slot:activator="{ on, attrs }">
+                <v-btn v-bind="attrs"
+                       v-on="on"
+                       v-on:click="agregarAplicacion"
+                       color="primary"
+                       elevation="2">
+                    <v-icon small class="pr-1">mdi-plus</v-icon>
+                    {{jsglobals.Nueva}} {{jsglobals.Aplicacion}}
+                </v-btn>
+            </template>
+            <span>{{jsglobals.AgregarAplicacion}}</span>
+        </v-tooltip>
+    </v-col>
+</v-row>
+        <v-row class="d-flex justify-center align-center mt-0">
+            <v-col cols="7" class="mt-0">
+                <v-card class="my-0">
+                    <v-card-title>
+                        <v-col lg="4" sm="5" class="pt-5">
+                            <v-btn class="blue lighten-4" v-if="expanded" v-on:click="colapsar()">{{jsglobals.Colapsar}}</v-btn>
+                        </v-col>
+                        <v-spacer></v-spacer>
+                        <v-col lg="5" sm="5" class="pb-1">
+                            <v-text-field v-model="search"
+                                          append-icon="mdi-magnify"
+                                          label="Filtrar"
+                                          single-line
+                                          hide-details></v-text-field>
+                        </v-col>
+                    </v-card-title>
+                    <v-data-table :headers="headers"
+                                  dense
+                                  :items="listadoFiltrado"
+                                  :expanded.sync="expanded"
+                                  item-key="id"
+                                  :search="search"
+                                  show-expand
+                                  :items-per-page="10"
+                                  class="elevation-2 text-uppercase"
+                                  style="position: relative;"
+                                  :loading="loadingAplicaciones"
+                                  :loading-text=jsglobals.ObteniendoAplicaciones
+                                  :no-data-text=jsglobals.LabelNoCoincidences
+                                  :footer-props="{
                         'items-per-page-text':jsglobals.FilasPorPagina,
                         'items-per-page-all-text':jsglobals.Todas,
                         'items-per-page-options':[ 10,  25,  50,  -1],
-                            pageText: '{0} - {1} de {2}'
-                      }">
-            <template v-slot:header="{ props : { mobile }}">
-                <thead v-if="!mobile">
-                    <tr>
-                        <th v-for="parentHeader in parentHeaders"
-                            :class="parentHeader.class"
-                            :colspan="parentHeader.colspan"
-                            :rowspan="parentHeader.rowspan">
-                            <span>
-                                {{parentHeader.text}}
-                            </span>
-                        </th>
-                    </tr>
-                </thead>
-            </template>
+                            pageText: '{0} - {1} de {2}'}">
+                            <template v-slot:expanded-item ="{ headers, item }">
+                            <td :colspan="headers.length" class="pa-5">
+                                <p v-for="item in item.listaDetalles">
+                                    {{ item.nombre }} - {{ item.marca }}
+                                </p>
+                            </td>
+                        </template>
+                        <template v-slot:item.acciones="{ item }">
+                            <v-tooltip left>
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-icon v-on="on" v-bind="attrs" class="mr-2" v-on:click="eliminarAplicacion(item.id)" color="indigo">delete</v-icon>
+                                </template>
+                                <span>
+                                    {{jsglobals.Eliminar}}
+                                </span>
+                        </template>
+                        <template v-slot:footer>
+                            <v-tooltip bottom>
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-btn v-on:click="exportarAplicaciones()"
+                                           color="primary"
+                                           small
+                                           v-bind="attrs"
+                                           v-on="on"
+                                           elevation="2"
+                                           class="bkg-white margenMobile"
+                                           style="position: absolute; margin:15px"
+                                           :loading="loadingExportar"
+                                           :disabled="loadingExportar">
+                                        <v-icon small class="pr-1">
+                                            mdi-file-export
+                                        </v-icon>
+                                        {{jsglobals.Exportar}}
+                                    </v-btn>
+                                </template>
+                                <span>{{jsglobals.ExportarExcel}}</span>
+                            </v-tooltip>
+                        </template>
+                    </v-data-table>
+                </v-card>
+            </v-col>
+        </v-row>
 
-            <template v-slot:footer>
-                <v-tooltip bottom>
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-btn v-on:click="onClickExportar"
-                               color="primary"
-                               small
-                               v-bind="attrs"
-                               v-on="on"
-                               elevation="2"
-                               class="bkg-white margenMobile"
-                               style="position: absolute; margin:15px">
-                            <v-icon small class="pr-1">
-                                mdi-file-export
-                            </v-icon>
-                            {{jsglobals.Exportar}}
-                        </v-btn>
-                    </template>
-                    <span>{{jsglobals.ExportarExcel}}</span>
-                </v-tooltip>
-            </template>
-        </v-data-table>
-    </v-col>
-</v-row>

@@ -83,7 +83,9 @@
                                    v-on="on"
                                    elevation="2"
                                    class="bkg-white margenMobile"
-                                   style="position: absolute; margin:15px">
+                                   style="position: absolute; margin:15px"
+                                   :loading="loadingExportar"
+                                   :disabled="loadingExportar">
                                 <v-icon small class="pr-1">
                                     mdi-file-export
                                 </v-icon>

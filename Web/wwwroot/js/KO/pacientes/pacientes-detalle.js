@@ -8,7 +8,7 @@ vueAppParams.data.productoSeleccionado = [];
 vueAppParams.data.standSeleccionado = []
 
 vueAppParams.data.filtros = {
-    FechaNacimientoSeleccionada: vueAppParams.data.FechaNacimientoSeleccionada,
+    FechaNacimientoSeleccionada: vueAppParams.methods.formatoFecha(vueAppParams.data.fechaNacimiento),
 }
 
 vueAppParams.mounted = function () {
@@ -43,6 +43,8 @@ vueAppParams.methods.guardarPaciente = function () {
     vueApp.clearErrors();
     vueApp.submiting = true;
 
+    vueApp.model.FechaNacimiento = vueApp.filtros.FechaNacimientoSeleccionada;
+
     if (vueApp.model.Id == 0) {
 
         $.ajax({
@@ -72,5 +74,5 @@ vueAppParams.methods.guardarPaciente = function () {
 };
 
 vueAppParams.methods.volver = function () {
-    window.location = "/Pacientes/Listado";
+    window.history.back();
 };

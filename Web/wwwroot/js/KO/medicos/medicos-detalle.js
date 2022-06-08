@@ -83,6 +83,7 @@ vueAppParams.methods.guardarMedico = function () {
     }
 };
 
+
 vueAppParams.methods.volver = function () {
     window.location = "/Medicos/Listado";
 };
