@@ -15,7 +15,7 @@ namespace KO.Framework.Utils
             return EncryptionHelper.Encrypt(secretKey + "|" + timestamp + "|" + method);
         }
 
-        public static bool IsValidServicioRequestForMethod(ServicioRequest servicioRequest,string method)
+        public static bool IsValidServicioRequestForMethod(RequestService servicioRequest,string method)
         {
             int POS_SECRET_KEY = 0;
             int POS_TIMESTAMP = 1;

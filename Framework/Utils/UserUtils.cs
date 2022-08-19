@@ -1,6 +1,6 @@
 ﻿using Framework.Common;
 using Newtonsoft.Json;
-using KO.Entidades;
+using KO.Entities;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -26,10 +26,10 @@ namespace Framework.Utils
 
         public static bool UsuarioTienePermiso(ClaimsPrincipal user, int idFuncionalidad)
         {
-            if (!user.Claims.Any(claim => claim.Type == Constantes.CLAIMS_PERMISOS))
+            if (!user.Claims.Any(claim => claim.Type == Constants.CLAIMS_PERMISOS))
                 return false;
 
-            IList<int> permisos = JsonConvert.DeserializeObject<IList<int>>(user.Claims.First(u => u.Type == Constantes.CLAIMS_PERMISOS).Value).ToList();
+            IList<int> permisos = JsonConvert.DeserializeObject<IList<int>>(user.Claims.First(u => u.Type == Constants.CLAIMS_PERMISOS).Value).ToList();
             return permisos.Contains(idFuncionalidad);
         }
 }

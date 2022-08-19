@@ -11,16 +11,15 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Localization;
-using KO.Datos.EFScafolding;
-using KO.Datos.Interfaces;
+using KO.Data.EFScafolding;
+using KO.Data.Interfaces;
 using KO.Framework.Web;
-using KO.Recursos;
-using KO.Servicios;
-using KO.Servicios.Interfaces;
-using Servicios.Interfaces;
+using KO.Resources;
+using KO.Services;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using KO.Services.Interfaces;
 
 namespace Web
 {
@@ -40,7 +39,7 @@ namespace Web
                 .AddControllersWithViews()
                 .AddRazorRuntimeCompilation();
 
-            services.AddTransient<IAutenticacionInterna, AutenticacionInterna>();                        
+            //services.AddTransient<IAutenticacionInterna, AutenticacionInterna>();                        
             services.AddSingleton<IAppInfo, AppInfo>();
 
             var cultureInfo = new CultureInfo("es-AR");
@@ -63,35 +62,32 @@ namespace Web
                 options.AccessDeniedPath = "/Account/AccessDenied";
             });
 
-            string idApp = Configuration[Constantes.IDAPP].ToString();
+            //string idApp = Configuration[Constants.IDAPP].ToString();
 
-            services.AddAuthentication(idApp)
-                .AddCookie(idApp, options =>
-                {
-                    options.LoginPath = "/Account/Login";
-                    options.LogoutPath = "/Account/Logout";
-                });
+            //services.AddAuthentication(idApp)
+            //    .AddCookie(idApp, options =>
+            //    {
+            //        options.LoginPath = "/Account/Login";
+            //        options.LogoutPath = "/Account/Logout";
+            //    });
 
             ConfigurarMensajesDeModelo(services);
 
             services.Configure<SecurityStampValidatorOptions>(options => options.ValidationInterval = TimeSpan.FromHours(2));
 
             //Se registra el dbcontext
-            string connectionString = Configuration.GetSection("ConnectionStrings").GetSection(Constantes.DB_CONFIG_KEY).Value;
+            string connectionString = Configuration.GetSection("ConnectionStrings").GetSection(Constants.DB_CONFIG_KEY).Value;
             services.AddDbContext<KOContext>(options => options.UseSqlServer(connectionString).UseLazyLoadingProxies());
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             //Se registran los Servicios
-            services.Scan(scan => scan.FromAssemblyOf<IServicioBase>().AddClasses(false).AsMatchingInterface().WithTransientLifetime());
+            services.Scan(scan => scan.FromAssemblyOf<IBaseService>().AddClasses(false).AsMatchingInterface().WithTransientLifetime());
 
             //Se registran los Datos
-            services.Scan(scan => scan.FromAssemblyOf<IDatosBase>().AddClasses(false).AsMatchingInterface().WithTransientLifetime());
+            services.Scan(scan => scan.FromAssemblyOf<IBaseData>().AddClasses(false).AsMatchingInterface().WithTransientLifetime());
 #if DEBUG
-            services.AddTransient<IServicioAutenticacion, ServicioAutenticacionMock>();
-            services.AddTransient<IServicioLogEventos, ServicioLogEventosMock>();
-            services.AddTransient<IServicioRoles, ServicioRolesMock>();
-            services.AddTransient<IServicioSocket, ServicioSocketMock>();            
-#endif
+
+
             services.AddWebOptimizer(pipeline =>
             {
                 pipeline.MinifyJsFiles("js/**/*.js");
@@ -132,7 +128,7 @@ namespace Web
             app.UseRouting();
             app.UseAuthorization();
 
-            DefaultFilesOptions DefaultFile = new DefaultFilesOptions();
+            DefaultFilesOptions DefaultFile = new();
             DefaultFile.DefaultFileNames.Clear();
             DefaultFile.DefaultFileNames.Add("/Producto/Listado");
             app.UseDefaultFiles(DefaultFile);          
@@ -148,16 +144,12 @@ namespace Web
 
         //Realiza el seed de la base de datos para el ambiente de desarrollo
         private static void SeedDatabase(IApplicationBuilder app)
-        {   
-            using (var serviceScope = app.ApplicationServices
+        {
+            using var serviceScope = app.ApplicationServices
                 .GetRequiredService<IServiceScopeFactory>()
-                .CreateScope())
-            {
-                using (var context = serviceScope.ServiceProvider.GetService<KOContext>())
-                {
-                    KOInitializer.Initialize(context);
-                }
-            }
+                .CreateScope();
+            using var context = serviceScope.ServiceProvider.GetService<KOContext>();
+            KOInitializer.Initialize();
         }
 
         //Setea mensajes de validacion de modelo, tomandolos de Global.resx        
@@ -191,3 +183,4 @@ namespace Web
         }
     }
 }
+#endif

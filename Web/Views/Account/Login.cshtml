@@ -1,63 +1,57 @@
 ﻿@using Web.Models.Account;
-@using KO.Recursos;
+@using KO.Resources;
 
-@model LoginViewModel
+@model UserViewModel
 @{
-    ViewData["Title"] = Global.Login;
+    ViewData["Title"] = Global.LogIn;
 }
 
 <link href="~/css/login.css" rel="stylesheet" />
 
 @section scripts{
-    <script type="text/javascript" src="~/js/account/login.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="~/js/general/login.js" asp-append-version="true"></script>
     <script type="text/javascript">
         vueAppParams.data.model =@Html.Raw(Model.ToJsonModel())
     </script>
 }
 
 <v-form ref="vueForm">
-    <v-container>
-        <v-layout wrap>
-            <v-flex sm12 md4 offset-md2 style="margin-top:12%">
-                <v-card elevation="10" light tag="section" class="rounded-lg" style="background:rgba(255,255,255, 0.9)">
-                    <v-card-title class="d-block text-center" style="background:rgba(255,255,255, 1) !important ">
-                            <v-img class="mx-auto" max-height="150"
-                                   max-width="200"
-                                   src="@Url.Content("../images/Nombre.png")"></v-img>
-                        <h3 class="mx-auto blue--text">
-                            {{jsglobals.TituloVacunatorio}}
-                        </h3>
-
-                    </v-card-title>
-                    <v-divider></v-divider>
-                    <v-card-text>                        
-                        <v-form>
-                            <v-text-field outlined
-                                          placeholder="Usuario"
-                                          type="text"
-                                          v-model="model.Usuario"></v-text-field>
-                            <v-text-field outlined
-                                          hide-details
-                                          placeholder="Contraseña"
-                                          type="password"
-                                          v-model="model.Password"></v-text-field>
-                        </v-form>
-                    </v-card-text>
-                    <v-divider></v-divider>
-                    <v-card-text class="text-center">
-                        <v-btn rounded 
-                                x-large 
-                                color="info" 
-                                :loading="submiting"
-                                :disabled="submiting"
-                                v-on:click="onClickIniciarSesion">
-                            <v-icon left>mdi-lock</v-icon>
-                            Ingresar
-                        </v-btn>
-                    </v-card-text>
-                </v-card>
-            </v-flex>
-        </v-layout>
+    <v-container class="text-center">
+        <v-row>
+            <v-card class="col-md-5 mx-auto" elevation="10" style="background:rgb(255,255,255,0.9);margin-top:10vh">
+                <v-card-title class="d-block text-center">
+                    <v-img class="mx-auto"
+                           max-width="200"
+                           src="@Url.Content("../images/LogoSelfResto.jpg")"></v-img>
+                    <v-img class="mx-auto" max-height="150"
+                           max-width="200"
+                           src="@Url.Content("../images/NameSelfResto.png")"></v-img>
+                </v-card-title>
+                <v-divider></v-divider>
+                <v-card-text>
+                    <v-form>
+                        <v-text-field outlined
+                                      placeholder="Email"
+                                      type="email"
+                                      v-model="model.Email"></v-text-field>
+                        <v-text-field outlined
+                                      placeholder="Contraseña"
+                                      type="password"
+                                      v-model="model.Password"></v-text-field>
+                    </v-form>
+                </v-card-text>
+                <v-divider></v-divider>
+                <v-card-text class="text-center">
+                    <v-btn large
+                           color="red lighten-2"
+                           :loading="submiting"
+                           :disabled="submiting"
+                           v-on:click="logIn">
+                        {{jsglobals.Enter}}
+                    </v-btn>
+                </v-card-text>
+            </v-card>
+        </v-row>
     </v-container>
 </v-form>
 

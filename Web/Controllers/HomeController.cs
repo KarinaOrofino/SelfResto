@@ -1,8 +1,7 @@
 ﻿using Framework.Utils;
 using Framework.Web;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using KO.Recursos;
+using KO.Resources;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -88,7 +87,7 @@ namespace Web.Controllers
             }
             catch (Exception ex)
             {
-                log.Error(Global.ErrorGenerico, ex);
+                log.Error(Global.GenericError, ex);
                 jsonData.result = JsonData.Result.Error;
                 jsonData.error = ex.ToString();
             }

@@ -4,7 +4,7 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-	<title>@ViewData["Title"] Vacunatorio ProteVac</title>
+	<title>@ViewData["Title"] Self Restó</title>
 
 	@await Html.PartialAsync("_AplicationStyles")
 	@await Html.PartialAsync("_ApplicationScripts")
@@ -47,9 +47,9 @@
                 <v-col class="blue--text">
                     <v-avatar size="30">
                         <img src="~/images/logo-avatar2.png"
-                             alt="Vacunatorio" />
+                             alt="SelfResto" />
                     </v-avatar>
-                    {{jsglobals.VacunatorioProtevac}}
+                    {{jsglobals.SelfResto}}
                 </v-col>
                 <v-col class="blue--text text-center">
                     <ul style=" list-style-type: none; display:inline">
@@ -99,13 +99,13 @@
 
     </script>
 
-    <script src="~/js/Utils/site.js"></script>
-    <script src="~/js/Utils/errorHandler.js"></script>
-    <script src="~/js/Utils/notification.js"></script>
-    <script src="~/js/Utils/validationUtils.js"></script>
-    <script src="~/js/account/logout.js"></script>
+    <script src="~/js/general/general.js"></script>
+    <script src="~/js/general/errorHandler.js"></script>
+    <script src="~/js/general/notification.js"></script>
+    <script src="~/js/general/validationUtils.js"></script>
+    <script src="~/js/general/logout.js"></script>
 
-    @await Html.PartialAsync("_RecursosUI")
+    @await Html.PartialAsync("_ResourcesUI")
 
     @RenderSection("scripts", required: false)
 

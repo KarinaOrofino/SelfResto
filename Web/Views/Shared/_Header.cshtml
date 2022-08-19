@@ -1,7 +1,7 @@
 ﻿@using Framework.Utils
 
 @section scripts{
-    <script type="text/javascript" src="~/js/account/logout.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="~/js/general/logout.js" asp-append-version="true"></script>
 }
 
 <v-app-bar app
@@ -26,7 +26,7 @@
                            class="mt-4">
                         <v-avatar>
                             <img src="~/images/logo-avatar.png"
-                                 alt="Vacunatorio" />
+                                 alt="SelfResto" />
                         </v-avatar>
                     </v-btn>
                 </template>
@@ -35,7 +35,7 @@
                         <div class="mx-auto text-center">
                             <v-avatar large>
                                 <img src="~/images/logo-avatar.png"
-                                     alt="Protevac" />
+                                     alt="SelfResto" />
                             </v-avatar>
                             <h3 class="pt-5">@Html.Raw(UserUtils.GetName(User))</h3>
                             <p class="text-caption mt-1">
@@ -45,7 +45,7 @@
                                 <v-btn icon
                                        :loading="submiting"
                                        :disabled="submiting"
-                                       v-on:click="onClickCerrarSesion()">{{jsglobals.CerrarSesion}}</v-btn>
+                                       v-on:click="cerrarSesion()">{{jsglobals.CloseSession}}</v-btn>
                             </p>
                         </div>
                     </v-list-item-content>

@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Datos\KO.Data.csproj" />
+    <ProjectReference Include="..\Entidades\KO.Entities.csproj" />
+    <ProjectReference Include="..\Resources\KO.Resources.csproj" />
+  </ItemGroup>
+
+</Project>

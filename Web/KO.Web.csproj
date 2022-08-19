@@ -6,20 +6,11 @@
     <StartupObject>Web.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="wwwroot\js\roles\**" />
-    <Content Remove="wwwroot\js\roles\**" />
-    <EmbeddedResource Remove="wwwroot\js\roles\**" />
-    <None Remove="wwwroot\js\roles\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="Models\Account\TestModel.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Datos\KO.Datos.csproj" />
-    <ProjectReference Include="..\Entidades\KO.Entidades.csproj" />
+    <ProjectReference Include="..\Datos\KO.Data.csproj" />
+    <ProjectReference Include="..\Entidades\KO.Entities.csproj" />
     <ProjectReference Include="..\Framework\KO.Framework.csproj" />
-    <ProjectReference Include="..\Resources\KO.Recursos.csproj" />
-    <ProjectReference Include="..\Servicios\KO.Servicios.csproj" />
+    <ProjectReference Include="..\Resources\KO.Resources.csproj" />
+    <ProjectReference Include="..\Servicios\KO.Services.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\bundle\" />
@@ -40,7 +31,7 @@
     <PackageReference Include="Scrutor" Version="3.3.0" />
   </ItemGroup>
   <ItemGroup>   
-    <None Include="wwwroot\js\Utils\recursos-ui.js" />
+    <None Include="wwwroot\js\general\resources-ui.js" />
   </ItemGroup>
   <ProjectExtensions>
     <VisualStudio><UserProperties appsettings_1json__JsonSchema="" libman_1json__JsonSchema="" /></VisualStudio>

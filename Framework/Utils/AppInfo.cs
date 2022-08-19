@@ -16,7 +16,7 @@ namespace Framework.Utils
 
         private string BuildDate;
 
-        private string Culture = Constantes.CULTURA_DEFAULT;
+        private string Culture = Constants.CULTURE_DEFAULT;
 
         public AppInfo()
         {
