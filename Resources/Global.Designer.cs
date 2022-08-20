@@ -196,6 +196,15 @@ namespace KO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Camarero.
+        /// </summary>
+        public static string Camarero {
+            get {
+                return ResourceManager.GetString("Camarero", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancelar.
         /// </summary>
         public static string Cancel {
@@ -327,6 +336,15 @@ namespace KO.Resources {
         public static string CreatedBy {
             get {
                 return ResourceManager.GetString("CreatedBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cuenta.
+        /// </summary>
+        public static string Cuenta {
+            get {
+                return ResourceManager.GetString("Cuenta", resourceCulture);
             }
         }
         
@@ -592,6 +610,15 @@ namespace KO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Menu.
+        /// </summary>
+        public static string Menu {
+            get {
+                return ResourceManager.GetString("Menu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ¿Está seguro que desea ACTIVAR?.
         /// </summary>
         public static string MsgActivate {
@@ -808,6 +835,15 @@ namespace KO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Karen Finegold Productions.
+        /// </summary>
+        public static string ProducedBy {
+            get {
+                return ResourceManager.GetString("ProducedBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cantidad.
         /// </summary>
         public static string Quantity {
@@ -907,7 +943,7 @@ namespace KO.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SelfResto.
+        ///   Looks up a localized string similar to Self Resto.
         /// </summary>
         public static string TitleSelfResto {
             get {

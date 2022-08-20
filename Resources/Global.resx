@@ -130,7 +130,7 @@
     <value>Activo</value>
   </data>
   <data name="TitleSelfResto" xml:space="preserve">
-    <value>SelfResto</value>
+    <value>Self Resto</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancelar</value>
@@ -431,5 +431,17 @@
   </data>
   <data name="Enter" xml:space="preserve">
     <value>Ingresar</value>
+  </data>
+  <data name="ProducedBy" xml:space="preserve">
+    <value>Karen Finegold Productions</value>
+  </data>
+  <data name="Camarero" xml:space="preserve">
+    <value>Camarero</value>
+  </data>
+  <data name="Cuenta" xml:space="preserve">
+    <value>Cuenta</value>
+  </data>
+  <data name="Menu" xml:space="preserve">
+    <value>Menu</value>
   </data>
 </root>

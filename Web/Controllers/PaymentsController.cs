@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Web.Controllers.Pacientes
+namespace Web.Controllers.Payments
 {
     [Route("[controller]/[action]")]
     public class PaymentsController : BaseController

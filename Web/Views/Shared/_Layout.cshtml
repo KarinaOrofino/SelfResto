@@ -12,16 +12,10 @@
 </head>
 
 <body>
-    <div id="CDCApp">
+    <div id="SelfRestoApp">
         <v-app class="hide" v-bind:class="{show:readyForRender}">
 
-            @if (User.Identity.IsAuthenticated)
-            {
-                @await Html.PartialAsync("_Header")
-                @await Html.PartialAsync("_MenuLeft")
-            }
-
-            <v-main :class="background">
+            <v-main class="background">
                 <v-container fluid>
 
                     @RenderBody()
@@ -40,42 +34,6 @@
                 </v-container>
             </v-main>
 
-            @if (User.Identity.IsAuthenticated)
-            {
-        <v-footer app style="font-size:13px">
-            <v-row class="justify-space-between">
-                <v-col class="blue--text">
-                    <v-avatar size="30">
-                        <img src="~/images/logo-avatar2.png"
-                             alt="SelfResto" />
-                    </v-avatar>
-                    {{jsglobals.SelfResto}}
-                </v-col>
-                <v-col class="blue--text text-center">
-                    <ul style=" list-style-type: none; display:inline">
-                        <li style="display:inline">
-                            <a href="">
-                                <v-avatar size="25">
-                                    <img src="~/images/facebook.png" />
-                                </v-avatar>
-                            </a>
-                        </li>
-                        <li style="display:inline">
-                            <a href="">
-                                <v-avatar size="28">
-                                    <img src="~/images/instagram.png" />
-                                </v-avatar>
-                            </a>
-
-                        </li>
-                    </ul>
-                </v-col>
-
-
-                    <v-col class="blue--text text-end mt-2">{{jsglobals.RealizadoPorKarinaOrofino}}</v-col>
-            </v-row>
-        </v-footer>
-            }
         </v-app>
 
     </div>
@@ -87,8 +45,8 @@
 
         vueAppParams.data.jsglobals = {};
         vueAppParams.data.background = '';
-        vueAppParams.el = "#CDCApp";
-        vueAppParams.data.background = 'protevac-bg';
+        vueAppParams.el = "#SelfRestoApp";
+        vueAppParams.data.background = 'selfResto-bg';
         vueAppParams.data.readyForRender = true;
 
         //Menu

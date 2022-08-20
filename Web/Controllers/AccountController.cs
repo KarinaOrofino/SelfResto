@@ -4,6 +4,7 @@ using KO.Entities;
 using KO.Resources;
 using KO.Services.Implementations;
 using KO.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -55,36 +56,7 @@ namespace Web.Controllers.Account
             return View("Login", new UserViewModel());
         }
 
-        [HttpGet]
-        public async Task<IActionResult> LogOut()
-        {
-            //JsonData jsonData = new();
 
-            //try
-            //{
-            //    int idUser = UserUtils.GetId(User);
-            //    string nombreUsuario = ServicioGenerico.GetById<User>(idUser)?.Login ?? "Usuario no se encuentra en la base de datos";
-            //    string nombreEvento = "Log Out";
-
-            //    JsonApiData apiResponse = this.ServicioLogEventos.LogInfo(nombreUsuario, this.Configuration[Constants.IDAPP].ToString(), nombreEvento);
-            //    if (apiResponse.result == JsonApiData.Result.Error)
-            //    {
-            //        jsonData.content = new { mensaje = Global.MensajeCredencialesInvalidas };
-            //        jsonData.result = JsonData.Result.Error;
-            //        return Json(jsonData);
-            //    }
-
-            //    await HttpContext.SignOutAsync(this.Configuration[Constants.IDAPP].ToString());
-            //}
-            //catch (Exception ex)
-            //{
-            //    log.Error(ex);
-            //    Response.StatusCode = Constants.ERROR_HTTP;
-            //    jsonData.result = JsonData.Result.Error;
-            //    jsonData.errorUi = Global.ErrorGenerico;
-            //}
-            return Json(new JsonData() { result = JsonData.Result.Ok });
-        }
 
         [HttpGet]
         public IActionResult AccessDenied(string ReturnUrl)
@@ -113,25 +85,25 @@ namespace Web.Controllers.Account
                             messages.Add(error.ErrorMessage);
                         }
                     }
-                    jsonData.content.messages = messages;
+                    jsonData.content.message = messages;
                     jsonData.result = JsonData.Result.Error;
                     return Json(jsonData);
                 }
 
                 User user = IUsersService.GetByEmail(userVM.Email);
 
-                if (user != null || !user.Active)
+                if (user.Email != null && user.Active)
                 {
                     if (user.Password != userVM.Password)
                     {
-                        jsonData.content = new { mensaje = Global.MsgIncorrectPassword };
+                        jsonData.content = new { message = Global.MsgIncorrectPassword };
                         jsonData.result = JsonData.Result.Error;
                         return Json(jsonData);
                     }
                 }
                 else
                 {
-                    jsonData.content = new { mensaje = Global.MsgNotAUser };
+                    jsonData.content = new { message = Global.MsgNotAUser };
                     jsonData.result = JsonData.Result.Error;
                     return Json(jsonData);
                 }
@@ -143,9 +115,27 @@ namespace Web.Controllers.Account
                 jsonData.result = JsonData.Result.Error;
                 jsonData.errorUi = Global.GenericError;
             }
-            return Redirect("/MenuItems/List");
+            return Json(new JsonData() { result = JsonData.Result.Ok });
         }
 
+        [HttpPost]
+        public async Task<IActionResult> LogOut()
+        {
+            JsonData jsonData = new();
+
+            try
+            {
+                await HttpContext.SignOutAsync(this.Configuration[Constants.IDAPP].ToString());
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+                Response.StatusCode = Constants.ERROR_HTTP;
+                jsonData.result = JsonData.Result.Error;
+                jsonData.errorUi = Global.GenericError;
+            }
+            return Json(new JsonData() { result = JsonData.Result.Ok });
+        }
         #endregion
     }
 }

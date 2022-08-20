@@ -1,11 +1,65 @@
-﻿@section scripts
+﻿@if (1 == 1)
 {
+    @await Html.PartialAsync("_Header")
+    @await Html.PartialAsync("_MenuLeft")
 }
+<main class="d-flex text-center justify-space-around" style="align-items:center;margin-top:180px">
+        <v-tooltip top>
+            <template v-slot:activator="{ on, attrs }">
+                <v-btn icon v-bind="attrs" v-on="on" v-on:click="CallWaiter()">
+                    <img src="~/images/camarero.png" width="130vw" height="130vh" style="margin-top:7rem" />
+                </v-btn>
+            </template>
+            <span>Llamar al camarero</span>
+        </v-tooltip>
 
-    <v-row >
-        <v-col cols="5" class="mx-auto mt-5">
-            <v-card elevation="10">
+        <v-tooltip top>
+            <template v-slot:activator="{ on, attrs }">
+                <v-btn icon v-bind="attrs" v-on="on" v-on:click="GoToMenu()">
+                    <img src="~/images/menu.png" style="margin-top:2rem" />
+                    </v-btn>
+            </template>
+            <span>Ir al Menú</span>
+        </v-tooltip>
 
-            </v-card>
+        <v-tooltip top>
+            <template v-slot:activator="{ on, attrs }">
+                <v-btn icon v-bind="attrs" v-on="on" v-on:click="Pay()">
+                    <img src="~/images/payment.png" width="130vw" height="130vh" style="margin-top:7rem" />
+                </v-btn>
+            </template>
+            <span>Pedir la cuenta</span>
+        </v-tooltip>
+</main>
+<v-footer app style="font-size: 13px; background-color:#bd6476">
+    <v-row class="justify-space-between">
+        <v-col class="col-md-2">
+            <v-avatar size="30">
+                <img src="~/images/LogoCubiertos.png"
+                     alt="SelfResto" />
+            </v-avatar>
+            {{jsglobals.SelfResto}}
         </v-col>
+        <v-col class="text-center col-md-8">
+            <ul style=" list-style-type: none; display:inline">
+                <li style="display:inline">
+                    <a href="">
+                        <v-avatar size="25">
+                            <img src="~/images/facebook.png" />
+                        </v-avatar>
+                    </a>
+                </li>
+                <li style="display:inline">
+                    <a href="">
+                        <v-avatar size="28">
+                            <img src="~/images/instagram.png" />
+                        </v-avatar>
+                    </a>
+
+                </li>
+            </ul>
+        </v-col>
+        <v-col class="white--text text-end mt-2">{{jsglobals.ProducedBy}}</v-col>
     </v-row>
+</v-footer>
+

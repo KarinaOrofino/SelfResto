@@ -8,28 +8,29 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Resources;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
+using KO.Services.Interfaces;
 
-namespace Web.Controllers
+namespace Web.Controllers.Home
 {
     public class HomeController : BaseController
     {
-        //private readonly ILogger<HomeController> _logger;
+        private IConfiguration Configuration { get; set; }
+
+        private IUsersService IUsersService { get; set; }
 
         private readonly IAppInfo _appInfo;
 
-        public HomeController(/*ILogger<HomeController> logger,*/ IAppInfo appInfo)
+        public HomeController(IConfiguration configuration, IUsersService usersService, IAppInfo appInfo)
         {
-            //_logger = logger;
-            _appInfo = appInfo;
+                _appInfo = appInfo;
+                this.Configuration = configuration;
+            this.IUsersService = usersService;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            if (!User.Identity.IsAuthenticated)
-            {
-                return Redirect("/Account/Login");
-            }
             return View();
         }
 

@@ -14,6 +14,7 @@
         public const string CLAIMS_PERMISOS = "Permisos";
         public const string GENERAL_USER = "GeneralUser";
         public const string ADMINISTRATOR = "Admin";
+        public const string IDAPP = "SelfRestoApp";
 
         #endregion
 

@@ -15,10 +15,10 @@ vueAppParams.methods.logIn = function () {
             success: function (data) {
 
                 if (data.result == AJAX_OK) {
-                    window.location = '/MenuItems/List';
+                    window.location = '/Home/Index';
                 }
                 else {
-                    vueApp.notification.showError(data.content.messages[0]);
+                    vueApp.notification.showError(data.content.message);
                 }
             },
             error: defaultErrorHandler,
