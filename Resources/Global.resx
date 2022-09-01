@@ -438,10 +438,61 @@
   <data name="Camarero" xml:space="preserve">
     <value>Camarero</value>
   </data>
-  <data name="Cuenta" xml:space="preserve">
+  <data name="Bill" xml:space="preserve">
     <value>Cuenta</value>
   </data>
   <data name="Menu" xml:space="preserve">
     <value>Menu</value>
+  </data>
+  <data name="AskBill" xml:space="preserve">
+    <value>Pedir la cuenta</value>
+  </data>
+  <data name="CallWaiter" xml:space="preserve">
+    <value>Llamar al camarero</value>
+  </data>
+  <data name="GoToMenu" xml:space="preserve">
+    <value>Ir al Menú</value>
+  </data>
+  <data name="Bebidas" xml:space="preserve">
+    <value>Bebidas</value>
+  </data>
+  <data name="Entradas" xml:space="preserve">
+    <value>Entradas</value>
+  </data>
+  <data name="Guarniciones" xml:space="preserve">
+    <value>Guarniciones</value>
+  </data>
+  <data name="Minutas" xml:space="preserve">
+    <value>Minutas</value>
+  </data>
+  <data name="Pastas" xml:space="preserve">
+    <value>Pastas / Salsas</value>
+  </data>
+  <data name="PlatosElaborados" xml:space="preserve">
+    <value>Platos Elaborados</value>
+  </data>
+  <data name="Postres" xml:space="preserve">
+    <value>Postres</value>
+  </data>
+  <data name="See" xml:space="preserve">
+    <value>Ver</value>
+  </data>
+  <data name="SeeOrder" xml:space="preserve">
+    <value>Ver Pedido</value>
+  </data>
+  <data name="Salsa" xml:space="preserve">
+    <value>Salsa</value>
+  </data>
+  <data name="ElegirBebidas" xml:space="preserve">
+    <value>Elegir Bebidas</value>
+  </data>
+  <data name="Bebida" xml:space="preserve">
+    <value>Bebida</value>
+  </data>
+  <data name="ObteniendoBebidas" xml:space="preserve">
+    <value>Obteniendo Bebidas</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>Precio</value>
   </data>
 </root>

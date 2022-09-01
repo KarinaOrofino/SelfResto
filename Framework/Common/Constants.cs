@@ -19,6 +19,7 @@
         #endregion
 
         #region Stored Procedures
+        public const string SP_CATEGORIES_GET_ALL = "sp_categories_get_all";
         public const string SP_MENUITEMS_GET_ALL = "sp_menuItems_get_all";
         public const string SP_MENUITEMS_GET_ALL_FILTERED = "sp_menuItems_get_all_filtered";
         public const string SP_MENUITEMS_GET_BY_ID = "sp_menuItems_get_by_id";

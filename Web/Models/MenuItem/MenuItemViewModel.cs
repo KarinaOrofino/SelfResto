@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using Web.Models;
 
-namespace KO.Web.Models.Aplicaciones
+namespace KO.Web.Models.MenuItem
 {
     public class MenuItemViewModel : BaseViewModel
     {
@@ -16,13 +16,21 @@ namespace KO.Web.Models.Aplicaciones
 
         public int Id { get; set; }
 
+        public int Order { get; set; }
+
         public string Name { get; set; }
+
+        public string Description { get; set; }
 
         public double Price { get; set; }
 
         public int CategoryId { get; set; }
 
         public string CategoryName { get; set; }
+
+        public string CategoryImageUrl { get; set; }
+
+        public string ImageUrl { get; set; }
 
         public bool Active { get; set; }
 
@@ -35,5 +43,7 @@ namespace KO.Web.Models.Aplicaciones
         public int? UpdateUser { get; set; }
 
         public List<Category> CategoryList { get; set; }
+
+        public int Quantity { get; set; }
     }
 }

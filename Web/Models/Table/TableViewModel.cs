@@ -1,6 +1,6 @@
 ﻿using Web.Models;
 
-namespace KO.Web.Models.Vacunas
+namespace KO.Web.Models.Table
 {
     public class TableViewModel : BaseViewModel
     {

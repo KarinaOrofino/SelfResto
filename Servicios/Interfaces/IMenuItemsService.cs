@@ -5,6 +5,8 @@ namespace KO.Services.Interfaces
 {
     public interface IMenuItemsService
     {
+        public List<Category> GetAllCategories();
+
         public List<MenuItem> GetAll();
 
         public List<MenuItem> GetAllFiltered(string searchField, bool? active);

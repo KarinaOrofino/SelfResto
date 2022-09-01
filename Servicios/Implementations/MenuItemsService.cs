@@ -17,6 +17,12 @@ namespace KO.Services.Implementations
         {
 
         }
+
+        public List<Category> GetAllCategories()
+        {
+            return _datos.GetAllCategories();
+        }
+
         public List<MenuItem> GetAll()
         {
             return _datos.GetAll();

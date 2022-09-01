@@ -1,7 +1,7 @@
 ﻿using System;
 using Web.Models;
 
-namespace KO.Web.Models.Medicos
+namespace KO.Web.Models.Order
 {
     public class OrderDetailViewModel 
     {

@@ -18,6 +18,47 @@ namespace KO.Data.Implementations
         {
         }
 
+        public List<Category> GetAllCategories()
+        {
+            List<Category> categories = new();
+            
+            try
+            {
+                using SqlCommand command = new(Constants.SP_CATEGORIES_GET_ALL, (SqlConnection)_context.Database.GetDbConnection());
+                command.CommandType = CommandType.StoredProcedure;
+
+                using SqlDataAdapter da = new(command);
+                DataTable dt = new();
+                da.Fill(dt);
+
+                if (dt != null)
+                {
+                    if (dt.Rows.Count > 0)
+                    {
+
+                        foreach (DataRow dataRow in dt.Rows)
+                        {
+                            Category category = new()
+                            {
+                                Id = int.Parse(dataRow["Id"].ToString()),
+                                Name = dataRow["Name"].ToString(),
+                                CategoryImageUrl = dataRow["ImageUrl"].ToString(),
+                                Active = (bool)dataRow["Active"]
+                            };
+                            categories.Add(category);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error in Data Get All Method", ex);
+                throw new Exception(ex.Message);
+            }
+
+            return categories;
+        }
+
         public List<MenuItem> GetAll()
         {
             List<MenuItem> menuItemsList = new();
@@ -40,14 +81,17 @@ namespace KO.Data.Implementations
                             MenuItem menuItem = new()
                             {
                                 Id = int.Parse(dataRow["Id"].ToString()),
+                                Order = int.Parse(dataRow["Order"].ToString()),
+                                CategoryId = int.Parse(dataRow["Category_Id"].ToString()),
                                 Name = dataRow["Name"].ToString(),
+                                Description = dataRow["Description"].ToString(),
+                                ImageUrl = dataRow["ImageUrl"].ToString(),
                                 Price = double.Parse(dataRow["Price"].ToString()),
-                                CategoryId = int.Parse(dataRow["Id"].ToString()),
                                 Active = (bool)dataRow["Active"],
-                                CreationDate = DateTime.Parse(dataRow["Creation_Date"].ToString()),
-                                CreationUser = int.Parse(dataRow["Creation_User"].ToString()),
-                                UpdateDate = string.IsNullOrEmpty(dataRow["Update_Date"].ToString()) ? null : DateTime.Parse(dataRow["Update_Date"].ToString()),
-                                UpdateUser = int.Parse(dataRow["Update_User"].ToString()),
+                                //CreationDate = DateTime.Parse(dataRow["Creation_Date"].ToString()),
+                                //CreationUser = int.Parse(dataRow["Creation_User"].ToString()),
+                                //UpdateDate = string.IsNullOrEmpty(dataRow["Update_Date"].ToString()) ? null : DateTime.Parse(dataRow["Update_Date"].ToString()),
+                                //UpdateUser = int.Parse(dataRow["Update_User"].ToString()),
                             };
                             menuItemsList.Add(menuItem);
                         }
@@ -87,14 +131,16 @@ namespace KO.Data.Implementations
                             MenuItem menuItem = new ()
                             {
                                 Id = int.Parse(dataRow["Id"].ToString()),
+                                CategoryId = int.Parse(dataRow["Category_Id"].ToString()),
                                 Name = dataRow["Name"].ToString(),
+                                Description = dataRow["Description"].ToString(),
+                                ImageUrl = dataRow["ImageUrl"].ToString(),
                                 Price = double.Parse(dataRow["Price"].ToString()),
-                                CategoryId = int.Parse(dataRow["Id"].ToString()),
                                 Active = (bool)dataRow["Active"],
-                                CreationDate = DateTime.Parse(dataRow["Creation_Date"].ToString()),
-                                CreationUser = int.Parse(dataRow["Creation_User"].ToString()),
-                                UpdateDate = string.IsNullOrEmpty(dataRow["Update_Date"].ToString()) ? null : DateTime.Parse(dataRow["Update_Date"].ToString()),
-                                UpdateUser = int.Parse(dataRow["Update_User"].ToString()),
+                                //CreationDate = DateTime.Parse(dataRow["Creation_Date"].ToString()),
+                                //CreationUser = int.Parse(dataRow["Creation_User"].ToString()),
+                                //UpdateDate = string.IsNullOrEmpty(dataRow["Update_Date"].ToString()) ? null : DateTime.Parse(dataRow["Update_Date"].ToString()),
+                                //UpdateUser = int.Parse(dataRow["Update_User"].ToString()),
                             };
                             menuItemsList.Add(menuItem);
                         }

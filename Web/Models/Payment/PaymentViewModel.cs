@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using Web.Models;
 
-namespace KO.Web.Models.Pacientes
+namespace KO.Web.Models.Payment
 {
     public class PaymentViewModel : BaseViewModel
     {

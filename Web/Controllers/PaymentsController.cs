@@ -2,7 +2,6 @@
 using Framework.Utils;
 using Framework.Web;
 using KO.Entities;
-using KO.Web.Models.Pacientes;
 using Microsoft.AspNetCore.Mvc;
 using KO.Services.Interfaces;
 using System;

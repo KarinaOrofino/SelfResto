@@ -178,6 +178,15 @@ namespace KO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pedir la cuenta.
+        /// </summary>
+        public static string AskBill {
+            get {
+                return ResourceManager.GetString("AskBill", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Volver.
         /// </summary>
         public static string Back {
@@ -187,11 +196,47 @@ namespace KO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bebida.
+        /// </summary>
+        public static string Bebida {
+            get {
+                return ResourceManager.GetString("Bebida", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bebidas.
+        /// </summary>
+        public static string Bebidas {
+            get {
+                return ResourceManager.GetString("Bebidas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cuenta.
+        /// </summary>
+        public static string Bill {
+            get {
+                return ResourceManager.GetString("Bill", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Por.
         /// </summary>
         public static string By {
             get {
                 return ResourceManager.GetString("By", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Llamar al camarero.
+        /// </summary>
+        public static string CallWaiter {
+            get {
+                return ResourceManager.GetString("CallWaiter", resourceCulture);
             }
         }
         
@@ -340,15 +385,6 @@ namespace KO.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cuenta.
-        /// </summary>
-        public static string Cuenta {
-            get {
-                return ResourceManager.GetString("Cuenta", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Actuales.
         /// </summary>
         public static string Current {
@@ -421,11 +457,29 @@ namespace KO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Elegir Bebidas.
+        /// </summary>
+        public static string ElegirBebidas {
+            get {
+                return ResourceManager.GetString("ElegirBebidas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ingresar.
         /// </summary>
         public static string Enter {
             get {
                 return ResourceManager.GetString("Enter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Entradas.
+        /// </summary>
+        public static string Entradas {
+            get {
+                return ResourceManager.GetString("Entradas", resourceCulture);
             }
         }
         
@@ -507,6 +561,24 @@ namespace KO.Resources {
         public static string GenericError {
             get {
                 return ResourceManager.GetString("GenericError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ir al Menú.
+        /// </summary>
+        public static string GoToMenu {
+            get {
+                return ResourceManager.GetString("GoToMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Guarniciones.
+        /// </summary>
+        public static string Guarniciones {
+            get {
+                return ResourceManager.GetString("Guarniciones", resourceCulture);
             }
         }
         
@@ -615,6 +687,15 @@ namespace KO.Resources {
         public static string Menu {
             get {
                 return ResourceManager.GetString("Menu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Minutas.
+        /// </summary>
+        public static string Minutas {
+            get {
+                return ResourceManager.GetString("Minutas", resourceCulture);
             }
         }
         
@@ -781,6 +862,15 @@ namespace KO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Obteniendo Bebidas.
+        /// </summary>
+        public static string ObteniendoBebidas {
+            get {
+                return ResourceManager.GetString("ObteniendoBebidas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to El campo permite sólo números y guiones.
         /// </summary>
         public static string OnlyNumbersAndDashes {
@@ -817,6 +907,15 @@ namespace KO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pastas / Salsas.
+        /// </summary>
+        public static string Pastas {
+            get {
+                return ResourceManager.GetString("Pastas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pendiente.
         /// </summary>
         public static string Pending {
@@ -826,11 +925,38 @@ namespace KO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Platos Elaborados.
+        /// </summary>
+        public static string PlatosElaborados {
+            get {
+                return ResourceManager.GetString("PlatosElaborados", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Por favor revise los datos ingresados.
         /// </summary>
         public static string PleaseReview {
             get {
                 return ResourceManager.GetString("PleaseReview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Postres.
+        /// </summary>
+        public static string Postres {
+            get {
+                return ResourceManager.GetString("Postres", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Precio.
+        /// </summary>
+        public static string Price {
+            get {
+                return ResourceManager.GetString("Price", resourceCulture);
             }
         }
         
@@ -871,6 +997,15 @@ namespace KO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Salsa.
+        /// </summary>
+        public static string Salsa {
+            get {
+                return ResourceManager.GetString("Salsa", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Guardar.
         /// </summary>
         public static string Save {
@@ -891,9 +1026,27 @@ namespace KO.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Ver.
         /// </summary>
+        public static string See {
+            get {
+                return ResourceManager.GetString("See", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ver.
+        /// </summary>
         public static string SeeDetail {
             get {
                 return ResourceManager.GetString("SeeDetail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ver Pedido.
+        /// </summary>
+        public static string SeeOrder {
+            get {
+                return ResourceManager.GetString("SeeOrder", resourceCulture);
             }
         }
         

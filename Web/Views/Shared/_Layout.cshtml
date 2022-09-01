@@ -1,20 +1,163 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-	<title>@ViewData["Title"] Self Restó</title>
+    <title>@ViewData["Title"] Self Restó</title>
 
-	@await Html.PartialAsync("_AplicationStyles")
-	@await Html.PartialAsync("_ApplicationScripts")
+    @await Html.PartialAsync("_AplicationStyles")
+    @await Html.PartialAsync("_ApplicationScripts")
 
 </head>
 
 <body>
     <div id="SelfRestoApp">
-        <v-app class="hide" v-bind:class="{show:readyForRender}">
+        <v-app v-bind:class="{show:readyForRender}">
+            <v-app-bar v-if="!login" app
+                       dark
+                       style="background: linear-gradient(to top, #a54047, #bd6476, #a54047); ">
+                <v-app-bar-nav-icon @@click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+                <v-spacer></v-spacer>
+                <v-toolbar-title>
+                    <img style="background-color:rgba(255,255,255,0.8) !important;z-index:10" width="30%" class="rounded-lg offset-md-6 mt-2" src="~/images/SelfResto.jpg" />
+                </v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-toolbar-items>
+                    <v-row justify="center">
+                        <v-tooltip top>
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-btn icon v-bind="attrs" v-on="on" v-on:click="callWaiter()"
+                                       large
+                                       class="mt-4"
+                                       :disabled="submitting"
+                                       :loading="submitting">
+                                    <v-icon class="material-icons">
+                                        room_service
+                                    </v-icon>
+                                </v-btn>
+                            </template>
+                            <span>{{jsglobals.CallWaiter}}</span>
+                        </v-tooltip>
+                        <v-tooltip top>
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-btn icon v-bind="attrs" v-on="on" v-on:click="seeOrder()"
+                                       large
+                                       class="mt-4"
+                                       :disabled="submitting"
+                                       :loading="submitting">
+                                    <v-icon class="material-icons">
+                                        shopping_cart
+                                    </v-icon>
+                                </v-btn>
+                            </template>
+                            <span>{{jsglobals.SeeOrder}}</span>
+                        </v-tooltip>
+                        <v-tooltip top>
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-btn icon v-bind="attrs" v-on="on" v-on:click="AskForBill()"
+                                       large
+                                       class="mt-4"
+                                       :disabled="submitting"
+                                       :loading="submitting">
+                                    <v-icon class="material-icons">
+                                        paid
+                                    </v-icon>
+                                </v-btn>
+                            </template>
+                            <span>{{jsglobals.Bill}}</span>
+                        </v-tooltip>
+                        <v-tooltip top>
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-btn icon v-bind="attrs" v-on="on" v-on:click="closeSession()"
+                                       large
+                                       class="mt-4"
+                                       :disabled="submitting"
+                                       :loading="submitting">
+                                    <v-icon class="material-icons">
+                                        logout
+                                    </v-icon>
+                                </v-btn>
+                            </template>
+                            <span>{{jsglobals.CloseSession}}</span>
+                        </v-tooltip>
+                    </v-row>
+                </v-toolbar-items>
+            </v-app-bar>
+            <v-navigation-drawer v-model="drawer"
+                                 width="280"
+                                 class="mx-auto"
+                                 app
+                                 dense
+                                 dark
+                                 temporary
+                                 style="background: linear-gradient(to top, #a54047, #bd6476, #a54047);">
+                <v-list>
+                    <v-list-item>
+                        <v-list-item-content>
+                            <v-list-item-title class="text-h6" style="cursor:pointer;">
+                                <a class="menu-left-links" href="/Home/Index">
+                                    {{jsglobals.TitleSelfResto}}
+                                </a>
+                            </v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                </v-list>
+                <v-divider></v-divider>
 
+                <v-list nav
+                        dense>
+                    <v-list-item-content class="d-block">
+
+                        <v-list-item>
+                            <a class="menu-left-links" href="/MenuItems/List">
+                                <v-list-item-icon>
+                                    <v-icon class="material-icons">
+                                        restaurant_menu
+                                    </v-icon>
+                                </v-list-item-icon>
+                                <v-list-item-title style="font-size:1em;">{{jsglobals.Menu}}</v-list-item-title>
+                            </a>
+                        </v-list-item>
+                        <v-divider class="mt-3 mb-3"></v-divider>
+
+                        <v-list-item>
+                            <a class="menu-left-links">
+                                <v-list-item-icon>
+                                    <v-icon class="material-icons">
+                                        room_service
+                                    </v-icon>
+                                </v-list-item-icon>
+                                <v-list-item-title style="font-size:1em;">{{jsglobals.Camarero}}</v-list-item-title>
+                            </a>
+                        </v-list-item>
+                        <v-divider class="mt-3 mb-3"></v-divider>
+                        <v-list-item>
+                            <a class="menu-left-links" href="/Order/Detail">
+                                <v-list-item-icon>
+                                    <v-icon class="material-icons">
+                                        shopping_cart
+                                    </v-icon>
+                                </v-list-item-icon>
+                                <v-list-item-title style="font-size:1em;">{{jsglobals.SeeOrder}}</v-list-item-title>
+                            </a>
+                        </v-list-item>
+                        <v-divider class="mt-3 mb-3"></v-divider>
+                        <v-list-item>
+                            <a class="menu-left-links" href="/Payments/Detail">
+                                <v-list-item-icon>
+                                    <v-icon class="material-icons">
+                                        paid
+                                    </v-icon>
+                                </v-list-item-icon>
+                                <v-list-item-title style="font-size:1em;">{{jsglobals.Bill}}</v-list-item-title>
+                            </a>
+                        </v-list-item>
+
+                        <v-divider class="mt-3 mb-3"></v-divider>
+                    </v-list-item-content>
+                </v-list>
+            </v-navigation-drawer>
             <v-main class="background">
                 <v-container fluid>
 
@@ -23,8 +166,7 @@
                     <v-snackbar v-model="notification.show"
                                 transition="scale-transition"
                                 :color="notification.type"
-                                :timeout="notification.timeout"
-                                >
+                                :timeout="notification.timeout">
 
                         <v-icon :color="notification.iconColor">
                             {{notification.icon}}
@@ -33,9 +175,38 @@
                     </v-snackbar>
                 </v-container>
             </v-main>
+            <v-footer v-if="!login" app style="font-size: 13px; background-color:#bd6476">
+                <v-row class="justify-space-between">
+                    <v-col class="col-md-2">
+                        <v-avatar size="30">
+                            <img src="~/images/LogoCubiertos.png"
+                                 alt="SelfResto" />
+                        </v-avatar>
+                        {{jsglobals.SelfResto}}
+                    </v-col>
+                    <v-col class="text-center col-md-8">
+                        <ul style=" list-style-type: none; display:inline">
+                            <li style="display:inline">
+                                <a href="">
+                                    <v-avatar size="25">
+                                        <img src="~/images/facebook.png" />
+                                    </v-avatar>
+                                </a>
+                            </li>
+                            <li style="display:inline">
+                                <a href="">
+                                    <v-avatar size="28">
+                                        <img src="~/images/instagram.png" />
+                                    </v-avatar>
+                                </a>
 
+                            </li>
+                        </ul>
+                    </v-col>
+                    <v-col class="white--text text-end mt-2">{{jsglobals.ProducedBy}}</v-col>
+                </v-row>
+            </v-footer>
         </v-app>
-
     </div>
 
     <script type="text/javascript">
@@ -56,12 +227,13 @@
         vueAppParams.data.breadcrums = [];
 
     </script>
-
+    <script src="~/js/general/login.js"></script>
     <script src="~/js/general/general.js"></script>
     <script src="~/js/general/errorHandler.js"></script>
     <script src="~/js/general/notification.js"></script>
     <script src="~/js/general/validationUtils.js"></script>
     <script src="~/js/general/logout.js"></script>
+
 
     @await Html.PartialAsync("_ResourcesUI")
 
