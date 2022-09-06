@@ -3,7 +3,7 @@ namespace KO.Entities
 {
     public class User : BaseEntity
     {
-        public int Id { get; set; }
+        public byte Id { get; set; }
 
         public string Name { get; set; }
 
@@ -13,6 +13,6 @@ namespace KO.Entities
 
         public string Password { get; set; }
 
-        public int AccessType { get; set; }
+        public byte AccessType { get; set; }
     }
 }

@@ -52,5 +52,11 @@ namespace KO.Data.Implementations
         {
             throw new NotImplementedException();
         }
+
+        public void AddItem(int itemId, int quantity)
+        {
+            throw new NotImplementedException();
+
+        }
     }
 }

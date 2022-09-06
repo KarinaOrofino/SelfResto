@@ -46,7 +46,7 @@
                                     <v-btn x-small height=23px v-on:click="changeCounter(item.categoryId, item.id, 1)" name="button">
                                         <v-icon>mdi-plus</v-icon>
                                     </v-btn>
-                                    <v-btn small color="red lighten-2">
+                                    <v-btn :disabled="item.quantity==0" small color="red lighten-2" v-on:click="addItem(item.categoryId, item.id, item.quantity)">
                                         {{jsglobals.Add}}
                                     </v-btn>
                                 </v-card-actions>
@@ -88,14 +88,14 @@
                                     </v-card-text>
                                     <v-card-actions class="d-flex justify-center">
 
-                                        <v-btn x-small height=23px v-on:click="changeCounter('-1')" name="button">
+                                        <v-btn x-small height=23px v-on:click="changeCounter(item.categoryId, item.id, -1)" name="button">
                                             <v-icon class="mx-0">mdi-minus</v-icon>
                                         </v-btn>
                                         <input v-model="item.quantity" outlined class="quantity" name="name" value="item.quantity" />
-                                        <v-btn x-small height=23px v-on:click="changeCounter('1')" name="button">
+                                        <v-btn x-small height=23px v-on:click="changeCounter(item.categoryId, item.id, 1)" name="button">
                                             <v-icon>mdi-plus</v-icon>
                                         </v-btn>
-                                        <v-btn small color="red lighten-2">
+                                        <v-btn :disabled="item.quantity==0" small color="red lighten-2"  v-on:click="addItem(item.categoryId, item.id, item.quantity)">
                                             {{jsglobals.Add}}
                                         </v-btn>
                                     </v-card-actions>
@@ -124,14 +124,14 @@
                                     </v-card-text>
                                     <v-card-actions class="d-flex justify-center">
 
-                                        <v-btn x-small height=23px v-on:click="changeCounter('-1')" name="button">
+                                        <v-btn x-small height=23px v-on:click="changeCounter(item.categoryId, item.id, -1)" name="button">
                                             <v-icon class="mx-0">mdi-minus</v-icon>
                                         </v-btn>
                                         <input v-model="item.quantity" outlined class="quantity" name="name" value="item.quantity" />
-                                        <v-btn x-small height=23px v-on:click="changeCounter('1')" name="button">
+                                        <v-btn x-small height=23px v-on:click="changeCounter(item.categoryId, item.id, 1)" name="button">
                                             <v-icon>mdi-plus</v-icon>
                                         </v-btn>
-                                        <v-btn small color="red lighten-2">
+                                        <v-btn :disabled="item.quantity==0" small color="red lighten-2"  v-on:click="addItem(item.categoryId, item.id, item.quantity)">
                                             {{jsglobals.Add}}
                                         </v-btn>
                                     </v-card-actions>
@@ -160,14 +160,14 @@
                                     </v-card-text>
                                     <v-card-actions class="d-flex justify-center">
 
-                                        <v-btn x-small height=23px v-on:click="changeCounter('-1')" name="button">
+                                        <v-btn x-small height=23px v-on:click="changeCounter(item.categoryId, item.id, -1)" name="button">
                                             <v-icon class="mx-0">mdi-minus</v-icon>
                                         </v-btn>
                                         <input v-model="item.quantity" outlined class="quantity" name="name" value="item.quantity" />
-                                        <v-btn x-small height=23px v-on:click="changeCounter('1')" name="button">
+                                        <v-btn x-small height=23px v-on:click="changeCounter(item.categoryId, item.id, 1)" name="button">
                                             <v-icon>mdi-plus</v-icon>
                                         </v-btn>
-                                        <v-btn small color="red lighten-2">
+                                        <v-btn :disabled="item.quantity==0" small color="red lighten-2"  v-on:click="addItem(item.categoryId, item.id, item.quantity)">
                                             {{jsglobals.Add}}
                                         </v-btn>
                                     </v-card-actions>
@@ -196,14 +196,14 @@
                                     </v-card-text>
                                     <v-card-actions class="d-flex justify-center">
 
-                                        <v-btn x-small height=23px v-on:click="changeCounter('-1')" name="button">
+                                        <v-btn x-small height=23px v-on:click="changeCounter(item.categoryId, item.id, -1)" name="button">
                                             <v-icon class="mx-0">mdi-minus</v-icon>
                                         </v-btn>
                                         <input v-model="item.quantity" outlined class="quantity" name="name" value="item.quantity" />
-                                        <v-btn x-small height=23px v-on:click="changeCounter('1')" name="button">
+                                        <v-btn x-small height=23px v-on:click="changeCounter(item.categoryId, item.id, 1)" name="button">
                                             <v-icon>mdi-plus</v-icon>
                                         </v-btn>
-                                        <v-btn small color="red lighten-2">
+                                        <v-btn :disabled="item.quantity==0" small color="red lighten-2" v-on:click="addItem(item.categoryId, item.id, item.quantity)">
                                             {{jsglobals.Add}}
                                         </v-btn>
                                     </v-card-actions>
@@ -232,14 +232,14 @@
                                     </v-card-text>
                                     <v-card-actions class="d-flex justify-center">
 
-                                        <v-btn x-small height=23px v-on:click="changeCounter('-1')" name="button">
+                                        <v-btn x-small height=23px v-on:click="changeCounter(item.categoryId, item.id, -1)" name="button">
                                             <v-icon class="mx-0">mdi-minus</v-icon>
                                         </v-btn>
                                         <input v-model="item.quantity" outlined class="quantity" name="name" value="item.quantity" />
-                                        <v-btn x-small height=23px v-on:click="changeCounter('1')" name="button">
+                                        <v-btn x-small height=23px v-on:click="changeCounter(item.categoryId, item.id, 1)" name="button">
                                             <v-icon>mdi-plus</v-icon>
                                         </v-btn>
-                                        <v-btn small color="red lighten-2">
+                                        <v-btn :disabled="item.quantity==0" small color="red lighten-2" v-on:click="addItem(item.categoryId, item.id, item.quantity)">
                                             {{jsglobals.Add}}
                                         </v-btn>
                                     </v-card-actions>
@@ -305,11 +305,11 @@
                                 $ {{item.price}}
                             </template>
                             <template v-slot:item.quantity="{ item }">
-                                <v-btn x-small class="minusPlus" v-on:click="changeCounter(item.id)">
+                                <v-btn x-small class="minusPlus" v-on:click="changeCounterBebidas(item.id, -1)">
                                     -
                                 </v-btn>
                                 <input v-model="item.quantity" outlined class="quantity" value="item.quantity" />
-                                <v-btn x-small class="minusPlus" v-on:click="changeCounter(1)">
+                                <v-btn x-small class="minusPlus" v-on:click="changeCounterBebidas(item.id, 1)">
                                     +
                                 </v-btn>
                             </template>

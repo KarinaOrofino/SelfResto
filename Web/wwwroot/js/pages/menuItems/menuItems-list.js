@@ -4,9 +4,12 @@ vueAppParams.data.menuItems = [];
 vueAppParams.data.categoriesAndItems = [];
 vueAppParams.data.categ = [];
 vueAppParams.data.filteredCategories = [];
+vueAppParams.data.table = { id: '', number: '' };
+vueAppParams.data.tables = [];
 vueAppParams.data.loadingCategories = false;
 vueAppParams.data.loadingMenu = false;
 vueAppParams.data.loadingBebidas = false;
+vueAppParams.data.loadingTables = false;
 vueAppParams.data.dialogBebidas = false;
 vueAppParams.data.bebidasCategorias = [];
 vueAppParams.data.bebidasItems = [];
@@ -35,6 +38,17 @@ vueAppParams.methods.changeCounter = function (catId, id, num) {
 	};
 	if (cantidad <= 10 && cantidad > 0 && num < 0) {
 		vueAppParams.data.categoriesAndItems[indexCat].menuItems[indexItem].quantity += num
+	};
+};
+
+vueAppParams.methods.changeCounterBebidas = function (id, num) {
+	var indexBeb = vueAppParams.data.bebidasItems.findIndex(beb => beb.id == id);
+	var cantidad = vueAppParams.data.bebidasItems[indexBeb].quantity
+	if (cantidad != 10 && num > 0) {
+		vueAppParams.data.bebidasItems[indexBeb].quantity += num
+	};
+	if (cantidad <= 10 && cantidad > 0 && num < 0) {
+		vueAppParams.data.bebidasItems[indexBeb].quantity += num
 	};
 };
 
@@ -78,14 +92,15 @@ vueAppParams.methods.verBebidas = function (cat) {
 	vueAppParams.data.bebidasFiltradas = vueAppParams.data.bebidasItems.filter(mi => mi.categoryId == cat);
 };
 
-vueAppParams.methods.addItem = function (id) {
+vueAppParams.methods.addItem = function (catId, id, quantity) {
 
 	$.ajax({
-		url: "/Order/AddItem",
-		data: { itemId: id },
+		url: "/Orders/AddItem/",
+		data: { orderId: vueApp.model.OrderId, itemId: id, quantity: quantity },
 		method: "POST",
 		success: function (data) {
 			vueAppParams.data.dialogBebidas = false;
+			vueAppParams.data.categoriesAndItems.filter(cat => cat.id == catId)[0].menuItems.filter(mi => mi.id == id)[0].quantity = 0;
 		},
 		error: defaultErrorHandler,
 		complete: function () {

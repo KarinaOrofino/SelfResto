@@ -9,7 +9,6 @@ namespace KO.Web.Models.Order
 
         public int TableId { get; set; }
 
-        public DateTime Date { get; set; }
     }
 }
 

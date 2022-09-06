@@ -9,9 +9,9 @@ namespace Framework.Utils
 {
     public static class UserUtils
     {
-        public static int GetId(ClaimsPrincipal user)
+        public static byte GetId(ClaimsPrincipal user)
         {            
-             return int.Parse(user.Claims.First(u => u.Type == ClaimTypes.Sid).Value);
+             return byte.Parse(user.Claims.First(u => u.Type == ClaimTypes.Sid).Value);
         }
 
         public static string GetName(ClaimsPrincipal user)

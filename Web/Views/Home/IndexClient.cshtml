@@ -1,0 +1,43 @@
+﻿@using KO.Web.Models.Order;
+
+@section scripts{
+    <script type="text/javascript" src="~/js/pages/home/index.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+        vueAppParams.data.model =@Html.Raw(Model.ToJsonModel())
+    </script>
+}
+
+<main class="d-flex text-center justify-space-around" style="align-items:center;margin-top:180px">
+
+    <v-tooltip top>
+        <template v-slot:activator="{ on, attrs }">
+            <v-btn icon v-bind="attrs" v-on="on" v-on:click="CallWaiter()">
+                <img src="~/images/camarero.png" width="130vw" height="130vh" style="margin-top:7rem" />
+            </v-btn>
+        </template>
+        <span>{{jsglobals.CallWaiter}}</span>
+    </v-tooltip>
+
+    <v-tooltip top>
+        <template v-slot:activator="{ on, attrs }">
+            <v-btn icon v-bind="attrs" v-on="on" v-on:click="goToMenu(model.Id)">
+                <img src="~/images/menu.png" style="margin-top:2rem" />
+            </v-btn>
+        </template>
+        <span>{{jsglobals.GoToMenu}}</span>
+    </v-tooltip>
+
+    <v-tooltip top>
+        <template v-slot:activator="{ on, attrs }">
+            <v-btn icon v-bind="attrs" v-on="on" v-on:click="Pay()">
+                <img src="~/images/payment.png" width="130vw" height="130vh" style="margin-top:7rem" />
+            </v-btn>
+        </template>
+        <span>{{jsglobals.AskBill}}</span>
+    </v-tooltip>
+</main>
+
+
+
+
+

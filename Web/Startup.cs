@@ -39,7 +39,7 @@ namespace Web
                 .AddControllersWithViews()
                 .AddRazorRuntimeCompilation();
 
-            //services.AddTransient<IAutenticacionInterna, AutenticacionInterna>();                        
+                      
             services.AddSingleton<IAppInfo, AppInfo>();
 
             var cultureInfo = new CultureInfo("es-AR");
@@ -62,14 +62,14 @@ namespace Web
                 options.AccessDeniedPath = "/Account/AccessDenied";
             });
 
-            //string idApp = Configuration[Constants.IDAPP].ToString();
+            string idApp = Configuration[Constants.IDAPP].ToString();
 
-            //services.AddAuthentication(idApp)
-            //    .AddCookie(idApp, options =>
-            //    {
-            //        options.LoginPath = "/Account/Login";
-            //        options.LogoutPath = "/Account/Logout";
-            //    });
+            services.AddAuthentication(idApp)
+                .AddCookie(idApp, options =>
+                {
+                    options.LoginPath = "/Account/Login";
+                    options.LogoutPath = "/Account/Logout";
+                });
 
             ConfigurarMensajesDeModelo(services);
 
@@ -130,15 +130,14 @@ namespace Web
 
             DefaultFilesOptions DefaultFile = new();
             DefaultFile.DefaultFileNames.Clear();
-            DefaultFile.DefaultFileNames.Add("/Producto/Listado");
-            app.UseDefaultFiles(DefaultFile);          
+            app.UseDefaultFiles(DefaultFile);
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-                
+                    pattern: "{controller=Account}/{action=Login}/{id?}");
+
             });
         }
 

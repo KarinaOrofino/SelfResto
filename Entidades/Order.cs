@@ -1,35 +1,30 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KO.Entities
 {
     public class Order : BaseEntity
     {
-        public int Id { get; set; }
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
+        public byte Id { get; set; }
 
-        public int TableId { get; set; }
-
-        public DateTime Date { get; set; }
-
+        [Column(name: "TABLE_ID")]
+        public byte TableId { get; set; }
 
     }
 
-    public class OrderDetail 
+    public class OrderDetail : BaseEntity
     {
-        public int Id { get; set; }
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
+        public byte Id { get; set; }
 
-        public int OrderId { get; set; }
+        [Column(name: "ORDER_ID")]
+        public byte OrderId { get; set; }
 
-        public int MenuItem { get; set; }
+        [Column(name: "MENU_ITEM_ID")]
+        public byte MenuItemId { get; set; }
 
-        public int Quantity { get; set; }
-
-        public DateTime CreationDate { get; set; }
-
-        public int CreationUser { get; set; }
-
-        public DateTime? UpdateDate { get; set; }
-
-        public int? UpdateUser { get; set; }
+        public byte Quantity { get; set; }
 
 
     }

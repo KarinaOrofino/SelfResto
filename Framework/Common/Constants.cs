@@ -6,9 +6,12 @@
         public const string DOMAIN_NAME_KEY = "Domain_Name";
         public const string DOMAIN_SERVER_KEY = "Domain_Server";
         public const string PORT_LDAP_KEY = "Port_LDAP";
-        public const string DB_CONFIG_KEY = "CDCContext";
+        public const string DB_CONFIG_KEY = "SelfRestoContext";
         public const string CULTURE_DEFAULT = "es-AR";
         public const string GENERIC_PASSWORD = "CODES.-.PPAASSWWOORRDD";
+        //public const string SRSERVICE_KEY_URL = "SRService.URL";
+        //public const string SRSERVICE_KEY_USERNAME = "SRService.Auth.userName";
+        //public const string SRSERVICE_KEY_PASSWORD = "SRService.Auth.password";
 
         public const int ERROR_HTTP = 500;
         public const string CLAIMS_PERMISOS = "Permisos";

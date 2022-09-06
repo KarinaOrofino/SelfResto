@@ -9,10 +9,5 @@ const AJAX_REDIRECT = 1;
 const AJAX_INVALID = 2;
 const HTTP_ERROR = 500;
 
-vueAppParams.methods.GoToMenu = function () {
 
-    window.location = '/MenuItems/List';
-}
-
-
-
+vueAppParams.data.order = { id: '', tableId: '' };

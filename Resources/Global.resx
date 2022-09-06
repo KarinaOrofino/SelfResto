@@ -495,4 +495,13 @@
   <data name="Price" xml:space="preserve">
     <value>Precio</value>
   </data>
+  <data name="ElegirMesa" xml:space="preserve">
+    <value>Elegir Mesa</value>
+  </data>
+  <data name="Client" xml:space="preserve">
+    <value>Cliente</value>
+  </data>
+  <data name="Employee" xml:space="preserve">
+    <value>Empleado</value>
+  </data>
 </root>

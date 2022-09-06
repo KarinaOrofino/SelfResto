@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using KO.Entities;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
 
@@ -11,7 +12,13 @@ namespace KO.Data.EFScafolding
         {
 
         }
-    
+
+        public DbSet<MenuItem> MenuItems { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<Payment> Payments { get; set; }
+        public DbSet<Table> Tables { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             this.RemoveCascadeDeleteForAll(modelBuilder);            

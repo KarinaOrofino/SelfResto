@@ -304,6 +304,15 @@ namespace KO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cliente.
+        /// </summary>
+        public static string Client {
+            get {
+                return ResourceManager.GetString("Client", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cerrar.
         /// </summary>
         public static string Close {
@@ -462,6 +471,24 @@ namespace KO.Resources {
         public static string ElegirBebidas {
             get {
                 return ResourceManager.GetString("ElegirBebidas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Elegir Mesa.
+        /// </summary>
+        public static string ElegirMesa {
+            get {
+                return ResourceManager.GetString("ElegirMesa", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Empleado.
+        /// </summary>
+        public static string Employee {
+            get {
+                return ResourceManager.GetString("Employee", resourceCulture);
             }
         }
         

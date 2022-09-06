@@ -6,9 +6,6 @@
     ViewData["Title"] = Global.LogIn;
 }
 
-
-<link href="~/css/login.css" rel="stylesheet" />
-
 @section scripts{
     <script type="text/javascript" src="~/js/general/login.js" asp-append-version="true"></script>
     <script type="text/javascript">
@@ -17,9 +14,38 @@
 }
 
 <v-form ref="vueForm">
-    <v-container fluid class="text-center login-bg">
+    <v-container fluid class="text-center">
         <v-row>
-            <v-card class="col-md-4 mx-auto my-2" elevation="10" style="background:rgb(255,255,255,0.9);">
+            <v-card class="col-md-4 mx-auto" elevation="10" style="background: rgb(255,255,255,0.9);margin-top:9vw" v-show="!restrictedAccess">
+                <v-card-title class="d-block text-center">
+                    <v-img class="mx-auto"
+                           max-width="200"
+                           src="@Url.Content("../images/LogoSelfResto.jpg")"></v-img>
+                    <v-img class="mx-auto" max-height="150"
+                           max-width="200"
+                           src="@Url.Content("../images/NameSelfResto.png")"></v-img>
+                </v-card-title>
+                <v-divider></v-divider>
+                <v-card-text>
+                    <v-form>
+                        <v-btn large
+                               color="red lighten-2"
+                               :loading="submiting"
+                               :disabled="submiting"
+                               v-on:click="chooseTable(table)">
+                            {{jsglobals.Client}}
+                        </v-btn>
+                        <v-btn large
+                               color="red lighten-2"
+                               :loading="submiting"
+                               :disabled="submiting"
+                               v-on:click="logIn()">
+                            {{jsglobals.Employee}}
+                        </v-btn>
+                    </v-form>
+                </v-card-text>
+            </v-card>
+            <v-card class="col-md-4 mx-auto my-2" elevation="10" style="background:rgb(255,255,255,0.9);" v-show="restrictedAccess">
                 <v-card-title class="d-block text-center">
                     <v-img class="mx-auto"
                            max-width="200"
@@ -45,9 +71,14 @@
                 <v-card-text class="text-center">
                     <v-btn large
                            color="red lighten-2"
+                           v-on:click="goBack()">
+                        {{jsglobals.Back}}
+                    </v-btn>
+                    <v-btn large
+                           color="red lighten-2"
                            :loading="submiting"
                            :disabled="submiting"
-                           v-on:click="logIn">
+                           v-on:click="logInEmployee()">
                         {{jsglobals.Enter}}
                     </v-btn>
                 </v-card-text>
@@ -56,3 +87,49 @@
     </v-container>
 </v-form>
 
+<!--Dialog Elegir Mesa-->
+<v-row justify="space-around">
+    <v-col cols="auto">
+        <v-dialog v-model="dialogElegirMesa" persistent transition="dialog-bottom-transition"
+                  width="300">
+            <template v-slot:default="dialog">
+                <v-card>
+                    <v-toolbar dense class="d-flex text-h6 mb-5 justify-center" color="#a54047"
+                               dark>
+                        <v-toolbar-title>{{jsglobals.ElegirMesa}}</v-toolbar-title>
+                    </v-toolbar>
+                    <v-card-text class="text-center mb-5">
+                        <v-autocomplete v-model="table"
+                                        :items="tables"
+                                        item-value="table.id"
+                                        menu-props="auto"
+                                        :label="jsglobals.Table"
+                                        :loading="loadingTables"
+                                        :disabled="loadingTables">
+                            <template v-slot:item="{item}">
+                                <span>Mesa {{ item.number }}</span>
+                            </template>
+                            <template v-slot:selection="{item}">
+                                <span>Mesa {{ item.number }}</span>
+                            </template>
+                        </v-autocomplete>
+                    </v-card-text>
+                    <v-divider></v-divider>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn small
+                               v-on:click="dialog.value = false"
+                               color="red lighten-2">
+                            {{jsglobals.Cancel}}
+                        </v-btn>
+                        <v-btn small
+                               v-on:click="logInClient(table.Id)"
+                               color="red lighten-2">
+                            {{jsglobals.Add}}
+                        </v-btn>
+                    </v-card-actions>
+                </v-card>
+            </template>
+        </v-dialog>
+    </v-col>
+</v-row>

@@ -1,16 +1,19 @@
 ﻿
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace KO.Entities
 {
     public class Table : BaseEntity
     {
 
-        public int Id { get; set; }
+        public byte Id { get; set; }
 
-        public int Number { get; set; }
+        public byte Number { get; set; }
 
-        public int Waiter { get; set; }
+        public byte Waiter { get; set; }
 
-        public int WaiterBackUp { get; set; }
+        [Column(name: "WAITER_BACK_UP")]
+        public byte WaiterBackUp { get; set; }
 
     }
 }

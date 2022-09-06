@@ -1,10 +1,12 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace KO.Entities
 {
     public class Payment 
     {
 
+        [Key]
         public int InvoiceId { get; set; }
 
         public int OrderId { get; set; }

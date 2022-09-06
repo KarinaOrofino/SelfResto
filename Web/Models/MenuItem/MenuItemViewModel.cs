@@ -45,5 +45,10 @@ namespace KO.Web.Models.MenuItem
         public List<Category> CategoryList { get; set; }
 
         public int Quantity { get; set; }
+
+        public byte OrderId { get; set; }
+
+        public byte TableId { get; set; }
+
     }
 }

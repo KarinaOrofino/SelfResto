@@ -19,6 +19,8 @@ namespace KO.Data.Interfaces
 
         public void Activate(int id);
 
+        public void AddItem(int itemId, int quantity);
+
 
     }
 }

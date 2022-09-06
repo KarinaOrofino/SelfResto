@@ -18,13 +18,16 @@ namespace Web.Controllers.MenuItems
 
         private IUsersService IUsersService { get; set; }
 
+        private IGenericService IGenericService { get; set; }
+
         private IMenuItemsService IMenuItemsService { get; set; }
 
-        public MenuItemsController(IConfiguration configuration, IUsersService usersService, IMenuItemsService menuItemsService)
+        public MenuItemsController(IConfiguration configuration, IUsersService usersService, IMenuItemsService menuItemsService, IGenericService genericService)
         {
             this.Configuration = configuration;
             this.IUsersService = usersService;
             this.IMenuItemsService = menuItemsService;
+            this.IGenericService = genericService;
         }
 
         [HttpGet]
@@ -33,6 +36,20 @@ namespace Web.Controllers.MenuItems
             MenuItemViewModel MIVM = new();
             return View(MIVM);
         }
+
+        [Route("{id}")]
+        [HttpGet]
+        public IActionResult List(byte id)
+        {
+
+            MenuItemViewModel MIVM = new();
+            Order order= IGenericService.GetById<Order>(id);
+            MIVM.OrderId = order.Id;
+            MIVM.TableId = order.TableId;
+
+            return View(MIVM);
+        }
+
 
         [HttpGet]
         public JsonResult GetAllCategories()

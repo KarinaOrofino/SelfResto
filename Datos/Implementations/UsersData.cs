@@ -39,17 +39,17 @@ namespace KO.Data.Implementations
                         {
                             User user = new()
                             {
-                                Id = int.Parse(dataRow["Id"].ToString()),
+                                Id = byte.Parse(dataRow["Id"].ToString()),
                                 Name = dataRow["Name"].ToString(),
                                 Surname = dataRow["Surname"].ToString(),
                                 Email = dataRow["Email"].ToString(),
                                 Password = dataRow["Password"].ToString(),
-                                AccessType = int.Parse(dataRow["Access_Type"].ToString()),
+                                AccessType = byte.Parse(dataRow["Access_Type"].ToString()),
                                 Active = (bool)dataRow["Active"],
                                 CreationDate = DateTime.Parse(dataRow["Creation_Date"].ToString()),
-                                CreationUser = int.Parse(dataRow["Creation_User"].ToString()),
+                                CreationUser = byte.Parse(dataRow["Creation_User"].ToString()),
                                 UpdateDate = string.IsNullOrEmpty(dataRow["Update_Date"].ToString()) ? null : DateTime.Parse(dataRow["Update_Date"].ToString()),
-                                UpdateUser = int.Parse(dataRow["Update_User"].ToString()),
+                                UpdateUser = byte.Parse(dataRow["Update_User"].ToString()),
                             };
                             usersList.Add(user);
                         }
@@ -88,17 +88,17 @@ namespace KO.Data.Implementations
                         {
                             User user = new ()
                             {
-                                Id = int.Parse(dataRow["Id"].ToString()),
+                                Id = byte.Parse(dataRow["Id"].ToString()),
                                 Name = dataRow["Name"].ToString(),
                                 Surname = dataRow["Surname"].ToString(),
                                 Email = dataRow["Email"].ToString(),
                                 Password = dataRow["Password"].ToString(),
-                                AccessType = int.Parse(dataRow["Access_Type"].ToString()),
+                                AccessType = byte.Parse(dataRow["Access_Type"].ToString()),
                                 Active = (bool)dataRow["Active"],
                                 CreationDate = DateTime.Parse(dataRow["Creation_Date"].ToString()),
-                                CreationUser = int.Parse(dataRow["Creation_User"].ToString()),
+                                CreationUser = byte.Parse(dataRow["Creation_User"].ToString()),
                                 UpdateDate = string.IsNullOrEmpty(dataRow["Update_Date"].ToString()) ? null : DateTime.Parse(dataRow["Update_Date"].ToString()),
-                                UpdateUser = int.Parse(dataRow["Update_User"].ToString()),
+                                UpdateUser = byte.Parse(dataRow["Update_User"].ToString()),
                             };
                             usersList.Add(user);
                         }
@@ -133,17 +133,17 @@ namespace KO.Data.Implementations
                     {
                         DataRow dataRow = dt.Rows[0];
 
-                        user.Id = int.Parse(dataRow["Id"].ToString());
+                        user.Id = byte.Parse(dataRow["Id"].ToString());
                         user.Name = dataRow["Name"].ToString();
                         user.Email = dataRow["Email"].ToString();
                         user.Surname = dataRow["Surname"].ToString();
                         user.Password = dataRow["Password"].ToString();
-                        user.AccessType = int.Parse(dataRow["Access_Type"].ToString());
+                        user.AccessType = byte.Parse(dataRow["Access_Type"].ToString());
                         user.Active = (bool)dataRow["Active"];
                         user.CreationDate = DateTime.Parse(dataRow["Creation_Date"].ToString());
-                        user.CreationUser = int.Parse(dataRow["Creation_User"].ToString());
+                        user.CreationUser = byte.Parse(dataRow["Creation_User"].ToString());
                         user.UpdateDate = string.IsNullOrEmpty(dataRow["Update_Date"].ToString()) ? null : DateTime.Parse(dataRow["Update_Date"].ToString());
-                        user.UpdateUser = int.Parse(dataRow["Update_User"].ToString());
+                        user.UpdateUser = byte.Parse(dataRow["Update_User"].ToString());
 
                     }
                 }
@@ -176,17 +176,17 @@ namespace KO.Data.Implementations
                     {
                         DataRow dataRow = dt.Rows[0];
 
-                        user.Id = int.Parse(dataRow["Id"].ToString());
+                        user.Id = byte.Parse(dataRow["Id"].ToString());
                         user.Name = dataRow["Name"].ToString();
                         user.Email = dataRow["Email"].ToString();
                         user.Surname = dataRow["Surname"].ToString();
                         user.Password = dataRow["Password"].ToString();
-                        user.AccessType = int.Parse(dataRow["Access_Type"].ToString());
+                        user.AccessType = byte.Parse(dataRow["Access_Type"].ToString());
                         user.Active = (bool)dataRow["Active"];
                         user.CreationDate = DateTime.Parse(dataRow["Creation_Date"].ToString());
-                        user.CreationUser = int.Parse(dataRow["Creation_User"].ToString());
+                        user.CreationUser = byte.Parse(dataRow["Creation_User"].ToString());
                         user.UpdateDate = string.IsNullOrEmpty(dataRow["Update_Date"].ToString()) ? null : DateTime.Parse(dataRow["Update_Date"].ToString());
-                        user.UpdateUser = string.IsNullOrEmpty(dataRow["Update_User"].ToString())? null : int.Parse(dataRow["Update_User"].ToString());
+                        user.UpdateUser = string.IsNullOrEmpty(dataRow["Update_User"].ToString())? null : byte.Parse(dataRow["Update_User"].ToString());
                     }
                 }
             }
