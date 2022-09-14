@@ -15,8 +15,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
-using Web.Models.Account;
 using Microsoft.AspNetCore.Authorization;
+using KO.Web.Models.Account;
 
 namespace Web.Controllers.Account
 {
@@ -118,32 +118,38 @@ namespace Web.Controllers.Account
                 var identity = new ClaimsIdentity(new[] {
                             new Claim(ClaimTypes.Sid, user.Id.ToString()),
                             new Claim(ClaimTypes.Name, user.Name),
-                            new Claim(ClaimTypes.Surname, user.Surname),
+                            new Claim(ClaimTypes.Surname, user.Surname), 
                             new Claim(ClaimTypes.Email, user.Email),
+                            new Claim(ClaimTypes.Role, user.AccessTypeName),
+                            new Claim(Constants.CLAIMS_PERMISOS, JsonConvert.SerializeObject(user.Access_Type))
                         }, this.Configuration[Constants.IDAPP].ToString());
 
                 var principal = new ClaimsPrincipal(identity);
                 var login = HttpContext.SignInAsync(this.Configuration[Constants.IDAPP].ToString(), principal);
 
-                Order order = IGenericService.Get<Order>(o => o.Active && o.TableId == tableId);
-                Order newOrder = new();
+                if(user.Access_Type == 10 ) { 
+
+                    Order order = IGenericService.Get<Order>(o => o.Active && o.TableId == tableId);
+                    Order newOrder = new();
 
                 if (order == null) {
                    
                     newOrder.TableId = tableId;
-                    newOrder.CreationUser = (byte)user.Id;
+                    newOrder.CreationUser = user.Id;
                     newOrder.CreationDate = DateTime.Now;
                     newOrder.Active = true;
 
                     IGenericService.Add(newOrder);
                     jsonData.content = newOrder.Id;
-                }
+                    }
+                
 
                 else
                 {
                     jsonData.content = order.Id;
                 }
-                
+                }
+
                 jsonData.result = JsonData.Result.Ok;
 
             }

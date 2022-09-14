@@ -19,7 +19,7 @@
 
     } else if (res.result == AJAX_REDIRECT) {
 
-        vueApp.notification.showWarning("Sesion vencida");
+        vueApp.notification.showWarning("Sesión vencida");
         window.location = res.redirect;
     }
 };

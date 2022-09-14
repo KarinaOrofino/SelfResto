@@ -3,19 +3,22 @@ vueAppParams.data.isValid = false;
 vueAppParams.data.itemChange = "";
 vueAppParams.data.dialog = null;
 vueAppParams.data.breadcrumbs = [];
+vueAppParams.data.loadingAccesses = false;
+vueAppParams.data.accessTypes = [];
 
 vueAppParams.mounted = function () {
     this.breadcrumbs = [
         { text: jsglobals.Home, disabled: false, href: '/Home/Index' },
-        { text: jsglobals.Tables, disabled: false, href: '/Tables/List' },
+        { text: jsglobals.Users, disabled: false, href: '/Users/List' },
         { text: jsglobals.Detail, href: '', disabled: true }
     ];
     if (this.model.Id == 0) {
         this.model.Active = true;
     }
+    this.getAccessTypes();
 };
 
-vueAppParams.methods.isDisabled = function () {
+vueAppParams.methods.isDisabled = function (){
     return !this.model.Id == 0;
 }
 
@@ -39,7 +42,22 @@ vueAppParams.methods.confirmStateChange = function (itemChange) {
 
 };
 
-vueAppParams.methods.saveTable = function () {
+vueAppParams.methods.getAccessTypes = function () {
+
+    vueAppParams.data.loadingAccesses = true;
+
+    $.ajax({
+        url: "/Users/GetAccessTypes",
+        method: "GET",
+        success: function (data) {
+            vueApp.loadingAccesses = false;
+            vueApp.accessTypes = data.content;
+        },
+        error: defaultErrorHandler
+    });
+};
+
+vueAppParams.methods.saveUser = function () {
 
     vueApp.isValid = vueApp.$refs.form.validate();
     if (!vueApp.isValid) {
@@ -52,12 +70,12 @@ vueAppParams.methods.saveTable = function () {
     if (this.model.Id == 0) {
 
         $.ajax({
-            url: "/Tables/Add",
+            url: "/Users/Add",
             method: "POST",
             data: vueApp.model,
             success: function (data) {
                 vueApp.notification.showSuccess(jsglobals.MsgCreationOk);
-                setTimeout(function () { window.location = '/Tables/List' }, TIEMPO_CIERRE_FORMULARIO);
+                setTimeout(function () { window.location = '/Users/List' }, TIEMPO_CIERRE_FORMULARIO);
             },
             error: defaultErrorHandler
         });
@@ -65,12 +83,12 @@ vueAppParams.methods.saveTable = function () {
     else {
 
         $.ajax({
-            url: "/Tables/Update",
+            url: "/Users/Update",
             method: "POST",
             data: vueApp.model,
             success: function (data) {
                 vueApp.notification.showSuccess(jsglobals.MsgUpdateOk);
-                setTimeout(function () { window.location = '/Tables/List' }, TIEMPO_CIERRE_FORMULARIO);
+                setTimeout(function () { window.location = '/Users/List' }, TIEMPO_CIERRE_FORMULARIO);
             },
             error: defaultErrorHandler
 
@@ -80,5 +98,5 @@ vueAppParams.methods.saveTable = function () {
 
 
 vueAppParams.methods.goBack = function () {
-    window.location = "/Tables/List";
+    window.location = "/Users/List";
 };

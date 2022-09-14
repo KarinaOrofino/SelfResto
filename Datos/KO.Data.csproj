@@ -20,4 +20,8 @@
     <ProjectReference Include="..\Framework\KO.Framework.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Implementations\NewFolder\" />
+  </ItemGroup>
+
 </Project>

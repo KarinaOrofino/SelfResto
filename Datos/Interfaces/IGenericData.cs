@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Storage;
+﻿using KO.Entities;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -16,6 +17,8 @@ namespace KO.Data.Interfaces
         void AddRange<T>(IEnumerable<T> p_Entity) where T : class;
         void AddAsync<T>(T p_Entity) where T : class;
         void Update<T>(T p_Entity) where T : class;
+        void Deactivate<T>(int id) where T : BaseEntity;
+        void Activate<T>(int id) where T : BaseEntity;
         void UpdateRange<T>(IEnumerable<T> p_Entity) where T : class;
         void Delete<T>(T p_Entity) where T : class;
         void UpdateIgnoringProperty<T, W>(T entity, Expression<Func<T, W>> property) where T : class where W : struct;        

@@ -1,1 +1,186 @@
-﻿
+﻿@model KO.Web.Models.MenuItem.MenuItemViewModel
+
+@section scripts
+{
+    <script type="text/javascript" src="~/js/pages/menuItems/menuItems-detail.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+        vueAppParams.data.model =@Html.Raw(Model.ToJsonModel())
+    </script>
+}
+
+<v-row v-if="breadcrumbs.length > 0" class="breadcrum-row" align-content="center">
+
+    <v-breadcrumbs :items="breadcrumbs">
+        <template v-slot:item="{ item }">
+            <v-breadcrumbs-item :href="item.href"
+                                :disabled="item.disabled">
+                <span :class="item.disabled ? 'breadcrumbInactive' : 'breadcrumbActive'" style="font-weight: bold;"> {{  item.text.toUpperCase() }}</span>
+            </v-breadcrumbs-item>
+        </template>
+
+    </v-breadcrumbs>
+
+</v-row>
+<template>
+    <v-container class="mt-8">
+
+        <v-row no-gutters
+               style="flex-wrap: nowrap;">
+            <v-col cols="11"
+                   class="flex-grow-1 flex-shrink-0 mx-auto">
+                <v-card class="notebook">
+                    <template>
+                        <v-form ref="form" lazy-validation>
+                            <v-container>
+                                <v-row class="mt-4 ml-4 mr-4 mb-0">
+                                    <v-col cols="6">
+                                        <v-row>
+                                            <v-col cols="6" class="mt-1">
+                                                <v-text-field v-model="model.VisualizationOrder"
+                                                              :error-messages="errors.VisualizationOrder"
+                                                              :rules="[ vrules.required , v => vrules.number(v) ]"
+                                                              :label="jsglobals.VisualizationOrder">
+                                                </v-text-field>
+                                            </v-col>
+                                            <v-col cols="6">
+                                                <v-autocomplete v-model="model.CategoryId"
+                                                                class="mt-2"
+                                                                :items="categories"
+                                                                item-text="name"
+                                                                item-value="id"
+                                                                menu-props="auto"
+                                                                :loading="loadingCategories"
+                                                                :disabled="loadingCategories"
+                                                                :label="jsglobals.Category"
+                                                                :rules="[ vrules.required]">
+                                                </v-autocomplete>
+                                            </v-col>
+                                            <v-col cols="12">
+                                                <v-text-field v-model="model.Name"
+                                                              :error-messages="errors.Name"
+                                                              counter="50"
+                                                              :rules="[ v => vrules.maxLength(v,50,jsglobals.Name) ]"
+                                                              :label="jsglobals.Name">
+                                                </v-text-field>
+                                            </v-col>
+                                            <v-col cols="12">
+                                                <v-textarea v-model="model.Description"
+                                                            outlined
+                                                            hide-details
+                                                            :label="jsglobals.Description">
+                                                </v-textarea>
+                                            </v-col>
+                                            <v-col cols="6">
+                                                <v-text-field v-model="model.Price"
+                                                              :label="jsglobals.Price">
+                                                </v-text-field>
+                                            </v-col>
+                                            <v-col cols="9" class="ml-2">
+                                                <v-radio-group row :label="jsglobals.State" v-model="model.Active">
+                                                    <v-radio color="red darken-4" :disabled=!isDisabled() name="state" :label="jsglobals.ActiveMasc" :value="true" v-on:change="changeState()"></v-radio>
+                                                    <v-radio color="red darken-4" :disabled=!isDisabled() name="state" :label="jsglobals.InactiveMasc" :value="false" v-on:change="changeState()"></v-radio>
+                                                </v-radio-group>
+                                            </v-col>
+                                        </v-row>
+                                    </v-col>
+                                    <v-col cols="6">
+                                        <v-row>
+                                            <v-col cols="12" class="text-center mx-auto mt-15">
+                                                <v-row>
+                                                    <v-img style="border:1px solid" width="400" height="300" v-model="model.ImageUrl"
+                                                           :src="model.ImageUrl"></v-img>
+                                                </v-row>
+                                                <v-row>
+                                                    <template>
+                                                        <v-file-input :label="jsglobals.SelectImage"
+                                                                      filled
+                                                                      prepend-icon="mdi-camera"
+                                                                      class="ma-2 selectImage"></v-file-input>
+                                                    </template>
+                                                </v-row>
+                                                <v-btn class="float-right white--text ma-1" color="red lighten-2" v-if="model.Id == 0" v-on:click="UploadImage">{{jsglobals.AddImage}}</v-btn>
+                                                <v-btn class="float-right white--text ma-1" color="red lighten-2" v-else v-on:click="UploadImage">{{jsglobals.ChangeImage}}</v-btn>
+                                            </v-col>
+                                        </v-row>
+                                    </v-col>
+                                    <v-row class="mt-0 mb-2 mr-2">
+                                        <v-col cols="12">
+                                            <v-tooltip bottom>
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-btn class="float-right white--text"
+                                                           v-bind="attrs"
+                                                           v-on="on"
+                                                           v-on:click="saveMenuItem"
+                                                           color="rgb(165, 64, 71)"
+                                                           :disabled="submiting"
+                                                           :loading="submiting"
+                                                           elevation="2">
+                                                        <v-icon small class="pr-1">mdi-content-save</v-icon>
+                                                        {{jsglobals.Save}}
+                                                    </v-btn>
+                                                </template>
+                                                <span>   {{jsglobals.Save}}</span>
+                                            </v-tooltip>
+                                            <v-tooltip bottom>
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-btn class="float-right mr-3 white--text"
+                                                           v-bind="attrs"
+                                                           v-on="on"
+                                                           v-on:click="goBack()"
+                                                           color="rgb(165, 64, 71)"
+                                                           elevation="2"
+                                                           :disabled="submiting"
+                                                           :loading="submiting">
+                                                        <v-icon small class="pr-1">mdi-arrow-left-circle</v-icon>
+                                                        {{jsglobals.Back}}
+                                                    </v-btn>
+                                                </template>
+                                                <span>{{jsglobals.Back}}</span>
+                                            </v-tooltip>
+                                        </v-col>
+                                    </v-row>
+                            </v-container>
+                        </v-form>
+                    </template>
+                </v-card>
+            </v-col>
+        </v-row>
+    </v-container>
+</template>
+
+<!--Dialog Cambiar Estado-->
+<v-row justify="space-around">
+    <v-col cols="auto">
+        <v-dialog v-model="dialogChangeState" persistent transition="dialog-bottom-transition"
+                  width="500">
+            <template v-slot:default="dialog">
+                <v-card>
+                    <v-toolbar dense class="d-flex text-h6 mb-5 justify-center" color="#a54047"
+                               dark>
+                        <v-toolbar-title>{{jsglobals.MenuItem}} - {{jsglobals.ChangeState}} </v-toolbar-title>
+                    </v-toolbar>
+                    <v-card-text class="text-subtitle-1 text-center mb-5">
+                        {{itemChange.Active==true?jsglobals.MsgActivate:jsglobals.MsgInactivate}}
+                    </v-card-text>
+                    <v-divider></v-divider>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn small
+                               v-on:click="confirmStateChange(itemChange)"
+                               color="red lighten-2">
+                            {{jsglobals.No}}
+                        </v-btn>
+                        <v-btn small
+                               v-on:click="dialog.value = false"
+                               color="red lighten-2">
+                            {{jsglobals.Yes}}
+                        </v-btn>
+                    </v-card-actions>
+                </v-card>
+            </template>
+        </v-dialog>
+    </v-col>
+</v-row>
+
+
+

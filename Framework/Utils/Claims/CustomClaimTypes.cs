@@ -3,5 +3,6 @@
     public static class CustomClaimTypes
     {
         public const string TestClaim = "testClaim";
+
     }
 }

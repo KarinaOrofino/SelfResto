@@ -1,25 +1,25 @@
-﻿@model KO.Web.Models.Table.TableViewModel
+﻿@model KO.Web.Models.Account.UserViewModel
 
 @section scripts
 {
-    <script type="text/javascript" src="~/js/pages/tables/tables-details.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="~/js/pages/users/users-detail.js" asp-append-version="true"></script>
     <script type="text/javascript">
         vueAppParams.data.model =@Html.Raw(Model.ToJsonModel())
     </script>
 }
 
 <v-row v-if="breadcrumbs.length > 0" class="breadcrum-row" align-content="center">
-
+    
     <v-breadcrumbs :items="breadcrumbs">
         <template v-slot:item="{ item }">
-            <v-breadcrumbs-item :href="item.href"
-                                :disabled="item.disabled">
-                <span :class="item.disabled ? 'breadcrumbInactive' : 'breadcrumbActive'" style="font-weight: bold;"> {{  item.text.toUpperCase() }}</span>
-            </v-breadcrumbs-item>
+                <v-breadcrumbs-item :href="item.href"
+                                    :disabled="item.disabled">
+                    <span :class="item.disabled ? 'breadcrumbInactive' : 'breadcrumbActive'" style="font-weight: bold;"> {{  item.text.toUpperCase() }}</span>
+                </v-breadcrumbs-item>
         </template>
-
+        
     </v-breadcrumbs>
-
+        
 </v-row>
 <template>
     <v-container class="mt-8">
@@ -33,28 +33,51 @@
                         <v-form ref="form" lazy-validation>
                             <v-container>
                                 <v-row class="mt-4 ml-4 mr-4 mb-0">
-                                    <v-col cols="3">
-                                        <v-text-field v-model="model.Number"
-                                                      :error-messages="errors.Number"
-                                                      counter="50"
-                                                      :rules="[ vrules.required , v => vrules.number(v) ]"
-                                                      :label="jsglobals.Number">
-                                        </v-text-field>
-                                    </v-col>
-                                    <v-col cols="12">
+                                    <v-col cols="6">
                                         <v-text-field v-model="model.Name"
-                                                      :error-messages="errors.Name"
+                                                      :error-messages="errors.name"
                                                       counter="50"
-                                                      :rules="[ v => vrules.maxLength(v,50,jsglobals.Name) ]"
+                                                      :rules="[ vrules.required , v => vrules.maxLength(v,50,jsglobals.Name) ]"
                                                       :label="jsglobals.Name">
                                         </v-text-field>
                                     </v-col>
-                                    <v-col cols="12">
-                                        <v-textarea v-model="model.Description"
-                                                    outlined
-                                                    hide-details
-                                                    :label="jsglobals.Description">
-                                        </v-textarea>
+                                    <v-col cols="6">
+                                        <v-text-field v-model="model.Surname"
+                                                      :error-messages="errors.Surname"
+                                                      counter="50"
+                                                      :rules="[ vrules.required , v => vrules.maxLength(v,50,jsglobals.Surname) ]"
+                                                      :label="jsglobals.Surname">
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="6">
+                                        <v-text-field v-model="model.Email"
+                                                      :error-messages="errors.Email"
+                                                      counter="50"
+                                                      :rules="[ vrules.required , v => vrules.maxLength(v,50,jsglobals.Email), v => vrules.eMail(v) ]"
+                                                      :label="jsglobals.Email" >
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="6">
+                                        <v-text-field v-model="model.Password"
+                                                                                                            type="password"
+                                                      :error-messages="errors.Password"
+                                                      counter="12"
+                                                      :rules="[ vrules.required , v => vrules.maxLength(v,12,jsglobals.Password) ]"
+                                                      :label="jsglobals.Password">
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="6">
+                                        <v-autocomplete v-model="model.AccessType"
+                                                        class="mt-2"
+                                                        :items="accessTypes"
+                                                        item-text="name"
+                                                        item-value="id"
+                                                        menu-props="auto"
+                                                        :loading="loadingAccesses"
+                                                        :disabled="loadingAccesses"
+                                                        :label="jsglobals.AccessType"
+                                                        :rules="[ vrules.required]">
+                                        </v-autocomplete>
                                     </v-col>
                                     <v-col cols="5" class="ml-2">
                                         <v-radio-group row :label="jsglobals.State" v-model="model.Active">
@@ -70,7 +93,7 @@
                                                 <v-btn class="float-right white--text"
                                                        v-bind="attrs"
                                                        v-on="on"
-                                                       v-on:click="saveTable"
+                                                       v-on:click="saveUser"
                                                        color="red lighten-2"
                                                        :disabled="submiting"
                                                        :loading="submiting"
@@ -117,7 +140,7 @@
                 <v-card>
                     <v-toolbar dense class="d-flex text-h6 mb-5 justify-center" color="#a54047"
                                dark>
-                        <v-toolbar-title>{{jsglobals.Table}} - {{jsglobals.ChangeState}} </v-toolbar-title>
+                        <v-toolbar-title>{{jsglobals.User}} - {{jsglobals.ChangeState}} </v-toolbar-title>
                     </v-toolbar>
                     <v-card-text class="text-subtitle-1 text-center mb-5">
                         {{itemChange.Active==true?jsglobals.MsgActivate:jsglobals.MsgInactivate}}

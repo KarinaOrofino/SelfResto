@@ -7,19 +7,10 @@ namespace KO.Services.Interfaces
     {
         public List<Category> GetAllCategories();
 
-        public List<MenuItem> GetAll();
-
         public List<MenuItem> GetAllFiltered(string searchField, bool? active);
 
-        public MenuItem GetById(int id);
+        public List<MenuItem> GetAllFilteredByCatId(int catId, bool? active);
 
-        public void Create(MenuItem menuItem);
-
-        public void Update(MenuItem menuItem);
-
-        public void Inactivate(int id);
-
-        public void Activate(int id);
     }
 }
 

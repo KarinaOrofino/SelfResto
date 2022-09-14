@@ -51,7 +51,8 @@ namespace KO.Services
                                 name = user.Name,
                                 surname = user.Surname,
                                 email = user.Email,
-                                accesType = user.AccessType
+                                access_Type = user.Access_Type,
+                                accessTypeName = user.AccessTypeName
                             })
                     };
                 }

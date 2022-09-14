@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using KO.Data.EFScafolding;
 using KO.Data.Interfaces;
+using KO.Entities;
 
 namespace KO.Data.Implementacion
 {
@@ -47,10 +48,27 @@ namespace KO.Data.Implementacion
             _context.Set<T>().Update(p_Entity);
             _context.SaveChanges();
         }
+
         public virtual void Delete<T>(T p_Entity) where T : class
         {
             _context.Set<T>().Remove(p_Entity);
             _context.SaveChanges();
+        }
+
+        public void Deactivate<T>(int id) where T : BaseEntity
+        {
+            var p_Entity = GetById<T>(id);
+            p_Entity.Active = false;
+            p_Entity.UpdateDate = DateTime.Now;
+            Update<T>(p_Entity);
+        }
+
+        public void Activate<T>(int id) where T : BaseEntity
+        {
+            var p_Entity = GetById<T>(id);
+            p_Entity.Active = true;
+            p_Entity.UpdateDate = DateTime.Now;
+            Update<T>(p_Entity);
         }
 
         public async virtual void AddAsync<T>(T p_Entity) where T : class

@@ -12,13 +12,13 @@ namespace KO.Entities
         public DateTime CreationDate { get; set; }
 
         [Column(name: "CREATION_USER")]
-        public byte CreationUser { get; set; }
+        public int CreationUser { get; set; }
 
         [Column(name: "UPDATE_DATE")]
         public DateTime? UpdateDate { get; set; }
 
         [Column(name: "UPDATE_USER")]
-        public byte? UpdateUser { get; set; }
+        public int? UpdateUser { get; set; }
 
     }
 }

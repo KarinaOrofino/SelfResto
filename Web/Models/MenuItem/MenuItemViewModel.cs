@@ -16,7 +16,7 @@ namespace KO.Web.Models.MenuItem
 
         public int Id { get; set; }
 
-        public int Order { get; set; }
+        public int VisualizationOrder { get; set; }
 
         public string Name { get; set; }
 
@@ -46,9 +46,9 @@ namespace KO.Web.Models.MenuItem
 
         public int Quantity { get; set; }
 
-        public byte OrderId { get; set; }
+        public int OrderId { get; set; }
 
-        public byte TableId { get; set; }
+        public int TableId { get; set; }
 
     }
 }

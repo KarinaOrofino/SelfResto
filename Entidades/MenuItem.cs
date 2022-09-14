@@ -4,12 +4,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KO.Entities
 {
-    public class MenuItem 
+    public class MenuItem : BaseEntity
     {
-
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        public int Order { get; set; }
+        public int VisualizationOrder { get; set; }
 
         public string Name { get; set; }
 
@@ -17,19 +17,13 @@ namespace KO.Entities
 
         public double Price { get; set; }
 
+        [Column(name: "CATEGORY_ID")]
         public int CategoryId { get; set; }
 
+        [NotMapped]
+        public string CategoryName { get; set; }
+
         public string ImageUrl { get; set; }
-
-        public bool Active { get; set; }
-
-        public DateTime CreationDate { get; set; }
-
-        public int CreationUser { get; set; }
-
-        public DateTime? UpdateDate { get; set; }
-
-        public int? UpdateUser { get; set; }
 
         [ForeignKey("CategoryId")]
         public virtual Category Category { get; set; }

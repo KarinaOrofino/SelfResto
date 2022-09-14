@@ -23,39 +23,15 @@ namespace KO.Services.Implementations
             return _datos.GetAllCategories();
         }
 
-        public List<MenuItem> GetAll()
-        {
-            return _datos.GetAll();
-        }
-
         public List<MenuItem> GetAllFiltered(string searchField, bool? active)
         {
             return _datos.GetAllFiltered(searchField, active);
         }
 
-        public MenuItem GetById(int id)
+        public List<MenuItem> GetAllFilteredByCatId(int catId, bool? active)
         {
-            return _datos.GetById(id);
+            return _datos.GetAllFilteredByCatId(catId, active);
         }
 
-        public void Create(MenuItem menuItem)
-        {
-            _datos.Create(menuItem);
-        }
-
-        public void Update(MenuItem menuItem)
-        {
-            _datos.Update(menuItem);
-        }
-
-        public void Inactivate(int id)
-        {
-            _datos.Inactivate(id);
-        }
-
-        public void Activate(int id)
-        {
-            _datos.Activate(id);
-        }
     }
 }

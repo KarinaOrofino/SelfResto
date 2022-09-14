@@ -1,1 +1,54 @@
-﻿
+﻿@model KO.Web.Models.Order.OrderViewModel
+
+@section scripts
+{
+    <script type="text/javascript" src="~/js/pages/orders/orders-details.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+        vueAppParams.data.model =@Html.Raw(Model.ToJsonModel())
+    </script>
+}
+
+<template>
+    <v-container class="mt-8">
+        <template>
+            <v-card max-width="1000" class="mx-auto" elevation="4" color="#FFCDD2" rounded>
+                <v-card-text>
+
+                            <div class="ma-5" style="background-color:white">
+                                <v-row class="d-flex font-weight-bold justify-center">
+
+                                    <v-col class="col-md-3 text-left">Item</v-col>
+                                    <v-col class="col-md-2 text-center">Cantidad</v-col>
+                                    <v-col class="col-md-1 text-right">Subtotal</v-col>
+                                    <v-col class="col-md-1">Estado</v-col>
+                                </v-row>
+
+                            </div>
+                            <div v-for="item in model.OrderDetails" name="item.MenuItemName" class="ma-5" style="background-color:white">
+                                <v-row class="d-flex justify-center" style="align-items:center">
+
+                                        <img style="border:1px solid;height:70px;width:95px" :src="item.MenuItemPicture"/>
+
+                                    <v-col class="col-md-3 text-left">
+                                        <p class="font-weight-bold pb-0 mb-0">{{item.MenuItemName}} {{item.RelatedMenuItemName}}</p>
+                                        <p class="ma-0 pa-0">$ {{item.UnitPrice}}</p>
+                                    </v-col>
+                                    <v-col class="col-md-2 text-center"><span style="background-color: lightgray; border: 1px solid gray; padding: 0.4vw ">{{item.Quantity}}</span></v-col>
+                                    <v-col class="col-md-1 text-right">$ {{item.UnitPrice * item.Quantity}}</v-col>
+                                    <v-col class="col-md-1 text-center mr-2"><v-icon large color="red lighten-2">edit_note</v-icon></v-col>
+                                    @*<template v-slot:item.StateTypeName="{ item }">
+
+                                        <v-tooltip left>
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <v-icon large v-on="on" v-bind="attrs" class="mr-2" color="red lighten-2">edit_note</v-icon>
+                                            </template>
+                                            <span>
+                                                {{jsglobals.Edit}}
+                                            </span>
+
+                                    </template>*@
+
+            </div>
+        </template>
+
+</template>

@@ -1,0 +1,342 @@
+﻿@using KO.Web.Models.MenuItem;
+@using KO.Resources;
+
+@model MenuItemViewModel
+
+@{
+    ViewData["Title"] = Global.Menu;
+}
+
+
+@section scripts{
+    <script type="text/javascript" src="~/js/pages/menuItems/menuItems-listToOrder.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+        vueAppParams.data.model =@Html.Raw(Model.ToJsonModel())
+    </script>
+}
+
+
+
+<main class="d-flex text-center justify-space-around" style="align-items:center;">
+        <template>
+            <v-tabs color="red accent-4"
+                    fixed-tabs>
+                <v-tab v-for="categ in categoriesAndItems" :key="categ.Id">{{categ.name}}</v-tab>
+                <v-tab-item>
+
+                    <v-container fluid>
+                        <v-row>
+
+                            <v-col v-for="item in categoriesAndItems[0].menuItems"
+                                   :key="item.id"
+                                   cols="12"
+                                   md="3">
+                                <template>
+                                    <v-card class="mx-auto" max-width="300">
+                                        <img width="300" height="200" :src="item.imageUrl" />
+                                        <v-card-text class="text-center black--text pa-0" style="font-size:18px;font-weight:bold">
+                                            {{item.name}}
+                                        </v-card-text>
+                                        <v-card-text class="text-center black--text pa-0" style="font-size:18px;font-weight:bold">
+                                            $ {{item.price}}
+                                        </v-card-text>
+                                        <v-card-actions class="d-flex justify-center">
+                                            <v-btn x-small height=23px v-on:click="changeCounter(item.categoryId, item.id, -1)" name="button">
+                                                <v-icon class="mx-0">mdi-minus</v-icon>
+                                            </v-btn>
+                                            <input v-model="item.quantity" outlined class="quantity" name="name" value="item.quantity" />
+                                            <v-btn x-small height=23px v-on:click="changeCounter(item.categoryId, item.id, 1)" name="button">
+                                                <v-icon>mdi-plus</v-icon>
+                                            </v-btn>
+                                            <v-btn :disabled="item.quantity==0" small color="red lighten-2" v-on:click="addItem(item.categoryId, item.id, item.quantity)">
+                                                {{jsglobals.Add}}
+                                            </v-btn>
+                                        </v-card-actions>
+                                    </v-card>
+                                </template>
+                                <img>
+                            </v-col>
+                        </v-row>
+                    </v-container>
+                </v-tab-item>
+                <v-tab-item>
+                    <v-container fluid>
+                        <v-row>
+                            <v-col v-for="item in categoriesAndItems[1].menuItems"
+                                   :key="item.id"
+                                   cols="12"
+                                   md="3">
+                                <template>
+                                    <v-card class="mx-auto" max-width="300">
+                                        <img width="300" height="200" :src="item.imageUrl" />
+                                        <v-card-text class="text-center black--text pa-0" style="font-size:18px;font-weight:bold">
+                                            {{item.name}}
+                                        </v-card-text>
+                                        <v-card-text class="text-center black--text pa-0" center style="font-size:18px;font-weight:bold">
+                                            <span>$ {{item.price}}</span>
+                                            <v-autocomplete v-model="item.relatedMenuItemId" class="col-md-11 mx-auto"
+                                                            :items="salsas"
+                                                            item-text="name"
+                                                            item-value="id"
+                                                            menu-props="auto"
+                                                            :label="jsglobals.Salsa">
+                                                <template v-slot:item="{item}">
+                                                    <span>{{ item.name }} - $ {{ item.price}}</span>
+                                                </template>
+                                                <template v-slot:selection="{item}">
+                                                    <span style="font-size:15px">{{ item.name }} - $ {{ item.price}}</span>
+                                                </template>
+                                            </v-autocomplete>
+                                        </v-card-text>
+                                        <v-card-actions class="d-flex justify-center">
+
+                                            <v-btn x-small height=23px v-on:click="changeCounter(item.categoryId, item.id, -1)" name="button">
+                                                <v-icon class="mx-0">mdi-minus</v-icon>
+                                            </v-btn>
+                                            <input v-model="item.quantity" outlined class="quantity" name="name" value="item.quantity" />
+                                            <v-btn x-small height=23px v-on:click="changeCounter(item.categoryId, item.id, 1)" name="button">
+                                                <v-icon>mdi-plus</v-icon>
+                                            </v-btn>
+                                            <v-btn :disabled="item.quantity==0" small color="red lighten-2" v-on:click="addItem(item.categoryId, item.id, item.quantity, item.relatedMenuItemId)">
+                                                {{jsglobals.Add}}
+                                            </v-btn>
+                                        </v-card-actions>
+                                    </v-card>
+                                </template>
+                                <img>
+                            </v-col>
+                        </v-row>
+                    </v-container>
+                </v-tab-item>
+                <v-tab-item>
+                    <v-container fluid>
+                        <v-row>
+                            <v-col v-for="item in categoriesAndItems[2].menuItems"
+                                   :key="item.id"
+                                   cols="12"
+                                   md="3">
+                                <template>
+                                    <v-card class="mx-auto" max-width="300">
+                                        <img width="300" height="200" :src="item.imageUrl" />
+                                        <v-card-text class="text-center black--text pa-0" style="font-size:18px;font-weight:bold">
+                                            {{item.name}}
+                                        </v-card-text>
+                                        <v-card-text class="text-center black--text pa-0" style="font-size:18px;font-weight:bold">
+                                            $ {{item.price}}
+                                        </v-card-text>
+                                        <v-card-actions class="d-flex justify-center">
+
+                                            <v-btn x-small height=23px v-on:click="changeCounter(item.categoryId, item.id, -1)" name="button">
+                                                <v-icon class="mx-0">mdi-minus</v-icon>
+                                            </v-btn>
+                                            <input v-model="item.quantity" outlined class="quantity" name="name" value="item.quantity" />
+                                            <v-btn x-small height=23px v-on:click="changeCounter(item.categoryId, item.id, 1)" name="button">
+                                                <v-icon>mdi-plus</v-icon>
+                                            </v-btn>
+                                            <v-btn :disabled="item.quantity==0" small color="red lighten-2" v-on:click="addItem(item.categoryId, item.id, item.quantity)">
+                                                {{jsglobals.Add}}
+                                            </v-btn>
+                                        </v-card-actions>
+                                    </v-card>
+                                </template>
+                                <img>
+                            </v-col>
+                        </v-row>
+                    </v-container>
+                </v-tab-item>
+                <v-tab-item>
+                    <v-container fluid>
+                        <v-row>
+                            <v-col v-for="item in categoriesAndItems[3].menuItems"
+                                   :key="item.id"
+                                   cols="12"
+                                   md="3">
+                                <template>
+                                    <v-card class="mx-auto" max-width="300">
+                                        <img width="300" height="200" :src="item.imageUrl" />
+                                        <v-card-text class="text-center black--text pa-0" style="font-size:18px;font-weight:bold">
+                                            {{item.name}}
+                                        </v-card-text>
+                                        <v-card-text class="text-center black--text pa-0" style="font-size:18px;font-weight:bold">
+                                            $ {{item.price}}
+                                        </v-card-text>
+                                        <v-card-actions class="d-flex justify-center">
+
+                                            <v-btn x-small height=23px v-on:click="changeCounter(item.categoryId, item.id, -1)" name="button">
+                                                <v-icon class="mx-0">mdi-minus</v-icon>
+                                            </v-btn>
+                                            <input v-model="item.quantity" outlined class="quantity" name="name" value="item.quantity" />
+                                            <v-btn x-small height=23px v-on:click="changeCounter(item.categoryId, item.id, 1)" name="button">
+                                                <v-icon>mdi-plus</v-icon>
+                                            </v-btn>
+                                            <v-btn :disabled="item.quantity==0" small color="red lighten-2" v-on:click="addItem(item.categoryId, item.id, item.quantity)">
+                                                {{jsglobals.Add}}
+                                            </v-btn>
+                                        </v-card-actions>
+                                    </v-card>
+                                </template>
+                                <img>
+                            </v-col>
+                        </v-row>
+                    </v-container>
+                </v-tab-item>
+                <v-tab-item>
+                    <v-container fluid>
+                        <v-row>
+                            <v-col v-for="item in categoriesAndItems[4].menuItems"
+                                   :key="item.id"
+                                   cols="12"
+                                   md="3">
+                                <template>
+                                    <v-card class="mx-auto" max-width="300">
+                                        <img width="300" height="200" :src="item.imageUrl" />
+                                        <v-card-text class="text-center black--text pa-0" style="font-size:18px;font-weight:bold">
+                                            {{item.name}}
+                                        </v-card-text>
+                                        <v-card-text class="text-center black--text pa-0" style="font-size:18px;font-weight:bold">
+                                            $ {{item.price}}
+                                        </v-card-text>
+                                        <v-card-actions class="d-flex justify-center">
+
+                                            <v-btn x-small height=23px v-on:click="changeCounter(item.categoryId, item.id, -1)" name="button">
+                                                <v-icon class="mx-0">mdi-minus</v-icon>
+                                            </v-btn>
+                                            <input v-model="item.quantity" outlined class="quantity" name="name" value="item.quantity" />
+                                            <v-btn x-small height=23px v-on:click="changeCounter(item.categoryId, item.id, 1)" name="button">
+                                                <v-icon>mdi-plus</v-icon>
+                                            </v-btn>
+                                            <v-btn :disabled="item.quantity==0" small color="red lighten-2" v-on:click="addItem(item.categoryId, item.id, item.quantity)">
+                                                {{jsglobals.Add}}
+                                            </v-btn>
+                                        </v-card-actions>
+                                    </v-card>
+                                </template>
+                                <img>
+                            </v-col>
+                        </v-row>
+                    </v-container>
+                </v-tab-item>
+                <v-tab-item>
+                    <v-container fluid>
+                        <v-row>
+                            <v-col v-for="item in categoriesAndItems[5].menuItems"
+                                   :key="item.id"
+                                   cols="12"
+                                   md="3">
+                                <template>
+                                    <v-card class="mx-auto" max-width="300">
+                                        <img width="300" height="200" :src="item.imageUrl" />
+                                        <v-card-text class="text-center black--text pa-0" style="font-size:18px;font-weight:bold">
+                                            {{item.name}}
+                                        </v-card-text>
+                                        <v-card-text class="text-center black--text pa-0" style="font-size:18px;font-weight:bold">
+                                            $ {{item.price}}
+                                        </v-card-text>
+                                        <v-card-actions class="d-flex justify-center">
+
+                                            <v-btn x-small height=23px v-on:click="changeCounter(item.categoryId, item.id, -1)" name="button">
+                                                <v-icon class="mx-0">mdi-minus</v-icon>
+                                            </v-btn>
+                                            <input v-model="item.quantity" outlined class="quantity" name="name" value="item.quantity" />
+                                            <v-btn x-small height=23px v-on:click="changeCounter(item.categoryId, item.id, 1)" name="button">
+                                                <v-icon>mdi-plus</v-icon>
+                                            </v-btn>
+                                            <v-btn :disabled="item.quantity==0" small color="red lighten-2" v-on:click="addItem(item.categoryId, item.id, item.quantity)">
+                                                {{jsglobals.Add}}
+                                            </v-btn>
+                                        </v-card-actions>
+                                    </v-card>
+                                </template>
+                                <img>
+                            </v-col>
+                        </v-row>
+                    </v-container>
+                </v-tab-item>
+                <v-tab-item>
+                    <v-container fluid>
+                        <v-row>
+                            <v-col v-for="item in bebidasCategorias"
+                                   :key="item.id"
+                                   cols="12"
+                                   md="3">
+                                <template>
+                                    <v-card class="mx-auto" max-width="300">
+                                        <img width="300" height="200" :src="item.categoryImageUrl" />
+                                        <v-card-text class="text-center black--text pa-0" style="font-size:18px;font-weight:bold">
+                                            {{item.name}}
+                                        </v-card-text>
+                                        <v-card-actions class="d-flex justify-center">
+                                            <v-btn small color="red lighten-2" v-on:click="verBebidas(item.id)">
+                                                {{jsglobals.See}}
+                                            </v-btn>
+                                        </v-card-actions>
+                                    </v-card>
+                                </template>
+                                <img>
+                            </v-col>
+
+                        </v-row>
+                    </v-container>
+
+                </v-tab-item>
+
+            </v-tabs>
+        </template>
+</main>
+
+<!--Dialog Ver Bebidas-->
+<v-row justify="space-around">
+    <v-col cols="auto">
+        <v-dialog v-model="dialogBebidas" persistent transition="dialog-bottom-transition"
+                    width="600">
+            <template v-slot:default="dialog">
+                <v-card>
+                    <v-toolbar dense class="d-flex text-h6 mb-5 justify-center" color="#a54047"
+                                dark>
+                        <v-toolbar-title>{{jsglobals.ElegirBebidas}}</v-toolbar-title>
+                    </v-toolbar>
+                    <v-card-text class="text-center mb-5">
+                        <v-data-table dense :headers="headers"
+                                        :items="bebidasFiltradas"
+                                        :items-per-page="10"
+                                        class="elevation-2 m-auto"
+                                        item-key="id"
+                                        style="position: relative;"
+                                        :loading="loadingBebidas"
+                                        :loading-text=jsglobals.ObteniendoBebidas
+                                        hide-default-footer>
+                            <template v-slot:item.price="{ item }">
+                                $ {{item.price}}
+                            </template>
+                            <template v-slot:item.quantity="{ item }">
+                                <v-btn x-small class="minusPlus" v-on:click="changeCounterBebidas(item.id, -1)">
+                                    -
+                                </v-btn>
+                                <input v-model="item.quantity" outlined class="quantity" value="item.quantity" />
+                                <v-btn x-small class="minusPlus" v-on:click="changeCounterBebidas(item.id, 1)">
+                                    +
+                                </v-btn>
+                            </template>
+                        </v-data-table>
+                    </v-card-text>
+                    <v-divider></v-divider>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn small
+                                v-on:click="dialog.value = false"
+                                color="red lighten-2">
+                            {{jsglobals.Cancel}}
+                        </v-btn>
+                        <v-btn small
+                                v-on:click="addItemBebida(bebidasFiltradas)"
+                                color="red lighten-2"
+                                :disabled="loadingBebidas"
+                                :loading="loadingBebidas">
+                            {{jsglobals.Add}}
+                        </v-btn>
+                    </v-card-actions>
+                </v-card>
+            </template>
+        </v-dialog>
+    </v-col>
+</v-row>

@@ -16,6 +16,11 @@ namespace KO.Services.Implementations
           
         }
 
+        public List<Table> GetAllFiltered(string searchField, bool? active)
+        {
+            return _datos.GetAllFiltered(searchField, active);
+        }
+
     }
 
 }

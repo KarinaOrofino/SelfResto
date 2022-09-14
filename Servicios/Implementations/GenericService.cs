@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using KO.Data.Interfaces;
+using KO.Entities;
 using KO.Services.Implementations;
 using KO.Services.Interfaces;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -68,6 +69,16 @@ namespace KO.Services.Implementaciones
         public void Update<T>(T p_Entity) where T : class
         {
             _datos.Update(p_Entity);
+        }
+
+        public void Deactivate<T>(int id) where T : BaseEntity
+        {
+            _datos.Deactivate<T>(id);
+        }
+
+        public void Activate<T>(int id) where T : BaseEntity
+        {
+            _datos.Activate<T>(id);
         }
 
         public void UpdateIgnoringProperty<T, W>(T entity, Expression<Func<T, W>> property)

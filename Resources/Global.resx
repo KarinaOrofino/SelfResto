@@ -504,4 +504,49 @@
   <data name="Employee" xml:space="preserve">
     <value>Empleado</value>
   </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="AccessTypes" xml:space="preserve">
+    <value>Tipos de Acceso</value>
+  </data>
+  <data name="InvalidEmail" xml:space="preserve">
+    <value>Formato de email inválido</value>
+  </data>
+  <data name="MissingSauce" xml:space="preserve">
+    <value>Debe elegir una salsa</value>
+  </data>
+  <data name="Number" xml:space="preserve">
+    <value>Número</value>
+  </data>
+  <data name="AddMenuItem" xml:space="preserve">
+    <value>Agregar Item</value>
+  </data>
+  <data name="MenuItem" xml:space="preserve">
+    <value>Menú-Item</value>
+  </data>
+  <data name="MenuItems" xml:space="preserve">
+    <value>Menú-Items</value>
+  </data>
+  <data name="SeeMenuItem" xml:space="preserve">
+    <value>Ver Item</value>
+  </data>
+  <data name="VisualizationOrder" xml:space="preserve">
+    <value>Orden Visualización</value>
+  </data>
+  <data name="Imagen" xml:space="preserve">
+    <value>Imagen</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value>Colapsar</value>
+  </data>
+  <data name="ChangeImage" xml:space="preserve">
+    <value>Cambiar Imagen</value>
+  </data>
+  <data name="SelectImage" xml:space="preserve">
+    <value>Seleccionar Imagen</value>
+  </data>
+  <data name="AddImage" xml:space="preserve">
+    <value>Agregar Imagen</value>
+  </data>
 </root>

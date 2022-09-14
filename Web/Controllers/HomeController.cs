@@ -38,7 +38,7 @@ namespace Web.Controllers.Home
 
         [Route("{id}")]
         [HttpGet]
-        public IActionResult IndexClient(byte id)
+        public IActionResult IndexClient(int id)
         {
             Order order = IGenericService.GetById<Order>(id);
 

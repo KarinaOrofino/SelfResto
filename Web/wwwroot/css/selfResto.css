@@ -1,18 +1,17 @@
-﻿.external-login {
-	margin-top: 3%;
-}
-/*select rows datatable*/
+﻿/* select rows datatable */
 html:not([dir=rtl]) .custom-select-sm {
 	padding-left: .5rem;
 	padding-right: 1.5rem;
 }
-/*Mensajes de error en formularios*/
+
+/* Mensajes de error en formularios */
 .field-validation-error {
 	margin-top: .25rem;
 	margin-left: 4em;
 	font-size: 80%;
 }
-/*Div de notificaciones*/
+
+/* Div de notificaciones */
 #rowDynamicNotification {
 	position: absolute;
 	right: 0px;
@@ -21,9 +20,44 @@ html:not([dir=rtl]) .custom-select-sm {
 	margin-right: 1em;
 }
 
+/* DefaultVueCSS-Overwritten */
+.v-snack {
+	align-items: center !important;
+}
+
+.v-snack__content {
+	font-size: 1.3rem !important;
+}
+
+.v-application p {
+	margin-bottom: 6px;
+}
+
+.v-toolbar__content, .v-toolbar__extension {
+	justify-content: space-between;
+}
+
+.v-expansion-panel--active > .v-expansion-panel-header {
+	min-height: 45px !important;
+}
+
+.v-application--is-ltr .v-input--selection-controls__input {
+	margin-right: 6px !important;
+}
+
+.theme--light.v-select .v-select__selections {
+	color: rgba(0,0,0,.87);
+	font-size: 16px !important
+}
+
+.theme--light.v-label {
+	color: teal;
+	font-weight: 500;
+}
+
+/* SELF-RESTO STYLES */
+
 .background {
-	/*	height: 100vh;
-	width: 100vw;*/
 	margin: 0 0;
 	background: url("../images/Background.jpg");
 	background-repeat: repeat;
@@ -38,74 +72,11 @@ html:not([dir=rtl]) .custom-select-sm {
 	background-size: 100% 100%;
 }
 
-
-
-.v-snack {
-	align-items: center !important;
+.headerImage {
+width: 30%;
 }
 
-.v-snack__content {
-	font-size: 1.3rem !important;
-}
-
-.v-data-table-header {
-	text-transform: uppercase;
-	background-color: #4074a5;
-}
-
-
-.theme--light.v-data-table > .v-data-table__wrapper > table > thead > tr > th {
-	color: white !important;
-	font-weight: 500 !important;
-	background-color: #4074a5;
-}
-
-.bkg-white {
-	background-color: white !important;
-}
-
-.v-toolbar__content, .v-toolbar__extension {
-	justify-content: space-between;
-}
-
-
-.breadcrum-row {
-	background-color: white !important;
-	height: 45px;
-	position: sticky;
-	z-index: 2;
-	box-shadow: 0px 0px 2px black;
-}
-
-.v-expansion-panel--active > .v-expansion-panel-header {
-	min-height: 45px !important;
-}
-
-.v-application--is-ltr .v-input--selection-controls__input {
-	margin-right: 6px !important;
-}
-
-.breadcrumBlue {
-	color: #1976d2;
-	font-weight: bold;
-	font-size: 14px;
-}
-
-.breadcrumGray {
-	color: #4074a5;
-	font-weight: bold;
-	font-size: 14px;
-}
-
-.hide {
-	display: none;
-}
-
-.show {
-	display: flex;
-}
-
-/*links <a> del Menu Left*/
+/* Links <a> del Menu Left */
 .menu-left-links {
 	text-decoration: none;
 	color: white !important;
@@ -113,39 +84,25 @@ html:not([dir=rtl]) .custom-select-sm {
 	width: 100%;
 }
 
-.v-application p {
-	margin-bottom: 6px;
-}
-
-.col {
-	padding: 6px;
-}
-
-
-.theme--light.v-select .v-select__selections {
-	color: rgba(0,0,0,.87);
-	font-size: 16px !important
-}
-
-.theme--light.v-label {
-	color: teal;
-	font-weight: 500;
-}
-
-.rotar90der {
-	transform: rotate(90deg);
-}
-
+/* Datatables */
 .selfResto-headers {
-	background-color: #EF9A9A !important;
+	background-color: rgb(165, 64, 71);
 }
 
-.inicio {
-	font-size: 22px !important;
+.v-data-table-header {
+	text-transform: uppercase;
+	background-color: rgb(165, 64, 71);
+}
+
+.theme--light.v-data-table > .v-data-table__wrapper > table > thead > tr > th {
+	color: white !important;
+	font-weight: 500 !important;
+	background-color: rgb(165, 64, 71);
 }
 
 .row-height-50.v-data-table tbody tr td {
 	line-height: 1 !important;
+	font-size:14px !important;
 }
 
 .theme--light.v-data-table .v-row-group__header {
@@ -155,6 +112,25 @@ html:not([dir=rtl]) .custom-select-sm {
 .theme--light.v-data-table > .v-data-table__wrapper > table > tbody > tr.v-data-table__expanded__row {
 	background: #BBDEFB !important;
 }
+
+
+/* Breadcrumbs */
+.breadcrum-row {
+	background-color: white !important;
+	height: 30px;
+	position: sticky;
+	z-index: 2;
+	box-shadow: 0px 0px 2px black;
+}
+
+.breadcrumbActive {
+	color: #a54047 !important;
+}
+
+.breadcrumbInactive {
+	color: gray !important;
+}
+
 
 /* Product Quantity */
 .wrapper {
@@ -178,5 +154,32 @@ html:not([dir=rtl]) .custom-select-sm {
 	font-weight: 600;
 	border: 1px solid #E1E8EE;
 	border-radius: 2px;
+}
+
+/* Other */
+.hide {
+	display: none;
+}
+
+.show {
+	display: flex;
+}
+
+.rotar90der {
+	transform: rotate(90deg);
+}
+
+
+
+.theme--light.v-text-field--filled > .v-input__control > .v-input__slot {
+	background-color: #FFCDD2 !important;
+}
+
+.selectImage .v-text-field--filled > .v-input__control > .v-input__slot {
+	background-color: #FFCDD2 !important;
+}
+
+.mdi-camera::before {
+	color: #E57373;
 }
 

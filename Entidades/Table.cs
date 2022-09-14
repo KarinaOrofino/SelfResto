@@ -6,14 +6,24 @@ namespace KO.Entities
     public class Table : BaseEntity
     {
 
-        public byte Id { get; set; }
+        public int Id { get; set; }
 
-        public byte Number { get; set; }
+        public int Number { get; set; }
 
-        public byte Waiter { get; set; }
+        public string Name { get; set; }
+
+        public string Description { get; set; }
+
+        public int Waiter { get; set; }
 
         [Column(name: "WAITER_BACK_UP")]
-        public byte WaiterBackUp { get; set; }
+        public int WaiterBackUp { get; set; }
+
+        [ForeignKey("Waiter")]
+        public virtual User WaiterUser { get; set; }
+
+        [ForeignKey("WaiterBackUp")]
+        public virtual User WaiterBackUpUser { get; set; }
 
     }
 }

@@ -16,42 +16,52 @@ namespace KO.Data.Implementations
 
         public TablesData(KOContext context) : base(context)
         {
-            
-        }
-
-        public void Activate(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Create(Table table)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<Table> GetAll()
-        {
-            throw new NotImplementedException();
         }
 
         public List<Table> GetAllFiltered(string searchField, bool? active)
         {
-            throw new NotImplementedException();
+            List<Table> tablesList = new();
+            try
+            {
+                using SqlCommand command = new(Constants.SP_TABLES_GET_ALL_FILTERED, (SqlConnection)_context.Database.GetDbConnection());
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("SearchField", searchField);
+                command.Parameters.AddWithValue("Active", active);
+
+                using SqlDataAdapter da = new(command);
+                DataTable dt = new();
+                da.Fill(dt);
+
+                if (dt != null)
+                {
+                    if (dt.Rows.Count > 0)
+                    {
+
+                        foreach (DataRow dataRow in dt.Rows)
+                        {
+                            Table table = new()
+                            {
+                                Id = int.Parse(dataRow["Id"].ToString()),
+                                Number = int.Parse(dataRow["Number"].ToString()),
+                                Name = dataRow["Name"].ToString(),
+                                Description = dataRow["Description"].ToString(),
+                                Active = (bool)dataRow["Active"],
+                                CreationDate = DateTime.Parse(dataRow["Creation_Date"].ToString()),
+                                CreationUser = int.Parse(dataRow["Creation_User"].ToString()),
+                            };
+                            tablesList.Add(table);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error in Data Get All Filtered", ex);
+                throw new Exception(ex.Message);
+            }
+
+            return tablesList;
         }
 
-        public Table GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Inactivate(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(Table table)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

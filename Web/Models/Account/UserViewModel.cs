@@ -1,11 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Framework.Helpers;
-using Microsoft.AspNetCore.Authentication;
-using KO.Resources;
+﻿using System.Collections.Generic;
+using Web.Models;
 
-namespace Web.Models.Account
+namespace KO.Web.Models.Account
 {
     public class UserViewModel : BaseViewModel
     {
@@ -13,6 +9,9 @@ namespace Web.Models.Account
         {
             this.UsersList = new List<UserViewModel>();
         }
+
+        public int Id { get; set; }
+
         public string Name { get; set; }
 
         public string Surname { get; set; }
@@ -23,8 +22,31 @@ namespace Web.Models.Account
 
         public int AccessType { get; set; }
 
+        public string AccessTypeName { get; set; }
+
+        public bool Active { get; set; }
+
         public List<UserViewModel> UsersList { get; set; }
 
 
     }
 }
+
+public class AccessTypeViewModel : BaseViewModel
+{
+    public AccessTypeViewModel()
+    {
+        this.accessesVM = new List<AccessTypeViewModel>();
+    }
+
+    public int Id { get; set; }
+
+    public string Name { get; set; }
+
+    public bool Active { get; set; }
+
+    public List<AccessTypeViewModel> accessesVM { get; set; }
+
+
+}
+

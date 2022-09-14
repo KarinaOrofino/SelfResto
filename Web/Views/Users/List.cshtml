@@ -1,9 +1,9 @@
-﻿@using KO.Web.Models.MenuItem;
-@model MenuItemViewModel;
+﻿@using KO.Web.Models.Account;
+@model UserViewModel;
 
 @section scripts
 {
-    <script type="text/javascript" src="~/js/pages/menuItems/menuItems-list.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="~/js/pages/users/users-list.js" asp-append-version="true"></script>
 }
 
 <link href="~/css/selfResto.css" rel="stylesheet" />
@@ -28,22 +28,18 @@
                             <v-btn class="mb-1 white--text"
                                    v-bind="attrs"
                                    v-on="on"
-                                   v-on:click="addMenuItem"
-                                   color="rgb(165, 64, 71)"
+                                   v-on:click="addUser"
+                                   color="red lighten-2"
                                    elevation="2">
                                 <v-icon small class="pr-1">mdi-plus</v-icon>
-                                {{jsglobals.NewMasc}} {{jsglobals.MenuItem}}
+                                {{jsglobals.NewMasc}} {{jsglobals.User}}
                             </v-btn>
                         </template>
-                        <span>{{jsglobals.AddMenuItem}}</span>
+                        <span>{{jsglobals.AddUser}}</span>
                     </v-tooltip>
                 </v-col>
             </v-row>
             <v-card-title class="mt-0 pt-0">
-                @*<v-col lg="4" sm="5" class="pt-5">
-                    <v-btn class="red lighten-2" v-if="expanded" v-on:click="collapse()">{{jsglobals.Collapse}}</v-btn>
-                </v-col>*@
-                <v-spacer></v-spacer>
                 <v-col lg="4" sm="5" class="pb-1">
                     <v-text-field v-model="search"
                                   append-icon="mdi-magnify"
@@ -66,26 +62,20 @@
                     </v-row>
                 </v-col>
                 <v-col lg="1" sm="1" class="pb-1">
-                    <v-tooltip bottom>
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-btn v-on="on" v-bind="attrs" small class="white--text" color="red lighten-2" v-on:click="clean()"><v-icon>mdi-autorenew</v-icon></v-btn>
-                        </template>
-                        <span>{{jsglobals.CleanFilters}}</span>
-                    </v-tooltip>
+                    <v-btn small class="white--text" color="red lighten-2" v-on:click="clean()"><v-icon>mdi-autorenew</v-icon></v-btn>
                 </v-col>
             </v-card-title>
             <v-card-text>
                 <v-data-table lg="10"
-                              class="elevation-2 row-height-50"
-                              style="position: relative;"
-                              dense
                               :headers="headers"
+                              dense
                               :items="filteredList"
-                              group-by="categoryId"
-                              item-key="id"
                               :search="search"
-                              :items-per-page="25"
-                              :loading="loadingMenuItems"
+                              :items-per-page="10"
+                              class="elevation-2 row-height-50"
+                              item-key="id"
+                              style="position: relative;"
+                              :loading="loadingUsers"
                               :loading-text=jsglobals.Loading
                               :no-data-text=jsglobals.NoData
                               :footer-props="{
@@ -94,23 +84,10 @@
                         'items-per-page-options':[ 10,  25,  50,  -1],
                             pageText: '{0} - {1} de {2}'
                       }">
-                    <template v-slot:group.header="{group, items, isOpen, toggle}">
-                        <th colspan="6" style="background-color:#e57373;color:white;font-size:14px;font-weight:400">
-                            <v-icon V-on:click="toggle" style="color:white" :ref="group" :data-open="isOpen">
-                                {{ isOpen ? 'mdi-minus' : 'mdi-plus' }}
-                            </v-icon>
-                            {{ items[0].categoryName}}
-                        </th>
-
-                    </template>
-
-                    <template v-slot:item.price="{ item }">
-                        $ {{item.price}}
-                    </template>
                     <template v-slot:item.active="{ item }">
                         <v-tooltip left v-if="item.active">
                             <template v-slot:activator="{ on, attrs }">
-                                <v-icon v-on="on" v-bind="attrs" large class="ma-0" color="green" v-on:click="inactivateMenuItem(item)">toggle_on</v-icon>
+                                <v-icon v-on="on" v-bind="attrs" large class="ma-0" color="green" v-on:click="inactivateUser(item)">toggle_on</v-icon>
                             </template>
                             <span>
                                 {{jsglobals.ActiveMasc}}
@@ -118,7 +95,7 @@
                         </v-tooltip>
                         <v-tooltip left v-if="!item.active">
                             <template v-slot:activator="{ on, attrs }">
-                                <v-icon v-on="on" v-bind="attrs" large class="ma-0" color="red lighten-2" v-on:click="activateMenuItem(item)">toggle_off</v-icon>
+                                <v-icon v-on="on" v-bind="attrs" large class="ma-0" color="red lighten-2" v-on:click="activateUser(item)">toggle_off</v-icon>
                             </template>
                             <span>
                                 {{jsglobals.InactiveMasc}}
@@ -128,7 +105,7 @@
                     <template v-slot:item.actions="{ item }">
                         <v-tooltip left>
                             <template v-slot:activator="{ on, attrs }">
-                                <v-icon large v-on="on" v-bind="attrs" class="mr-2" v-on:click="editMenuItem(item.id)" color="red lighten-2">edit_note</v-icon>
+                                <v-icon large v-on="on" v-bind="attrs" class="mr-2" v-on:click="editUser(item.id)" color="red lighten-2">edit_note</v-icon>
                             </template>
                             <span>
                                 {{jsglobals.Edit}}
@@ -138,7 +115,7 @@
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on, attrs }">
                                 <v-btn v-on:click="exportList"
-                                       color="rgb(165, 64, 71)"
+                                       color="red lighten-2"
                                        small
                                        v-bind="attrs"
                                        v-on="on"
@@ -161,7 +138,6 @@
         </v-card>
     </v-col>
 </v-row>
-
 <!--Dialog Inactivate-->
 <v-row justify="space-around">
     <v-col cols="auto">
@@ -171,12 +147,12 @@
                 <v-card>
                     <v-toolbar dense class="d-flex text-h6 mb-5 justify-center" color="#a54047"
                                dark>
-                        <v-toolbar-title>{{jsglobals.Inactivate}} {{jsglobals.MenuItem}}</v-toolbar-title>
+                        <v-toolbar-title>{{jsglobals.Inactivate}} {{jsglobals.User}}</v-toolbar-title>
                     </v-toolbar>
                     <v-card-text class="text-subtitle-1 text-center mb-5">
                         {{jsglobals.MsgInactivate}}
                         </br>
-                        {{jsglobals.MenuItem}}: <strong>{{itemToInactivate.name}}</strong>
+                        {{jsglobals.User}}: {{userToInactivate.name}} <strong>{{userToInactivate.surname}}</strong>
                     </v-card-text>
                     <v-divider></v-divider>
                     <v-card-actions>
@@ -187,7 +163,7 @@
                             {{jsglobals.No}}
                         </v-btn>
                         <v-btn small
-                               v-on:click="confirmInactivation(itemToInactivate.id)"
+                               v-on:click="confirmInactivation(userToInactivate.id)"
                                color="red lighten-2">
                             {{jsglobals.Yes}}
                         </v-btn>
@@ -207,12 +183,12 @@
                 <v-card>
                     <v-toolbar dense class="d-flex text-h6 mb-5 justify-center" color="#a54047"
                                dark>
-                        <v-toolbar-title>{{jsglobals.Activate}} {{jsglobals.MenuItem}}</v-toolbar-title>
+                        <v-toolbar-title>{{jsglobals.Activate}} {{jsglobals.User}}</v-toolbar-title>
                     </v-toolbar>
                     <v-card-text class="text-subtitle-1 text-center">
                         {{jsglobals.MsgActivate}}
                         </br>
-                        {{jsglobals.MenuItem}}: <strong>{{itemToActivate.number}}</strong>
+                        {{jsglobals.User}}: {{userToActivate.name}} <strong>{{userToActivate.surname}}</strong>
                     </v-card-text>
                     <v-divider></v-divider>
                     <v-card-actions>
@@ -223,7 +199,7 @@
                             {{jsglobals.No}}
                         </v-btn>
                         <v-btn small
-                               v-on:click="confirmActivation(itemToActivate.id)"
+                               v-on:click="confirmActivation(userToActivate.id)"
                                color="red lighten-2">
                             {{jsglobals.Yes}}
                         </v-btn>
@@ -233,3 +209,36 @@
         </v-dialog>
     </v-col>
 </v-row>
+
+<!--Dialog Change State-->
+<v-row justify="space-around">
+    <v-col cols="auto">
+        <v-dialog v-model="dialog2" persistent transition="dialog-bottom-transition"
+                  width="500">
+            <template v-slot:default="dialog">
+                <v-card>
+                    <v-toolbar dense class="d-flex text-h6 mb-5 justify-center" color="#a54047"
+                               dark>
+                        <v-toolbar-title>{{jsglobals.User}} - {{jsglobals.ChangeState}} </v-toolbar-title>
+                    </v-toolbar>
+                    <v-card-text class="text-subtitle-1 text-center mb-5">
+                        {{itemCambio.Active==true?jsglobals.MsgActivate:jsglobals.msgInactivate}}
+                    </v-card-text>
+                    <v-divider></v-divider>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn small
+                               v-on:click="confirmStateChange(itemCambio)"
+                               color="red lighten-2">
+                            {{jsglobals.No}}
+                        </v-btn>
+                        <v-btn small
+                               v-on:click="dialog.value = false"
+                               color="red lighten-2">
+                            {{jsglobals.Yes}}
+                        </v-btn>
+                    </v-card-actions>
+                </v-card>
+            </template>
+        </v-dialog>
+    </v-col>

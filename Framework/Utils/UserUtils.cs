@@ -1,7 +1,5 @@
 ﻿using Framework.Common;
 using Newtonsoft.Json;
-using KO.Entities;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 
@@ -9,28 +7,30 @@ namespace Framework.Utils
 {
     public static class UserUtils
     {
-        public static byte GetId(ClaimsPrincipal user)
+        public static int GetId(ClaimsPrincipal user)
         {            
-             return byte.Parse(user.Claims.First(u => u.Type == ClaimTypes.Sid).Value);
+             return int.Parse(user.Claims.First(u => u.Type == ClaimTypes.Sid).Value);
         }
 
         public static string GetName(ClaimsPrincipal user)
         {
-            return user.Claims.First(u => u.Type == ClaimTypes.Name).Value;
+            return user.Claims.First(u => u.Type == ClaimTypes.Name).Value.ToString() + ' ' + user.Claims.First(u => u.Type == ClaimTypes.Surname).Value.ToString();
         }
 
-        public static string GetRol(ClaimsPrincipal user)
+        public static string GetRole(ClaimsPrincipal user)
         {
-            return user.Claims.First(u => u.Type == ClaimTypes.Role).Value;
+            return user.Claims.First(u => u.Type == ClaimTypes.Role).Value.ToString();
         }
 
-        public static bool UsuarioTienePermiso(ClaimsPrincipal user, int idFuncionalidad)
+        public static bool UserPermission(ClaimsPrincipal user, int idAccessType)
         {
             if (!user.Claims.Any(claim => claim.Type == Constants.CLAIMS_PERMISOS))
                 return false;
 
-            IList<int> permisos = JsonConvert.DeserializeObject<IList<int>>(user.Claims.First(u => u.Type == Constants.CLAIMS_PERMISOS).Value).ToList();
-            return permisos.Contains(idFuncionalidad);
+            int permiso= JsonConvert.DeserializeObject<int>(user.Claims.First(u => u.Type == Constants.CLAIMS_PERMISOS).Value);
+
+            return permiso == idAccessType;
         }
-}
+
+    }
 }

@@ -79,6 +79,15 @@ namespace KO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tipos de Acceso.
+        /// </summary>
+        public static string AccessTypes {
+            get {
+                return ResourceManager.GetString("AccessTypes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Acciones.
         /// </summary>
         public static string Actions {
@@ -129,6 +138,24 @@ namespace KO.Resources {
         public static string AddComments {
             get {
                 return ResourceManager.GetString("AddComments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Agregar Imagen.
+        /// </summary>
+        public static string AddImage {
+            get {
+                return ResourceManager.GetString("AddImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Agregar Item.
+        /// </summary>
+        public static string AddMenuItem {
+            get {
+                return ResourceManager.GetString("AddMenuItem", resourceCulture);
             }
         }
         
@@ -273,6 +300,15 @@ namespace KO.Resources {
         public static string Category {
             get {
                 return ResourceManager.GetString("Category", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cambiar Imagen.
+        /// </summary>
+        public static string ChangeImage {
+            get {
+                return ResourceManager.GetString("ChangeImage", resourceCulture);
             }
         }
         
@@ -484,6 +520,15 @@ namespace KO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Email.
+        /// </summary>
+        public static string Email {
+            get {
+                return ResourceManager.GetString("Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Empleado.
         /// </summary>
         public static string Employee {
@@ -628,6 +673,15 @@ namespace KO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Imagen.
+        /// </summary>
+        public static string Imagen {
+            get {
+                return ResourceManager.GetString("Imagen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Inactivar.
         /// </summary>
         public static string Inactivate {
@@ -651,6 +705,15 @@ namespace KO.Resources {
         public static string InactiveMasc {
             get {
                 return ResourceManager.GetString("InactiveMasc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Formato de email inválido.
+        /// </summary>
+        public static string InvalidEmail {
+            get {
+                return ResourceManager.GetString("InvalidEmail", resourceCulture);
             }
         }
         
@@ -718,11 +781,38 @@ namespace KO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Menú-Item.
+        /// </summary>
+        public static string MenuItem {
+            get {
+                return ResourceManager.GetString("MenuItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Menú-Items.
+        /// </summary>
+        public static string MenuItems {
+            get {
+                return ResourceManager.GetString("MenuItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Minutas.
         /// </summary>
         public static string Minutas {
             get {
                 return ResourceManager.GetString("Minutas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Debe elegir una salsa.
+        /// </summary>
+        public static string MissingSauce {
+            get {
+                return ResourceManager.GetString("MissingSauce", resourceCulture);
             }
         }
         
@@ -876,6 +966,15 @@ namespace KO.Resources {
         public static string NotAuthorize {
             get {
                 return ResourceManager.GetString("NotAuthorize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Número.
+        /// </summary>
+        public static string Number {
+            get {
+                return ResourceManager.GetString("Number", resourceCulture);
             }
         }
         
@@ -1069,6 +1168,15 @@ namespace KO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ver Item.
+        /// </summary>
+        public static string SeeMenuItem {
+            get {
+                return ResourceManager.GetString("SeeMenuItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ver Pedido.
         /// </summary>
         public static string SeeOrder {
@@ -1087,11 +1195,29 @@ namespace KO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Seleccionar Imagen.
+        /// </summary>
+        public static string SelectImage {
+            get {
+                return ResourceManager.GetString("SelectImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Estado.
         /// </summary>
         public static string State {
             get {
                 return ResourceManager.GetString("State", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Colapsar.
+        /// </summary>
+        public static string String1 {
+            get {
+                return ResourceManager.GetString("String1", resourceCulture);
             }
         }
         
@@ -1191,6 +1317,15 @@ namespace KO.Resources {
         public static string ValPasswordRequired {
             get {
                 return ResourceManager.GetString("ValPasswordRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Orden Visualización.
+        /// </summary>
+        public static string VisualizationOrder {
+            get {
+                return ResourceManager.GetString("VisualizationOrder", resourceCulture);
             }
         }
         

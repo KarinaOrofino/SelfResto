@@ -1,9 +1,12 @@
 ﻿
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace KO.Entities
 {
     public class User : BaseEntity
     {
-        public byte Id { get; set; }
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
 
         public string Name { get; set; }
 
@@ -13,6 +16,13 @@ namespace KO.Entities
 
         public string Password { get; set; }
 
-        public byte AccessType { get; set; }
+        [Column(name: "ACCESS_TYPE")]
+        public int Access_Type { get; set; }
+
+        [NotMapped]
+        public string AccessTypeName { get; set; }
+
+        [ForeignKey("Access_Type")]
+        public virtual AccessType AccessType { get; set; }
     }
 }

@@ -15,6 +15,7 @@ vueAppParams.data.vrules = {
 	aMayorQueB: (v, b) => (parseFloat(v) <= parseFloat(b)) || jsglobals.NoSuperarMaximo,
 	aMenorQueB: (v, b) => (parseFloat(v) >= parseFloat(b)) || jsglobals.NoInferiorMinimo,
 	dosOMas: v => (v >= 2) || jsglobals.DebeSer2OMas,
+	eMail: v => (new RegExp('^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$').test(v)) || jsglobals.InvalidEmail
 };
 
 vueAppParams.methods.formatoDecimal = function (numero, minimumFractionDigits = 2) {
