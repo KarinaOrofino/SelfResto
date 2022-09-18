@@ -18,8 +18,14 @@ vueAppParams.data.logoHeader = "/images/SelfResto.jpg";
 vueAppParams.data.logoCubiertos = "/images/LogoCubiertos.png";
 
 vueAppParams.methods.seeOrder = function () {
-    vueAppParams.data.orderId = vueApp.model.Id;
-    window.location = "/Orders/Detail/" + vueAppParams.data.orderId;
+
+    if (vueApp.model.Id == 0) {
+        window.location = "/Orders/Detail/" + vueApp.model.OrderId;
+    }
+    else
+    {
+        window.location = "/Orders/Detail/" + vueApp.model.Id;
+    }
 }
 
 vueAppParams.methods.seeIndex = function () {

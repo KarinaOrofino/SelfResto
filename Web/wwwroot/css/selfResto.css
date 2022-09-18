@@ -57,9 +57,27 @@ html:not([dir=rtl]) .custom-select-sm {
 
 /* SELF-RESTO STYLES */
 
-.background {
+.backgroundKitchen {
 	margin: 0 0;
-	background: url("../images/Background.jpg");
+	background: url("../images/BackgroundVerde.jpg");
+	background-repeat: repeat;
+}
+
+.backgroundAdmin {
+	margin: 0 0;
+	background: url("../images/BackgroundCeleste.jpg");
+	background-repeat: repeat;
+}
+
+.backgroundWaiter {
+	margin: 0 0;
+	background: url("../images/BackgroundNaranja.jpg");
+	background-repeat: repeat;
+}
+
+.backgroundClient {
+	margin: 0 0;
+	background: url("../images/BackgroundRojo.jpg");
 	background-repeat: repeat;
 }
 
@@ -73,7 +91,7 @@ html:not([dir=rtl]) .custom-select-sm {
 }
 
 .headerImage {
-width: 30%;
+width: 25%;
 }
 
 /* Links <a> del Menu Left */
@@ -183,3 +201,60 @@ width: 30%;
 	color: #E57373;
 }
 
+.v-data-table.karina {
+	border-collapse: collapse;
+}
+
+table, tr {
+	border: 11px solid #f9d8de;
+	border-collapse: collapse;
+}
+
+.karina.theme--light.v-data-table > .v-data-table__wrapper > table > thead > tr > th {
+	background-color: white !important;
+	font-weight: bold !important;
+	color: #f9d8de !important;
+	font-size: 14px !important;
+}
+
+.addItem {
+	border: 2px solid #a54047;
+	padding: 10px;
+	color: #a54047;
+	margin-top: -8px;
+	background-color: gold !important;
+	
+}
+
+/* Waiter Page */
+.alertWaiter {
+	animation-name: alertWaiter;
+	animation-duration: 2s;
+	animation-iteration-count: infinite;
+	
+}
+
+
+@keyframes alertWaiter {
+	0% {
+		color: red;
+	}
+
+	100% {
+		color: gold;
+		transform: scale(1.5);
+	}
+}
+
+/* Kitchen Page */
+.clip {
+	position: relative;
+	top: 26px;
+	z-index: 3;
+}
+
+.rope {
+	position: relative;
+	top: 52px;
+	z-index: 2;
+}

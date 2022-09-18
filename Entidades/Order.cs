@@ -10,9 +10,11 @@ namespace KO.Entities
         public int Id { get; set; }
 
         [Column(name: "TABLE_ID")]
-        public byte TableId { get; set; }
+        public int TableId { get; set; }
 
         public virtual IList<OrderDetail> OrderDetails { get; set; }
+
+        public virtual Table Table { get; set; }
 
     }
 
@@ -41,6 +43,8 @@ namespace KO.Entities
 
         [ForeignKey("StateTypeId")]
         public virtual StateTypes StateType { get; set; }
+
+        public virtual Order Order { get; set; }
 
 
     }

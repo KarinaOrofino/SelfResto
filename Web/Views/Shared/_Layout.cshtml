@@ -47,30 +47,31 @@
                     </v-container>
                 </v-main>
             }
-
-            @if (User.Identity.IsAuthenticated && (UserUtils.UserPermission(Context.User, Constants.WAITER) || UserUtils.UserPermission(Context.User, Constants.ADMINISTRATOR)))
+            <!--Header Employees-->
+            @if (User.Identity.IsAuthenticated && ((UserUtils.UserPermission(Context.User, Constants.WAITER)) || (UserUtils.UserPermission(Context.User, Constants.KITCHEN)) || (UserUtils.UserPermission(Context.User, Constants.ADMINISTRATOR))))
             {
                 <v-app-bar app
                            dark
+                           dense
                            style="background: linear-gradient(to top, #a54047, #bd6476, #a54047); ">
                     <v-app-bar-nav-icon @@click.stop="drawer = !drawer"></v-app-bar-nav-icon>
                     <v-toolbar-items>
-                        <div class="mt-5">{{jsglobals.User}}: <strong>@Html.Raw(UserUtils.GetName(User)), @Html.Raw(UserUtils.GetRole(User))</strong></div>
+                        <div class="mt-3">{{jsglobals.User}}: <strong>@Html.Raw(UserUtils.GetName(User)), @Html.Raw(UserUtils.GetRole(User))</strong></div>
                     </v-toolbar-items>
                     <v-spacer></v-spacer>
                     <v-toolbar-title>
-                        <img class="rounded-lg offset-md-2 mt-2 headerImage" :src="logoHeader"/>
+                        <img class="rounded-lg mt-2 headerImage" :src="logoHeader" />
                     </v-toolbar-title>
                     <v-spacer></v-spacer>
                     <v-toolbar-items>
-                        <v-row justify="center">
+                        <v-row dense justify="center">
                             @if (UserUtils.UserPermission(Context.User, Constants.WAITER))
                             {
                                 <v-tooltip top>
                                     <template v-slot:activator="{ on, attrs }">
                                         <v-btn icon v-bind="attrs" v-on="on" v-on:click="callWaiter()"
                                                large
-                                               class="mt-4">
+                                               class="mt-2">
                                             <v-icon class="material-icons">
                                                 room_service
                                             </v-icon>
@@ -83,7 +84,7 @@
                                 <template v-slot:activator="{ on, attrs }">
                                     <v-btn icon v-bind="attrs" v-on="on" v-on:click="closeSession()"
                                            large
-                                           class="mt-4">
+                                           class="mt-2">
                                         <v-icon class="material-icons">
                                             logout
                                         </v-icon>
@@ -176,67 +177,52 @@
                                 <v-divider class="mt-3 mb-3"></v-divider>
                             }
                             @*<v-list-item>
-                    <a class="menu-left-links">
-                        <v-list-item-icon>
-                            <v-icon class="material-icons">
-                                room_service
-                            </v-icon>
-                        </v-list-item-icon>
-                        <v-list-item-title style="font-size:1em;">{{jsglobals.Camarero}}</v-list-item-title>
-                    </a>
-                </v-list-item>
-                <v-divider class="mt-3 mb-3"></v-divider>
+                            <a class="menu-left-links">
+                                <v-list-item-icon>
+                                    <v-icon class="material-icons">
+                                        room_service
+                                    </v-icon>
+                                </v-list-item-icon>
+                                <v-list-item-title style="font-size:1em;">{{jsglobals.Camarero}}</v-list-item-title>
+                            </a>
+                        </v-list-item>
+                        <v-divider class="mt-3 mb-3"></v-divider>
 
-                <v-list-item>
-                    <a class="menu-left-links" href="/Order/Detail">
-                        <v-list-item-icon>
-                            <v-icon class="material-icons">
-                                shopping_cart
-                            </v-icon>
-                        </v-list-item-icon>
-                        <v-list-item-title style="font-size:1em;">{{jsglobals.SeeOrder}}</v-list-item-title>
-                    </a>
-                </v-list-item>
-                <v-divider class="mt-3 mb-3"></v-divider>
-                <v-list-item>
-                    <a class="menu-left-links" href="/Payments/Detail">
-                        <v-list-item-icon>
-                            <v-icon class="material-icons">
-                                paid
-                            </v-icon>
-                        </v-list-item-icon>
-                        <v-list-item-title style="font-size:1em;">{{jsglobals.Bill}}</v-list-item-title>
-                    </a>
-                </v-list-item>
+                        <v-list-item>
+                            <a class="menu-left-links" href="/Order/Detail">
+                                <v-list-item-icon>
+                                    <v-icon class="material-icons">
+                                        shopping_cart
+                                    </v-icon>
+                                </v-list-item-icon>
+                                <v-list-item-title style="font-size:1em;">{{jsglobals.SeeOrder}}</v-list-item-title>
+                            </a>
+                        </v-list-item>
+                        <v-divider class="mt-3 mb-3"></v-divider>
+                        <v-list-item>
+                            <a class="menu-left-links" href="/Payments/Detail">
+                                <v-list-item-icon>
+                                    <v-icon class="material-icons">
+                                        paid
+                                    </v-icon>
+                                </v-list-item-icon>
+                                <v-list-item-title style="font-size:1em;">{{jsglobals.Bill}}</v-list-item-title>
+                            </a>
+                        </v-list-item>
 
-                <v-divider class="mt-3 mb-3"></v-divider>*@
+                        <v-divider class="mt-3 mb-3"></v-divider>*@
                         </v-list-item-content>
                     </v-list>
                 </v-navigation-drawer>
 
-                <v-main class="background">
-                    <v-container fluid>
-
-                        @RenderBody()
-
-                        <v-snackbar v-model="notification.show"
-                                    transition="scale-transition"
-                                    :color="notification.type"
-                                    :timeout="notification.timeout">
-
-                            <v-icon :color="notification.iconColor">
-                                {{notification.icon}}
-                            </v-icon>
-                            {{notification.message}}
-                        </v-snackbar>
-                    </v-container>
-                </v-main>
             }
 
+            <!--Header Clients-->
             @if (User.Identity.IsAuthenticated && UserUtils.UserPermission(Context.User, Constants.CLIENT))
             {
                 <v-app-bar app
                            dark
+                           dense
                            style="background: linear-gradient(to top, #a54047, #bd6476, #a54047); ">
                     <v-app-bar-nav-icon @@click.stop="drawer = !drawer"></v-app-bar-nav-icon>
                     <v-toolbar-items>
@@ -256,7 +242,7 @@
                                 <template v-slot:activator="{ on, attrs }">
                                     <v-btn icon v-bind="attrs" v-on="on" v-on:click="callWaiter()"
                                            large
-                                           class="mt-4">
+                                           class="mt-2">
                                         <v-icon class="material-icons">
                                             restaurant_menu
                                         </v-icon>
@@ -268,7 +254,7 @@
                                 <template v-slot:activator="{ on, attrs }">
                                     <v-btn icon v-bind="attrs" v-on="on" v-on:click="callWaiter()"
                                            large
-                                           class="mt-4">
+                                           class="mt-2">
                                         <v-icon class="material-icons">
                                             room_service
                                         </v-icon>
@@ -280,7 +266,7 @@
                                 <template v-slot:activator="{ on, attrs }">
                                     <v-btn icon v-bind="attrs" v-on="on" v-on:click="seeOrder(model.OrderId)"
                                            large
-                                           class="mt-4">
+                                           class="mt-2">
                                         <v-icon class="material-icons">
                                             shopping_cart
                                         </v-icon>
@@ -292,7 +278,7 @@
                                 <template v-slot:activator="{ on, attrs }">
                                     <v-btn icon v-bind="attrs" v-on="on" v-on:click="AskForBill()"
                                            large
-                                           class="mt-4">
+                                           class="mt-2">
                                         <v-icon class="material-icons">
                                             paid
                                         </v-icon>
@@ -304,7 +290,7 @@
                                 <template v-slot:activator="{ on, attrs }">
                                     <v-btn icon v-bind="attrs" v-on="on" v-on:click="closeSession()"
                                            large
-                                           class="mt-4">
+                                           class="mt-2">
                                         <v-icon class="material-icons">
                                             logout
                                         </v-icon>
@@ -392,10 +378,32 @@
 
             }
 
-            @if (User.Identity.IsAuthenticated)
+            <!--Main Kitchen-->
+            @if (User.Identity.IsAuthenticated && UserUtils.UserPermission(Context.User, Constants.KITCHEN))
             {
 
-                <v-main class="background">
+                <v-main class="backgroundKitchen">
+
+                        @RenderBody()
+
+                        <v-snackbar v-model="notification.show"
+                                    transition="scale-transition"
+                                    :color="notification.type"
+                                    :timeout="notification.timeout">
+
+                            <v-icon :color="notification.iconColor">
+                                {{notification.icon}}
+                            </v-icon>
+                            {{notification.message}}
+                        </v-snackbar>
+                </v-main>
+            }
+
+            <!--Main Waiter-->
+            @if (User.Identity.IsAuthenticated && UserUtils.UserPermission(Context.User, Constants.WAITER))
+            {
+
+                <v-main class="backgroundWaiter">
                     <v-container fluid>
 
                         @RenderBody()
@@ -412,9 +420,58 @@
                         </v-snackbar>
                     </v-container>
                 </v-main>
+            }
 
-                <v-footer app style="font-size: 13px; background-color:#bd6476">
-                    <v-row class="justify-space-between">
+            <!--Main Admin-->
+            @if (User.Identity.IsAuthenticated && UserUtils.UserPermission(Context.User, Constants.ADMINISTRATOR))
+            {
+
+                <v-main class="backgroundAdmin">
+                    <v-container fluid>
+
+                        @RenderBody()
+
+                        <v-snackbar v-model="notification.show"
+                                    transition="scale-transition"
+                                    :color="notification.type"
+                                    :timeout="notification.timeout">
+
+                            <v-icon :color="notification.iconColor">
+                                {{notification.icon}}
+                            </v-icon>
+                            {{notification.message}}
+                        </v-snackbar>
+                    </v-container>
+                </v-main>
+            }
+
+            <!--Main Client-->
+            @if (User.Identity.IsAuthenticated && UserUtils.UserPermission(Context.User, Constants.CLIENT))
+            {
+
+                <v-main class="backgroundClient">
+                    <v-container fluid>
+
+                        @RenderBody()
+
+                        <v-snackbar v-model="notification.show"
+                                    transition="scale-transition"
+                                    :color="notification.type"
+                                    :timeout="notification.timeout">
+
+                            <v-icon :color="notification.iconColor">
+                                {{notification.icon}}
+                            </v-icon>
+                            {{notification.message}}
+                        </v-snackbar>
+                    </v-container>
+                </v-main>
+            }
+            <!--All Footer-->
+            @if (User.Identity.IsAuthenticated)
+            {
+                <v-footer style="font-size: 13px; background-color:#bd6476" paddless>
+                    <v-row dense class="justify-space-between">
                         <v-col class="col-md-2">
                             <v-avatar size="30">
                                 <img :src="logoCubiertos"
@@ -432,7 +489,7 @@
                                     </a>
                                 </li>
                                 <li style="display:inline">
-                                    <a :href="instagram.url"  target="_blank">
+                                    <a :href="instagram.url" target="_blank">
                                         <v-avatar size="28">
                                             <img :src="instagram.imagen" />
                                         </v-avatar>

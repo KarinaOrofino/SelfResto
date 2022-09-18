@@ -334,7 +334,7 @@
     <value>Cerrada</value>
   </data>
   <data name="Pending" xml:space="preserve">
-    <value>Pendiente</value>
+    <value>Ingresando a cocina</value>
   </data>
   <data name="Cargar" xml:space="preserve">
     <value>Cargar</value>
@@ -349,7 +349,7 @@
     <value>Comentarios</value>
   </data>
   <data name="SeeDetail" xml:space="preserve">
-    <value>Ver</value>
+    <value>Ver Detalle</value>
   </data>
   <data name="Surname" xml:space="preserve">
     <value>Apellido</value>
@@ -548,5 +548,20 @@
   </data>
   <data name="AddImage" xml:space="preserve">
     <value>Agregar Imagen</value>
+  </data>
+  <data name="Cooking" xml:space="preserve">
+    <value>Cocinando</value>
+  </data>
+  <data name="Delivered" xml:space="preserve">
+    <value>Entregado</value>
+  </data>
+  <data name="Ready" xml:space="preserve">
+    <value>Listo para llevar a la mesa</value>
+  </data>
+  <data name="AddItem" xml:space="preserve">
+    <value>Agregar Item</value>
+  </data>
+  <data name="Request" xml:space="preserve">
+    <value>Pedido</value>
   </data>
 </root>

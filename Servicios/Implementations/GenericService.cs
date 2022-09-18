@@ -80,7 +80,7 @@ namespace KO.Services.Implementaciones
         {
             _datos.Activate<T>(id);
         }
-
+   
         public void UpdateIgnoringProperty<T, W>(T entity, Expression<Func<T, W>> property)
             where T : class
             where W : struct

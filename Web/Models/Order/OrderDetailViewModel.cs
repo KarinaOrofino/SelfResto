@@ -14,6 +14,8 @@ namespace KO.Web.Models.Order
 
         public int OrderId { get; set; }
 
+        public int MenuItemCategoryId { get; set; }
+
         public int MenuItemId  { get; set; }
 
         public string MenuItemName { get; set; }

@@ -13,6 +13,8 @@ using KO.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using KO.Entities;
 using KO.Web.Models.Order;
+using System.Linq;
+using Framework.Common;
 
 namespace Web.Controllers.Home
 {
@@ -52,11 +54,12 @@ namespace Web.Controllers.Home
         [HttpGet]
         public IActionResult IndexEmployee()
         {
+            OrderViewModel ovm = new();
             if (!User.Identity.IsAuthenticated)
             {
             return Redirect("/Account/Login");
             }
-            return View();
+            return View(ovm);
         }
 
         [HttpGet]
@@ -119,6 +122,75 @@ namespace Web.Controllers.Home
             }
 
             return Task.FromResult(jsonData);
+        }
+
+        [HttpGet]
+        public Task<JsonData> GetActiveOrders()
+        {
+            JsonData jsonData = new();
+            List<OrderViewModel> OrderViewModels = new();
+
+            try
+            {
+                List<Order> Orders = IGenericService.GetAll<Order>(o => o.Active == true && o.OrderDetails.Count > 0).ToList();
+
+
+                OrderViewModels = Orders.Select(o => new OrderViewModel()
+                {
+                    Id = o.Id,
+                    TableNumber = o.Table.Number,
+                    RequestedTime = o.CreationDate,
+                    RequestedTimeString = o.CreationDate.ToString("HH:mm"),
+                    WaiterName = o.Table.WaiterUser.Name +" "+ o.Table.WaiterUser.Surname,
+                    OrderDetails = o.OrderDetails.Select(od => new OrderDetailViewModel() {
+                        Id=od.Id,
+                        MenuItemCategoryId = od.MenuItem.CategoryId,
+                        MenuItemId = od.MenuItemId,
+                        MenuItemName = od.MenuItem.Name,
+                        RelatedMenuItemId = od.RelatedMenuItemId,
+                        RelatedMenuItemName = od.RelatedMenuItemId != null ? od.RelatedMenuItem.Name : "",
+                        Quantity = od.Quantity,
+                        StateTypeId = od.StateTypeId,
+                    }).OrderBy(OrderDetail=>OrderDetail.StateTypeId).ToList(),
+                }).OrderBy(o=>o.RequestedTime).ToList();
+
+                jsonData.result = JsonData.Result.Ok;
+                jsonData.content = OrderViewModels;
+            }
+            catch (Exception ex)
+            {
+                log.Error("No se pudieron obtener las órdenes. Error: ", ex);
+                Response.StatusCode = Constants.ERROR_HTTP;
+                jsonData.result = JsonData.Result.Error;
+                jsonData.errorUi = "No se pudieron obtener las órdenes";
+            }
+
+            return Task.FromResult(jsonData);
+        }
+
+        [HttpPost]
+        public JsonData ChangeItemState(int itemId, int itemState)
+        {
+            JsonData jsonData = new();
+
+            try
+            {
+                OrderDetail od = IGenericService.GetById<OrderDetail>(itemId);
+                od.StateTypeId = itemState;
+                IGenericService.Update<OrderDetail>(od);
+
+                jsonData.result = JsonData.Result.Ok;
+
+            }
+            catch (Exception ex)
+            {
+                log.Error("No se pudo cambiar el estado del item. Error: ", ex);
+                Response.StatusCode = Constants.ERROR_HTTP;
+                jsonData.result = JsonData.Result.Error;
+                jsonData.errorUi = "No se pudo cambiar el estado del item";
+            }
+
+            return jsonData;
         }
 
     }

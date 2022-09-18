@@ -40,6 +40,7 @@ namespace Web.Controllers.Orders
             ovm.OrderDetails = order.OrderDetails.Select(od => new OrderDetailViewModel()
             {
                 Id = od.Id,
+                MenuItemCategoryId = od.MenuItem.CategoryId,
                 MenuItemId = od.MenuItemId,
                 MenuItemName = od.MenuItem.Name,
                 MenuItemPicture = od.MenuItem.ImageUrl,
@@ -68,6 +69,7 @@ namespace Web.Controllers.Orders
                 orderDetail.OrderId = orderId;
                 orderDetail.MenuItemId = itemId;
                 orderDetail.Quantity = quantity;
+                orderDetail.StateTypeId = 1;
                 orderDetail.RelatedMenuItemId = idSalsa == null ? null : idSalsa;
                 orderDetail.CreationUser = UserUtils.GetId(User);
                 orderDetail.CreationDate = DateTime.Now;
