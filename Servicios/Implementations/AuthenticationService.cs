@@ -35,9 +35,19 @@ namespace KO.Services
             {
                 User user = IUsersService.GetByEmail(email);
 
-                if (user.Email == null || !user.Active || (user.Password != password))
+                if (user.Email == null)
                 {
                     return new JsonApiData() { message = Global.MsgNotAUser, result = JsonApiData.Result.Error };
+                }
+
+                if (!user.Active)
+                {
+                    return new JsonApiData() { message = Global.MsgNotAnActiveUser, result = JsonApiData.Result.Error };
+                }
+
+                if ((user.Password != password))
+                {
+                    return new JsonApiData() { message = Global.MsgIncorrectPassword, result = JsonApiData.Result.Error };
                 }
 
                 else {

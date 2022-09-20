@@ -424,7 +424,7 @@
     <value>Mozo</value>
   </data>
   <data name="WaiterBackUp" xml:space="preserve">
-    <value>Mozo Back Up</value>
+    <value>Back Up</value>
   </data>
   <data name="MsgNotAUser" xml:space="preserve">
     <value>No es un usuario registrado. Comuníquese con el administrador para que lo registre.</value>
@@ -563,5 +563,8 @@
   </data>
   <data name="Request" xml:space="preserve">
     <value>Pedido</value>
+  </data>
+  <data name="MsgNotAnActiveUser" xml:space="preserve">
+    <value>El usuario no se encuentra activo. Por favor, comuníquese con el administrador para su reactivación.</value>
   </data>
 </root>

@@ -15,6 +15,7 @@ using KO.Entities;
 using KO.Web.Models.Order;
 using System.Linq;
 using Framework.Common;
+using KO.Web.Models.Table;
 
 namespace Web.Controllers.Home
 {
@@ -47,6 +48,7 @@ namespace Web.Controllers.Home
             OrderViewModel orderVM = new();
             orderVM.Id = order.Id;
             orderVM.TableId = order.TableId;
+            orderVM.TableNumber = order.Table.Number;
 
             return View(orderVM);
         }
@@ -125,6 +127,50 @@ namespace Web.Controllers.Home
         }
 
         [HttpGet]
+        public JsonResult GetAllTables()
+        {
+            JsonData jsonData = new JsonData();
+            List<TableViewModel> tablesVM = new();
+
+            try
+            {
+
+                List<Table> tables = IGenericService.GetAll<Table>(t => t.Active).ToList();
+                List<Order> orders = IGenericService.GetAll<Order>().ToList();
+
+                 var query =
+                    from table in tables
+                    join order in orders on table.Id equals order.TableId into gj
+                    from subset in gj.DefaultIfEmpty()
+                    select new TableViewModel
+                    {
+                        Id = table.Id,
+                        Number = table.Number,
+                        WaiterName = string.Concat(table.WaiterUser.Name.Substring(0,1),". ", table.WaiterUser.Surname),
+                        WaiterBackUpName = string.Concat(table.WaiterBackUpUser.Name.Substring(0, 1), ". ", table.WaiterBackUpUser.Surname),
+                        Active = subset?.Active == null ? false : subset.Active,
+                        Closed = subset?.Id == null ? true : false
+                    };
+
+                List<TableViewModel> allTables = query.Where(q=>(q.Active && !q.Closed) || q.Closed).ToList();
+
+                jsonData.content = allTables;
+                jsonData.result = JsonData.Result.Ok;
+            }
+
+            catch (Exception ex)
+            {
+                log.Error("No se pudieron obtener las mesas. Error: ", ex);
+                Response.StatusCode = Constants.ERROR_HTTP;
+                jsonData.result = JsonData.Result.Error;
+                jsonData.errorUi = "No se pudieron obtener las mesas.";
+            }
+
+            return Json(jsonData);
+
+        }
+
+        [HttpGet]
         public Task<JsonData> GetActiveOrders()
         {
             JsonData jsonData = new();
@@ -132,8 +178,7 @@ namespace Web.Controllers.Home
 
             try
             {
-                List<Order> Orders = IGenericService.GetAll<Order>(o => o.Active == true && o.OrderDetails.Count > 0).ToList();
-
+                List<Order> Orders = IGenericService.GetAll<Order>(o => o.Active == true && o.OrderDetails.Count > 0 && !o.OrderDetails.All(od=>od.MenuItem.CategoryId >=8)).ToList();
 
                 OrderViewModels = Orders.Select(o => new OrderViewModel()
                 {

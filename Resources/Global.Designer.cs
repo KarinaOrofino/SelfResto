@@ -916,6 +916,15 @@ namespace KO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to El usuario no se encuentra activo. Por favor, comuníquese con el administrador para su reactivación..
+        /// </summary>
+        public static string MsgNotAnActiveUser {
+            get {
+                return ResourceManager.GetString("MsgNotAnActiveUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No es un usuario registrado. Comuníquese con el administrador para que lo registre..
         /// </summary>
         public static string MsgNotAUser {
@@ -1384,7 +1393,7 @@ namespace KO.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Mozo Back Up.
+        ///   Looks up a localized string similar to Back Up.
         /// </summary>
         public static string WaiterBackUp {
             get {

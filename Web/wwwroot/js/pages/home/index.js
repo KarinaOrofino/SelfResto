@@ -1,5 +1,6 @@
 ﻿vueAppParams.data.orders = [];
 vueAppParams.data.cronoWarning = '';
+vueAppParams.data.tables = [];
 
 vueAppParams.data.slide = 0;
 
@@ -14,6 +15,7 @@ vueAppParams.data.slide = 0;
 
 vueAppParams.mounted = function () {
     this.getActiveOrders();
+    this.getAllTables();
 
 };
 
@@ -77,6 +79,19 @@ vueAppParams.methods.getActiveOrders = function () {
             vueAppParams.data.orders = data.content;
             vueAppParams.data.orders.forEach(o => o.cronoWarning = '');
             vueAppParams.data.orders.forEach(o=>vueApp.startTime(o));
+        },
+        error: defaultErrorHandler
+    });
+
+};
+
+vueAppParams.methods.getAllTables = function () {
+
+    $.ajax({
+        url: "/Home/GetAllTables",
+        method: "GET",
+        success: function (data) {
+            vueAppParams.data.tables = data.content;
         },
         error: defaultErrorHandler
     });

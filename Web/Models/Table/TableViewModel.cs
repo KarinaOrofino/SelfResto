@@ -21,9 +21,15 @@ namespace KO.Web.Models.Table
 
         public int Waiter { get; set; }
 
+        public string WaiterName { get; set; }
+
         public int WaiterBackUp { get; set; }
 
+        public string WaiterBackUpName { get; set; }
+
         public bool Active { get; set; }
+
+        public bool Closed { get; set; }
 
         public List<TableViewModel> tables { get; set; }
     }

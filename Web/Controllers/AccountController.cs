@@ -81,7 +81,7 @@ namespace Web.Controllers.Account
 
         #region Post
         [HttpPost]
-        public async Task<IActionResult> Login(UserViewModel userVM, byte tableId)
+        public async Task<IActionResult> Login(UserViewModel userVM, int tableId)
         {
             JsonData jsonData = new();
             List<string> messages = new();
@@ -98,7 +98,7 @@ namespace Web.Controllers.Account
                             messages.Add(error.ErrorMessage);
                         }
                     }
-                    jsonData.content.message = messages;
+
                     jsonData.result = JsonData.Result.Error;
                     return Json(jsonData);
                 }
@@ -106,10 +106,9 @@ namespace Web.Controllers.Account
                 JsonApiData apiResponse = IAuthenticateService.AutenticarUsuarioAplicacion(userVM.Email, userVM.Password);
                 if (apiResponse.result == JsonApiData.Result.Error)
                 {
-                    messages.Add(Global.MsgNotAUser);
 
-                    jsonData.content.message = messages;
                     jsonData.result = JsonData.Result.Error;
+                    jsonData.errorUi = apiResponse.message;
                     return Json(jsonData);
                 }
                 apiResponse.content = JsonConvert.DeserializeObject<dynamic>(apiResponse.message);
@@ -148,9 +147,10 @@ namespace Web.Controllers.Account
                 {
                     jsonData.content = order.Id;
                 }
-                }
+                
 
                 jsonData.result = JsonData.Result.Ok;
+                }
 
             }
             catch (Exception ex)
@@ -186,7 +186,7 @@ namespace Web.Controllers.Account
 
         [HttpGet]
         [AllowAnonymous]
-        public JsonResult GetAllTables()
+        public JsonResult GetAllTablesWithoutOpenOrder()
         {
             JsonData jsonData = new JsonData();
             List<TableViewModel> tablesVM = new();
@@ -195,6 +195,8 @@ namespace Web.Controllers.Account
             {
 
                 List<Table> tables = IGenericService.GetAll<Table>(t => t.Active).ToList();
+                List<Order> orders = IGenericService.GetAll<Order>(t => t.Active).ToList();
+                //List<Table> tablesWithoutOpenOrder = tables.Where(tab => !orders.Any(o => o.TableId == tab.Id)).ToList();
 
                 tablesVM = tables.Select(tab => new TableViewModel
                 {
@@ -202,7 +204,7 @@ namespace Web.Controllers.Account
                     Number = tab.Number,
                 }).ToList();
 
-                jsonData.content = tables;
+                jsonData.content = tablesVM;
                 jsonData.result = JsonData.Result.Ok;
             }
 

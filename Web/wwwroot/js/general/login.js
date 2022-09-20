@@ -17,7 +17,7 @@ vueAppParams.methods.loadTables = function () {
     vueAppParams.data.loadingTables = true;
 
     $.ajax({
-        url: "/Account/GetAllTables",
+        url: "/Account/GetAllTablesWithoutOpenOrder",
         method: "GET",
         success: function (data) {
             vueApp.tables = data.content;
@@ -53,7 +53,7 @@ vueAppParams.methods.logInClient = function () {
                 vueApp.goToIndex(orderId);
             }
             else {
-                vueApp.notification.showError(data.content.message);
+                vueApp.notification.showError(data.errorUi);
             }
             vueApp.dialogElegirMesa = false;
         },
@@ -89,7 +89,7 @@ vueAppParams.methods.logInEmployee = function () {
                 window.location = '/Home/IndexEmployee';
             }
             else {
-                vueApp.notification.showError(data.content.message);
+                vueApp.notification.showError(data.errorUi);
             }
         },
         error: defaultErrorHandler,
