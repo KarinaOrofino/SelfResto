@@ -135,7 +135,7 @@ namespace Web.Controllers.Home
             try
             {
 
-                List<Table> tables = IGenericService.GetAll<Table>(t => t.Active).ToList();
+                List<Table> tables = IGenericService.GetAll<Table>().ToList();
                 List<Order> orders = IGenericService.GetAll<Order>().ToList();
 
                  var query =
@@ -146,13 +146,21 @@ namespace Web.Controllers.Home
                     {
                         Id = table.Id,
                         Number = table.Number,
-                        WaiterName = string.Concat(table.WaiterUser.Name.Substring(0,1),". ", table.WaiterUser.Surname),
-                        WaiterBackUpName = string.Concat(table.WaiterBackUpUser.Name.Substring(0, 1), ". ", table.WaiterBackUpUser.Surname),
-                        Active = subset?.Active == null ? false : subset.Active,
-                        Closed = subset?.Id == null ? true : false
+                        OrderStatusId = table.OrderStatusId,
+                        WaiterId = table.WaiterId,
+                        WaiterName = table.WaiterId != null ? string.Concat(table.WaiterUser.Name.Substring(0,1),". ", table.WaiterUser?.Surname): "",
+                        WaiterBackUpId = table.WaiterBackUpId,
+                        WaiterBackUpName = table.WaiterBackUpId != null ? string.Concat(table.WaiterBackUpUser.Name.Substring(0, 1), ". ", table.WaiterBackUpUser?.Surname): "",
+                        Active = table.Active,
+                        Closed = (subset?.Id == null || !subset.Active)
                     };
 
-                List<TableViewModel> allTables = query.Where(q=>(q.Active && !q.Closed) || q.Closed).ToList();
+                List<TableViewModel> allTables = query.GroupBy(tb => new { tb.Number}).
+                   Select(x =>
+                   {
+                       var result = x.Last();
+                       return result;
+                   }).ToList();
 
                 jsonData.content = allTables;
                 jsonData.result = JsonData.Result.Ok;
@@ -178,15 +186,16 @@ namespace Web.Controllers.Home
 
             try
             {
-                List<Order> Orders = IGenericService.GetAll<Order>(o => o.Active == true && o.OrderDetails.Count > 0 && !o.OrderDetails.All(od=>od.MenuItem.CategoryId >=8)).ToList();
+                List<Order> Orders = IGenericService.GetAll<Order>(o => o.Active == true).ToList();
 
                 OrderViewModels = Orders.Select(o => new OrderViewModel()
                 {
                     Id = o.Id,
+                    TableId = o.Table.Id,
                     TableNumber = o.Table.Number,
                     RequestedTime = o.CreationDate,
                     RequestedTimeString = o.CreationDate.ToString("HH:mm"),
-                    WaiterName = o.Table.WaiterUser.Name +" "+ o.Table.WaiterUser.Surname,
+                    WaiterName = o.Table.WaiterId != null ? o.Table.WaiterUser.Name +" "+ o.Table.WaiterUser.Surname : "",
                     OrderDetails = o.OrderDetails.Select(od => new OrderDetailViewModel() {
                         Id=od.Id,
                         MenuItemCategoryId = od.MenuItem.CategoryId,

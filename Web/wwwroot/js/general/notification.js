@@ -2,7 +2,7 @@
     show: false,
     type: 'sucess',
     message: '',
-    timeout: 5000,
+    timeout: 3000,
     icon: 'mdi-alert',
     iconColor: 'white'
 };

@@ -1,7 +1,9 @@
 ﻿//Model
 vueAppParams.data.gridData = [];
 vueAppParams.data.filteredList = [];
-vueAppParams.data.loadingTables = true;
+vueAppParams.data.waiters = [];
+vueAppParams.data.loadingTables = false;
+vueAppParams.data.loadingWaiters = false;
 vueAppParams.data.loadingExport = false;
 vueAppParams.data.dialogActivate = false;
 vueAppParams.data.dialogInactivate = false;
@@ -26,18 +28,18 @@ vueAppParams.mounted = function () {
 };
 
 vueAppParams.data.headers = [
-
     { value: 'id', align: ' d-none' },
     { text: jsglobals.Number, value: 'number', align: 'center', class: 'selfResto-headers' },
     { text: jsglobals.Name, value: 'name', align: 'center', class: 'selfResto-headers' },
     { text: jsglobals.Description, value: 'description', align: 'center', class: 'selfResto-headers' },
+    { text: jsglobals.Waiter, value: 'waiterName', align: 'center', class: 'selfResto-headers' },
+    { text: jsglobals.WaiterBackUp, value: 'waiterBackUpName', align: 'center', class: 'selfResto-headers' },
     { text: jsglobals.State, value: 'active', align: 'center', class: 'selfResto-headers' },
     { text: jsglobals.Actions, value: 'actions', align: 'center', class: 'selfResto-headers' }
-
 ];
 
 
-// Metodos
+// Methods
 vueAppParams.methods.filterByState = function () {
 
     if (vueAppParams.data.filters.state === 0) {
@@ -54,8 +56,9 @@ vueAppParams.methods.clean = function () {
     vueApp.filteredList = vueApp.gridData;
 };
 
-
 vueAppParams.methods.loadGrid = function () {
+
+    vueAppParams.data.loadingTables = false;
 
     $.ajax({
         url: "/Tables/GetAll",
@@ -66,14 +69,13 @@ vueAppParams.methods.loadGrid = function () {
         },
         error: defaultErrorHandler,
         complete: function () {
-            vueApp.loadingTables = false;
+            vueAppParams.data.loadingTables = false;
         }
     }).done(() => {
-        vueApp.loadingTables = false;
+        vueAppParams.data.loadingTables = false;
     });
 };
 
-// Metodos
 vueAppParams.methods.addTable = function () {
 
     window.location = "/Tables/Detail";
@@ -85,47 +87,80 @@ vueAppParams.methods.inactivateTable = function (item) {
     vueAppParams.data.tableToInactivate = item;
 };
 
-vueAppParams.methods.confirmInactivation = function (id) {
+vueAppParams.methods.confirmInactivation = function (table) {
 
     vueAppParams.data.dialogInactivate = false;
 
-    var tableIdIndex = vueApp.gridData.findIndex(table => table.id == id)
-    vueApp.gridData[tableIdIndex].active = false;
+    if (table.orderStatusId != null) {
+        vueApp.notification.showWarning(jsglobals.MsgTableWithOrder);
+        return false;
+    }
 
-    $.ajax({
-        url: "/Tables/Inactivate?id=" + id,
-        method: "GET",
-        success: function (data) {
-            vueApp.notification.showSuccess(jsglobals.MsgInactivationOk);
-            setTimeout(function () { /*window.location = '/Tables/List'*/ });
-        },
-        error: defaultErrorHandler
-    });
+    else { 
 
+        var tableIdIndex = vueApp.gridData.findIndex(t => t.id == table.id)
+        vueApp.gridData[tableIdIndex].active = false;
+        vueApp.gridData[tableIdIndex].waiterName = "";
+        vueApp.gridData[tableIdIndex].waiterBackUpName = "";
+
+        $.ajax({
+            url: "/Tables/Inactivate?id=" + table.id,
+            method: "GET",
+            success: function (data) {
+                vueApp.notification.showSuccess(jsglobals.MsgInactivationOk);
+            },
+            error: defaultErrorHandler
+        });
+    }
 };
 
 vueAppParams.methods.activateTable = function (item) {
 
     vueAppParams.data.dialogActivate = true;
     vueAppParams.data.tableToActivate = item;
+    this.loadWaiters();
 };
 
-vueAppParams.methods.confirmActivation = function (id) {
+vueAppParams.methods.loadWaiters = function () {
 
-    vueAppParams.data.dialogActivate = false;
-
-    var tableIdIndex = vueApp.gridData.findIndex(table => table.id == id);
-    vueApp.gridData[tableIdIndex].active = true;
+    vueAppParams.data.loadingWaiters = true;
 
     $.ajax({
-        url: "/Tables/Activate?id=" + id,
+        url: "/Tables/GetAllWaiters",
         method: "GET",
         success: function (data) {
-            vueApp.notification.showSuccess(jsglobals.MsgActivationOk);
-            setTimeout(function () { /*window.location = '/Tables/List'*/ });
+            vueApp.waiters = data.content;
         },
-        error: defaultErrorHandler
+        error: defaultErrorHandler,
+        complete: function () {
+            vueAppParams.data.loadingWaiters = false;
+        }
+    }).done(() => {
+        vueAppParams.data.loadingWaiters = false;
     });
+};
+
+vueAppParams.methods.confirmActivation = function (table) {
+
+    if (table.waiterId != null && table.waiterId == table.waiterBackUpId) {
+        vueApp.notification.showWarning(jsglobals.MsgSameWaiters);
+        return;
+    }
+
+    else {
+        vueAppParams.data.dialogActivate = false;
+  
+        $.ajax({
+            url: "/Tables/Activate",
+            method: "POST",
+            data: {tableVM : table},
+            success: function (data) {
+                vueApp.notification.showSuccess(jsglobals.MsgActivationOk);
+                location.reload();
+            },
+            error: defaultErrorHandler
+        });
+    }
 
 };
 
@@ -133,8 +168,6 @@ vueAppParams.methods.editTable= function (id) {
 
     window.location = "/Tables/Detail/" + id;
 };
-
-
 
 vueAppParams.methods.exportList = function () {
     vueApp.loadingExport = true;

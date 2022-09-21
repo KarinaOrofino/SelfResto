@@ -2,7 +2,9 @@
 vueAppParams.data.isValid = false;
 vueAppParams.data.itemChange = "";
 vueAppParams.data.dialog = null;
+vueAppParams.data.loadingWaiters = false;
 vueAppParams.data.breadcrumbs = [];
+vueAppParams.data.waiters = [];
 
 vueAppParams.mounted = function () {
     this.breadcrumbs = [
@@ -13,17 +15,45 @@ vueAppParams.mounted = function () {
     if (this.model.Id == 0) {
         this.model.Active = true;
     }
+
+    this.loadWaiters();
 };
 
 vueAppParams.methods.isDisabled = function () {
     return !this.model.Id == 0;
-}
+};
 
+vueAppParams.methods.loadWaiters = function () {
 
-vueAppParams.methods.changeState = function () {
+    vueAppParams.data.loadingWaiters = true;
 
-    vueAppParams.data.dialog = true;
-    vueAppParams.data.itemChange = this.model;
+    $.ajax({
+        url: "/Tables/GetAllWaiters",
+        method: "GET",
+        success: function (data) {
+            vueApp.waiters = data.content;
+        },
+        error: defaultErrorHandler,
+        complete: function () {
+            vueAppParams.data.loadingWaiters = false;
+        }
+    }).done(() => {
+        vueAppParams.data.loadingWaiters = false;
+    });
+};
+
+vueAppParams.methods.changeState = function (act) {
+
+    if (vueApp.model.OrderStatusId != null && act == 0) {
+        vueApp.notification.showWarning(jsglobals.MsgTableWithOrder);
+        setTimeout(function () { vueApp.model.Active = true; });
+        
+    }
+
+    else { 
+        vueAppParams.data.dialog = true;
+        vueAppParams.data.itemChange = this.model;
+    }
 };
 
 vueAppParams.methods.confirmStateChange = function (itemChange) {
@@ -43,6 +73,11 @@ vueAppParams.methods.saveTable = function () {
 
     vueApp.isValid = vueApp.$refs.form.validate();
     if (!vueApp.isValid) {
+        return false;
+    }
+
+    if (vueApp.model.WaiterId != null && vueApp.model.WaiterId == vueApp.model.WaiterBackUpId) {
+        vueApp.notification.showWarning(jsglobals.MsgSameWaiters);
         return false;
     }
 

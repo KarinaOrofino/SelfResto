@@ -934,6 +934,24 @@ namespace KO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to El mozo back-up no puede ser el mismo que el mozo principal..
+        /// </summary>
+        public static string MsgSameWaiters {
+            get {
+                return ResourceManager.GetString("MsgSameWaiters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to La mesa tiene una orden abierta, no puede inactivarse..
+        /// </summary>
+        public static string MsgTableWithOrder {
+            get {
+                return ResourceManager.GetString("MsgTableWithOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Datos Actualizados correctamente.
         /// </summary>
         public static string MsgUpdateOk {
@@ -1263,15 +1281,6 @@ namespace KO.Resources {
         public static string State {
             get {
                 return ResourceManager.GetString("State", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Colapsar.
-        /// </summary>
-        public static string String1 {
-            get {
-                return ResourceManager.GetString("String1", resourceCulture);
             }
         }
         

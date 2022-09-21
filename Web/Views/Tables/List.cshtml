@@ -164,7 +164,7 @@
                             {{jsglobals.No}}
                         </v-btn>
                         <v-btn small
-                               v-on:click="confirmInactivation(tableToInactivate.id)"
+                               v-on:click="confirmInactivation(tableToInactivate)"
                                color="red lighten-2">
                             {{jsglobals.Yes}}
                         </v-btn>
@@ -190,6 +190,38 @@
                         {{jsglobals.MsgActivate}}
                         </br>
                         {{jsglobals.Table}}: <strong>{{tableToActivate.number}}</strong>
+                                             <v-autocomplete v-model="tableToActivate.waiterId"
+                                                             class="mt-2"
+                                                             :items="waiters"
+                                                             item-text="surname"
+                                                             item-value="id"
+                                                             menu-props="auto"
+                                                             :loading="loadingWaiters"
+                                                             :disabled="loadingWaiters"
+                                                             :label="jsglobals.Waiter">
+                                                 <template v-slot:item="{item}">
+                                                     <span>{{ item.surname }}, {{item.name}}</span>
+                                                 </template>
+                                                 <template v-slot:selection="{item}">
+                                                     <span>{{ item.surname }}, {{item.name}}</span>
+                                                 </template>
+                                             </v-autocomplete>
+                                             <v-autocomplete v-model="tableToActivate.waiterBackUpId"
+                                                             class="mt-2"
+                                                             :items="waiters"
+                                                             item-text="surname"
+                                                             item-value="id"
+                                                             menu-props="auto"
+                                                             :loading="loadingWaiters"
+                                                             :disabled="loadingWaiters"
+                                                             :label="jsglobals.WaiterBackUp">
+                                                 <template v-slot:item="{item}">
+                                                     <span>{{ item.surname }}, {{item.name}}</span>
+                                                 </template>
+                                                 <template v-slot:selection="{item}">
+                                                     <span>{{ item.surname }}, {{item.name}}</span>
+                                                 </template>
+                                             </v-autocomplete>
                     </v-card-text>
                     <v-divider></v-divider>
                     <v-card-actions>
@@ -200,7 +232,7 @@
                             {{jsglobals.No}}
                         </v-btn>
                         <v-btn small
-                               v-on:click="confirmActivation(tableToActivate.id)"
+                               v-on:click="confirmActivation(tableToActivate)"
                                color="red lighten-2">
                             {{jsglobals.Yes}}
                         </v-btn>

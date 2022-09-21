@@ -17,15 +17,18 @@ vueAppParams.methods.loadTables = function () {
     vueAppParams.data.loadingTables = true;
 
     $.ajax({
-        url: "/Account/GetAllTablesWithoutOpenOrder",
+        url: "/Account/GetAllTables",
         method: "GET",
         success: function (data) {
             vueApp.tables = data.content;
-            vueAppParams.data.loadingTables = false;
-
         },
-        error: defaultErrorHandler
-    })
+        error: defaultErrorHandler,
+        complete: function () {
+            vueAppParams.data.loadingTables = false;
+        }
+    }).done(() => {
+        vueAppParams.data.loadingTables = false;
+    });
 };
 
 vueAppParams.methods.chooseTable = function () {

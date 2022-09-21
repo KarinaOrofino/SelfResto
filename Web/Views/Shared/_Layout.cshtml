@@ -121,7 +121,7 @@
                                                     restaurant_menu
                                                 </v-icon>
                                             </v-list-item-icon>
-                                            <v-list-item-title style="font-size:1em;">{{jsglobals.Menu}}</v-list-item-title>
+                                            <v-list-item-title style="font-size:1em;">{{jsglobals.Menu}} - Items</v-list-item-title>
                                         </a>
                                     </v-list-item>
                                     <v-divider class="mt-3 mb-3"></v-divider>
@@ -163,41 +163,6 @@
                                     </v-list-item>
                                     <v-divider class="mt-3 mb-3"></v-divider>
                                 }
-                                @*<v-list-item>
-                                <a class="menu-left-links">
-                                    <v-list-item-icon>
-                                        <v-icon class="material-icons">
-                                            room_service
-                                        </v-icon>
-                                    </v-list-item-icon>
-                                    <v-list-item-title style="font-size:1em;">{{jsglobals.Camarero}}</v-list-item-title>
-                                </a>
-                            </v-list-item>
-                            <v-divider class="mt-3 mb-3"></v-divider>
-
-                            <v-list-item>
-                                <a class="menu-left-links" href="/Order/Detail">
-                                    <v-list-item-icon>
-                                        <v-icon class="material-icons">
-                                            shopping_cart
-                                        </v-icon>
-                                    </v-list-item-icon>
-                                    <v-list-item-title style="font-size:1em;">{{jsglobals.SeeOrder}}</v-list-item-title>
-                                </a>
-                            </v-list-item>
-                            <v-divider class="mt-3 mb-3"></v-divider>
-                            <v-list-item>
-                                <a class="menu-left-links" href="/Payments/Detail">
-                                    <v-list-item-icon>
-                                        <v-icon class="material-icons">
-                                            paid
-                                        </v-icon>
-                                    </v-list-item-icon>
-                                    <v-list-item-title style="font-size:1em;">{{jsglobals.Bill}}</v-list-item-title>
-                                </a>
-                            </v-list-item>
-
-                            <v-divider class="mt-3 mb-3"></v-divider>*@
                             </v-list-item-content>
                         </v-list>
                     </v-navigation-drawer>
@@ -221,14 +186,14 @@
                         </v-toolbar-items>
                         <v-spacer></v-spacer>
                         <v-toolbar-title>
-                            <img class="rounded-lg offset-md-6 mt-0 headerImage" :src="logoHeader" />
+                            <img class="rounded-lg offset-md-6 mt-1 headerImage" :src="logoHeader" />
                         </v-toolbar-title>
                         <v-spacer></v-spacer>
                         <v-toolbar-items>
                             <v-row justify="center">
                                 <v-tooltip top>
                                     <template v-slot:activator="{ on, attrs }">
-                                        <v-btn icon v-bind="attrs" v-on="on" v-on:click="callWaiter()"
+                                        <v-btn icon v-bind="attrs" v-on="on" v-on:click="seeMenuList(model.Id)"
                                                large
                                                class="mt-2">
                                             <v-icon class="material-icons">
@@ -244,7 +209,7 @@
                                                large
                                                class="mt-2">
                                             <v-icon class="material-icons">
-                                                room_service
+                                                 notifications_active
                                             </v-icon>
                                         </v-btn>
                                     </template>

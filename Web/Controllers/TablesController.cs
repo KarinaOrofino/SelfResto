@@ -9,6 +9,7 @@ using KO.Entities;
 using System.Linq;
 using Framework.Common;
 using KO.Web.Models.Table;
+using KO.Web.Models.Account;
 
 namespace Web.Controllers.Tables
 {
@@ -81,6 +82,11 @@ namespace Web.Controllers.Tables
                     Number = table.Number,
                     Name = table.Name,
                     Description = table.Description,
+                    WaiterId =  table.WaiterId,
+                    WaiterName = table.WaiterId != null ? table.WaiterUser.Name + " " + table.WaiterUser.Surname : "",
+                    WaiterBackUpId = table.WaiterBackUpId,
+                    WaiterBackUpName = table.WaiterId != null ? table.WaiterBackUpUser.Name + " " + table.WaiterBackUpUser.Surname : "",
+                    OrderStatusId = table.OrderStatusId,
                     Active = table.Active
 
                 }).OrderBy(table => table.Number).ToList();
@@ -107,7 +113,12 @@ namespace Web.Controllers.Tables
             try
             {
 
-                IGenericService.Deactivate<Table>(id);
+                Table table = IGenericService.GetById<Table>(id);
+                table.Active = false;
+                table.WaiterId = null;
+                table.WaiterBackUpId = null;
+
+                IGenericService.Update<Table>(table);
 
                 jsonData.result = JsonData.Result.Ok;
             }
@@ -122,20 +133,24 @@ namespace Web.Controllers.Tables
             return Json(jsonData);
         }
 
-        public JsonResult Activate(int id)
+        [HttpPost]
+        public JsonResult Activate(TableViewModel tableVM)
         {
             JsonData jsonData = new();
 
             try
             {
-
-                IGenericService.Activate<Table>(id);
+                Table table = IGenericService.GetById<Table>(tableVM.Id);
+                table.Active = true;
+                table.WaiterId = tableVM.WaiterId;
+                table.WaiterBackUpId = tableVM.WaiterBackUpId;
+                IGenericService.Update<Table>(table);
 
                 jsonData.result = JsonData.Result.Ok;
             }
             catch (Exception ex)
             {
-                log.Error("No se pudo activar la mesa con id: " + id, ex);
+                log.Error("No se pudo activar la mesa con id: " + tableVM.Id, ex);
                 Response.StatusCode = Constants.ERROR_HTTP;
                 jsonData.errorUi = "No se pudo activar la mesa";
                 jsonData.result = JsonData.Result.Error;
@@ -144,7 +159,40 @@ namespace Web.Controllers.Tables
             return Json(jsonData);
         }
 
-        [HttpGet]
+        public JsonResult GetAllWaiters()
+        {
+            JsonData jsonData = new();
+
+            try
+            {
+                List<User> waiters = IGenericService.GetAll<User>(u => u.Access_Type == 11 && u.Active).ToList();
+
+                List<UserViewModel> waitersVMList = new();
+
+                waitersVMList = waiters.Select(user => new UserViewModel()
+                {
+                    Id = user.Id,
+                    Name = user.Name,
+                    Surname = user.Surname,
+
+                }).OrderBy(us => us.Surname).ToList();
+
+                jsonData.content = waitersVMList;
+                jsonData.result = JsonData.Result.Ok;
+            }
+
+            catch (Exception ex)
+            {
+                log.Error("No se pudo obtener la lista de mozos. Error: ", ex);
+                Response.StatusCode = Constants.ERROR_HTTP;
+                jsonData.errorUi = "No se pudo obtener la lista de mozos";
+                jsonData.result = JsonData.Result.Error;
+            }
+
+            return Json(jsonData);
+        }
+
+            [HttpGet]
         public IActionResult Export(string searchField, bool? state)
         {
             try
@@ -158,6 +206,8 @@ namespace Web.Controllers.Tables
                     Number = table.Number,
                     Name = table.Name,
                     Description = table.Description,
+                    WaiterName = table.WaiterId != null ? table.WaiterUser.Name + " " + table.WaiterUser.Surname : "",
+                    WaiterBackUpName = table.WaiterId != null ? table.WaiterBackUpUser.Name + " " + table.WaiterBackUpUser.Surname : "",
                     Active = table.Active
 
                 }).OrderBy(table => table.Number).ToList();
@@ -167,6 +217,8 @@ namespace Web.Controllers.Tables
                     table.Number,
                     table.Name,
                     table.Description,
+                    table.WaiterName,
+                    table.WaiterBackUpName,
                     Estado = table.Active == true ? Global.ActiveFem : Global.InactiveFem,
                 }).ToList();
 
@@ -212,6 +264,8 @@ namespace Web.Controllers.Tables
                 table.Name = tableVM.Name;
                 table.Number = tableVM.Number;
                 table.Description = tableVM.Description;
+                table.WaiterId = tableVM.WaiterId;
+                table.WaiterBackUpId = tableVM.WaiterBackUpId;
                 table.CreationDate = DateTime.Now;
                 table.CreationUser = UserUtils.GetId(User);
                 table.Active = true;
@@ -245,6 +299,8 @@ namespace Web.Controllers.Tables
                 table.Number = tableVM.Number;
                 table.Name = tableVM.Name;
                 table.Description = tableVM.Description;
+                table.WaiterId = tableVM.Active ? tableVM.WaiterId : null;
+                table.WaiterBackUpId = tableVM.Active ? tableVM.WaiterBackUpId : null;
                 table.UpdateDate = DateTime.Now;
                 table.UpdateUser = UserUtils.GetId(User);
                 table.Active = tableVM.Active;
@@ -273,6 +329,10 @@ namespace Web.Controllers.Tables
             tableVM.Id = table.Id;
             tableVM.Number = table.Number;
             tableVM.Name = table.Name;
+            tableVM.OrderStatusId = table.OrderStatusId;
+            tableVM.OrderStatus = table.OrderStatus;
+            tableVM.WaiterId = table.WaiterId;
+            tableVM.WaiterBackUpId = table.WaiterBackUpId;
             tableVM.Description = table.Description;
             tableVM.Active = table.Active;
 

@@ -537,9 +537,6 @@
   <data name="Imagen" xml:space="preserve">
     <value>Imagen</value>
   </data>
-  <data name="String1" xml:space="preserve">
-    <value>Colapsar</value>
-  </data>
   <data name="ChangeImage" xml:space="preserve">
     <value>Cambiar Imagen</value>
   </data>
@@ -566,5 +563,11 @@
   </data>
   <data name="MsgNotAnActiveUser" xml:space="preserve">
     <value>El usuario no se encuentra activo. Por favor, comuníquese con el administrador para su reactivación.</value>
+  </data>
+  <data name="MsgSameWaiters" xml:space="preserve">
+    <value>El mozo back-up no puede ser el mismo que el mozo principal.</value>
+  </data>
+  <data name="MsgTableWithOrder" xml:space="preserve">
+    <value>La mesa tiene una orden abierta, no puede inactivarse.</value>
   </data>
 </root>

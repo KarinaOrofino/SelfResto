@@ -77,6 +77,40 @@ namespace Web.Controllers.Account
             return View();
         }
 
+        [HttpGet]
+        public JsonResult GetAllTables()
+        {
+            JsonData jsonData = new JsonData();
+            List<TableViewModel> tablesVM = new();
+
+            try
+            {
+
+                List<Table> tables = IGenericService.GetAll<Table>(t => t.Active).ToList();
+                List<Order> orders = IGenericService.GetAll<Order>(t => t.Active).ToList();
+                //List<Table> tablesWithoutOpenOrder = tables.Where(tab => !orders.Any(o => o.TableId == tab.Id)).ToList();
+
+                tablesVM = tables.Select(tab => new TableViewModel
+                {
+                    Id = tab.Id,
+                    Number = tab.Number,
+                }).ToList();
+
+                jsonData.content = tablesVM;
+                jsonData.result = JsonData.Result.Ok;
+            }
+
+            catch (Exception ex)
+            {
+                log.Error("No se pudieron obtener las mesas. Error: ", ex);
+                Response.StatusCode = Constants.ERROR_HTTP;
+                jsonData.result = JsonData.Result.Error;
+                jsonData.errorUi = "No se pudieron obtener las mesas.";
+            }
+
+            return Json(jsonData);
+
+        }
         #endregion
 
         #region Post
@@ -181,43 +215,8 @@ namespace Web.Controllers.Account
             }
             return Json(new JsonData() { result = JsonData.Result.Ok });
         }
+       
 
         #endregion
-
-        [HttpGet]
-        [AllowAnonymous]
-        public JsonResult GetAllTablesWithoutOpenOrder()
-        {
-            JsonData jsonData = new JsonData();
-            List<TableViewModel> tablesVM = new();
-
-            try
-            {
-
-                List<Table> tables = IGenericService.GetAll<Table>(t => t.Active).ToList();
-                List<Order> orders = IGenericService.GetAll<Order>(t => t.Active).ToList();
-                //List<Table> tablesWithoutOpenOrder = tables.Where(tab => !orders.Any(o => o.TableId == tab.Id)).ToList();
-
-                tablesVM = tables.Select(tab => new TableViewModel
-                {
-                    Id = tab.Id,
-                    Number = tab.Number,
-                }).ToList();
-
-                jsonData.content = tablesVM;
-                jsonData.result = JsonData.Result.Ok;
-            }
-
-            catch (Exception ex)
-            {
-                log.Error("No se pudieron obtener las mesas. Error: ", ex);
-                Response.StatusCode = Constants.ERROR_HTTP;
-                jsonData.result = JsonData.Result.Error;
-                jsonData.errorUi = "No se pudieron obtener las mesas.";
-            }
-
-            return Json(jsonData);
-
-        }
     }
 }

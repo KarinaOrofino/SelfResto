@@ -1,6 +1,9 @@
-﻿vueAppParams.data.orders = [];
+﻿vueAppParams.data.ordersWaiter = [];
+vueAppParams.data.ordersKitchen = [];
 vueAppParams.data.cronoWarning = '';
 vueAppParams.data.tables = [];
+vueAppParams.data.elem = [];
+vueAppParams.data.dialogOrderDetails = null; 
 
 vueAppParams.data.slide = 0;
 
@@ -35,7 +38,7 @@ vueAppParams.methods.goToMenu = function () {
 
 vueAppParams.methods.startTime = function () {
 
-    vueApp.orders.forEach(o => {
+    vueApp.ordersKitchen.forEach(o => {
 
         const today = new Date();
         var date = new Date(Date.parse(o.requestedTime));
@@ -76,9 +79,10 @@ vueAppParams.methods.getActiveOrders = function () {
         url: "/Home/GetActiveOrders",
         method: "GET",
         success: function (data) {
-            vueAppParams.data.orders = data.content;
-            vueAppParams.data.orders.forEach(o => o.cronoWarning = '');
-            vueAppParams.data.orders.forEach(o=>vueApp.startTime(o));
+            vueAppParams.data.ordersWaiter = data.content;
+            vueAppParams.data.ordersKitchen = data.content.filter(o => o.orderDetails.length > 0 && !o.orderDetails.every(od => od.menuItemCategoryId >= 8));
+            vueAppParams.data.ordersKitchen.forEach(o => o.cronoWarning = '');
+            vueAppParams.data.ordersKitchen.forEach(o=>vueApp.startTime(o));
         },
         error: defaultErrorHandler
     });
@@ -105,13 +109,16 @@ vueAppParams.methods.changeItemState = function (orderId, id, state) {
         data: { itemId: id, itemState: state },
         method: "POST",
         success: function (data) {
-            var orderIndex = vueApp.orders.findIndex(o => o.id == orderId);
-            var itemIndex = vueApp.orders[orderIndex].orderDetails.findIndex(od => od.id == id);
+            var orderIndex = vueApp.ordersKitchen.findIndex(o => o.id == orderId);
+            var itemIndex = vueApp.ordersKitchen[orderIndex].orderDetails.findIndex(od => od.id == id);
             if (state == 2) {
-                vueApp.orders[orderIndex].orderDetails[itemIndex].stateTypeId = 2;
+                vueApp.ordersKitchen[orderIndex].orderDetails[itemIndex].stateTypeId = 2;
             }
             if (state == 3) {
-                vueApp.orders[orderIndex].orderDetails[itemIndex].stateTypeId = 3;
+                vueApp.ordersKitchen[orderIndex].orderDetails[itemIndex].stateTypeId = 3;
+            }
+            if (state == 4) {
+                vueApp.ordersKitchen[orderIndex].orderDetails[itemIndex].stateTypeId = 4;
             }
 
         },
@@ -122,9 +129,9 @@ vueAppParams.methods.changeItemState = function (orderId, id, state) {
 
 vueAppParams.methods.changeBack = function (orderId, id) {
 
-    var orderIndex = vueApp.orders.findIndex(o => o.id == orderId);
-    var itemIndex = vueApp.orders[orderIndex].orderDetails.findIndex(od => od.id == id);
-    var item = vueApp.orders[orderIndex].orderDetails[itemIndex];
+    var orderIndex = vueApp.ordersKitchen.findIndex(o => o.id == orderId);
+    var itemIndex = vueApp.ordersKitchen[orderIndex].orderDetails.findIndex(od => od.id == id);
+    var item = vueApp.ordersKitchen[orderIndex].orderDetails[itemIndex];
     var state = '';
     if (item.stateTypeId == 2) {
         state = 1;
@@ -132,6 +139,10 @@ vueAppParams.methods.changeBack = function (orderId, id) {
 
     if (item.stateTypeId == 3) {
         state = 2;
+    }
+
+    if (item.stateTypeId == 4) {
+        state = 3;
     }
 
     $.ajax({
@@ -145,6 +156,10 @@ vueAppParams.methods.changeBack = function (orderId, id) {
             if (item.stateTypeId == 3) {
                 item.stateTypeId = 2;
             }
+            if (item.stateTypeId == 4) {
+                item.stateTypeId = 3;
+            }
+
 
         },
         error: defaultErrorHandler
@@ -155,5 +170,11 @@ vueAppParams.methods.changeBack = function (orderId, id) {
 vueAppParams.methods.seeDetail = function (id) {
     window.location = "/Orders/Detail/" + id;
 
+};
+
+vueAppParams.methods.seeOrderDetail = function (tableId) {
+
+    vueApp.elem = vueApp.ordersWaiter.filter(o => o.tableId == tableId);
+    vueAppParams.data.dialogOrderDetails = true;
 };
 

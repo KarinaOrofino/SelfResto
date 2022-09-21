@@ -23,10 +23,9 @@
 </v-row>
 <template>
     <v-container class="mt-8">
-
         <v-row no-gutters
                style="flex-wrap: nowrap;">
-            <v-col cols="10"
+            <v-col cols="8"
                    class="flex-grow-1 flex-shrink-0 mx-auto">
                 <v-card class="notebook">
                     <template>
@@ -41,7 +40,7 @@
                                                       :label="jsglobals.Number">
                                         </v-text-field>
                                     </v-col>
-                                    <v-col cols="12">
+                                    <v-col cols="9">
                                         <v-text-field v-model="model.Name"
                                                       :error-messages="errors.Name"
                                                       counter="50"
@@ -52,16 +51,54 @@
                                     <v-col cols="12">
                                         <v-textarea v-model="model.Description"
                                                     outlined
+                                                    auto-grow
+                                                    rows="2"
                                                     hide-details
                                                     :label="jsglobals.Description">
                                         </v-textarea>
                                     </v-col>
-                                    <v-col cols="5" class="ml-2">
-                                        <v-radio-group row :label="jsglobals.State" v-model="model.Active">
-                                            <v-radio color="red darken-4" :disabled=!isDisabled() name="state" :label="jsglobals.ActiveMasc" :value="true" v-on:change="changeState()"></v-radio>
-                                            <v-radio color="red darken-4" :disabled=!isDisabled() name="state" :label="jsglobals.InactiveMasc" :value="false" v-on:change="changeState()"></v-radio>
-                                        </v-radio-group>
+                                    <v-col cols="6">
+                                        <v-autocomplete v-model="model.WaiterId"
+                                                        class="mt-2"
+                                                        :items="waiters"
+                                                        item-text="surname"
+                                                        item-value="id"
+                                                        menu-props="auto"
+                                                        :loading="loadingWaiters"
+                                                        :disabled="loadingWaiters"
+                                                        :label="jsglobals.Waiter">
+                                            <template v-slot:item="{item}">
+                                                <span >{{ item.surname }}, {{item.name}}</span>
+                                            </template>
+                                            <template v-slot:selection="{item}">
+                                                <span>{{ item.surname }}, {{item.name}}</span>
+                                            </template>
+                                        </v-autocomplete>
                                     </v-col>
+                                    <v-col cols="6">
+                                        <v-autocomplete v-model="model.WaiterBackUpId"
+                                                        class="mt-2"
+                                                        :items="waiters"
+                                                        item-text="surname"
+                                                        item-value="id"
+                                                        menu-props="auto"
+                                                        :loading="loadingWaiters"
+                                                        :disabled="loadingWaiters"
+                                                        :label="jsglobals.WaiterBackUp">
+                                            <template v-slot:item="{item}">
+                                                <span>{{ item.surname }}, {{item.name}}</span>
+                                            </template>
+                                            <template v-slot:selection="{item}">
+                                                <span>{{ item.surname }}, {{item.name}}</span>
+                                            </template>
+                                        </v-autocomplete>
+                                    </v-col>
+                                        <v-col cols="5" class="ml-2">
+                                            <v-radio-group row :label="jsglobals.State" v-model="model.Active">
+                                                <v-radio color="red darken-4" :disabled=!isDisabled() name="state" :label="jsglobals.ActiveMasc" :value="true" v-on:change="changeState(1)"></v-radio>
+                                                <v-radio color="red darken-4" :disabled=!isDisabled() name="state" :label="jsglobals.InactiveMasc" :value="false" v-on:change="changeState(0)"></v-radio>
+                                            </v-radio-group>
+                                        </v-col>
                                 </v-row>
                                 <v-row class="mt-0 mb-2 mr-2">
                                     <v-col cols="12">

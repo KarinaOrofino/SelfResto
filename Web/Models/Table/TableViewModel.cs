@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using KO.Entities;
+using System.Collections.Generic;
 using Web.Models;
 
 namespace KO.Web.Models.Table
@@ -19,19 +20,25 @@ namespace KO.Web.Models.Table
 
         public string Description { get; set; }
 
-        public int Waiter { get; set; }
+        public int? WaiterId { get; set; }
 
         public string WaiterName { get; set; }
 
-        public int WaiterBackUp { get; set; }
+        public int? WaiterBackUpId { get; set; }
 
         public string WaiterBackUpName { get; set; }
+
+        public int? OrderStatusId { get; set; }
 
         public bool Active { get; set; }
 
         public bool Closed { get; set; }
 
         public List<TableViewModel> tables { get; set; }
+
+        public OrderStatus OrderStatus { get; set; }
+
+
     }
 }
 
