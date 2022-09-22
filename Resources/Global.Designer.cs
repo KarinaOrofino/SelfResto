@@ -259,6 +259,15 @@ namespace KO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ocupada.
+        /// </summary>
+        public static string Busy {
+            get {
+                return ResourceManager.GetString("Busy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Por.
         /// </summary>
         public static string By {
@@ -651,6 +660,15 @@ namespace KO.Resources {
         public static string Format {
             get {
                 return ResourceManager.GetString("Format", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Libre.
+        /// </summary>
+        public static string Free {
+            get {
+                return ResourceManager.GetString("Free", resourceCulture);
             }
         }
         

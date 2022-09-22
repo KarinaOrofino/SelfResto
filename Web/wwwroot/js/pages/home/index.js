@@ -3,7 +3,8 @@ vueAppParams.data.ordersKitchen = [];
 vueAppParams.data.cronoWarning = '';
 vueAppParams.data.tables = [];
 vueAppParams.data.elem = [];
-vueAppParams.data.dialogOrderDetails = null; 
+vueAppParams.data.dialogOrderDetails = null;
+vueAppParams.data.snackbar = '';
 
 vueAppParams.data.slide = 0;
 

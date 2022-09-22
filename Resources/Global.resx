@@ -570,4 +570,10 @@
   <data name="MsgTableWithOrder" xml:space="preserve">
     <value>La mesa tiene una orden abierta, no puede inactivarse.</value>
   </data>
+  <data name="Busy" xml:space="preserve">
+    <value>Ocupada</value>
+  </data>
+  <data name="Free" xml:space="preserve">
+    <value>Libre</value>
+  </data>
 </root>

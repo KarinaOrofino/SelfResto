@@ -1,0 +1,53 @@
+﻿<template>
+    <v-container fluid>
+        <v-row>
+            <v-col v-for="item in tables"
+                   :key="item.Id"
+                   :cols="2">
+                <v-tooltip bottom :color="item.closed && item.active ? 'success' : 'error'">
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-card :disabled="!item.active" v-bind="attrs" v-on="on">
+                            <v-img src="@Url.Content("/images/backgroundMesaAdmin.jpg")"
+                                   class="white--text align-end"
+                                   height="100px">
+                                <v-card-title>
+                                    <label>Mesa {{item.number}}</label>
+                                    <v-spacer></v-spacer>
+                                    <v-avatar v-if="!item.active" color="white" icon>
+                                        <v-icon large>person_off</v-icon>
+                                    </v-avatar>  <!--Inactiva / Inutilizable-->
+                                    <v-avatar v-if="item.closed && item.active" color="yellow lighten-4" icon>
+                                        <v-icon large color="green lighten-1">more_horiz</v-icon>
+                                    </v-avatar> <!--Sin Comensales-->
+                                    <v-avatar v-if="!item.closed" color="pink lighten-5" icon>
+                                        <v-icon large color="red">restaurant</v-icon>
+                                    </v-avatar> <!--Abierta-->
+                                </v-card-title>
+                            </v-img>
+                            <v-card-title class="py-1">
+                                <label style="font-size:13px">
+                                    {{jsglobals.Waiter}}: <strong>{{item.waiterName}}</strong>
+                                </label>
+                            </v-card-title>
+                            <v-card-title class="py-1">
+                                <label style="font-size:13px">
+                                    {{jsglobals.WaiterBackUp}}: {{item.waiterBackUpName}}
+                                </label>
+                            </v-card-title>
+
+                            @*<v-card-actions>
+                    <v-btn color="red lighten-2" v-on:click="SeeDetail">{{jsglobals.SeeDetail}}</v-btn>
+                </v-card-actions>*@
+                        </v-card>
+                    </template>
+                    <span v-if="item.closed && item.active">{{jsglobals.Free}}</span>
+                    <span v-if="!item.closed">{{jsglobals.Busy}}</span>
+                </v-tooltip>
+            </v-col>
+        </v-row>
+    </v-container>
+</template>
+
+
+
+
