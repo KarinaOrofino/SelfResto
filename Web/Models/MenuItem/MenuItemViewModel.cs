@@ -56,6 +56,7 @@ namespace KO.Web.Models.MenuItem
 
         public int TableNumber { get; set; }
 
+        public int ItemsTotalQuantity { get; set; }
 
     }
 }

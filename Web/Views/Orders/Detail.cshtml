@@ -12,11 +12,10 @@
         <v-img src="@Url.Content("/images/Empty.jpg")"></v-img>
         <v-card-text class="text-center font-weight-bold black--text" style="font-size:20px">
             <v-img class="mx-auto" max-width="100" src="@Url.Content("/images/sad.png")"></v-img>
-
-            Tu pedido se encuentra vacío
+            {{jsglobals.EmptyCart}}
         </v-card-text>
-            <v-divider></v-divider>
-            <v-card-text>
+        <v-divider></v-divider>
+        <v-card-text>
             <template>
                 <v-tooltip right>
                     <template v-slot:activator="{ on, attrs }">
@@ -31,55 +30,61 @@
                 </v-tooltip>
             </template>
         </v-card-text>
-</v-card>
-        </template>
-<template v-if="model.OrderDetails.length > 0" >
-    <v-expansion-panels class="mx-auto karina" style="width: 700px; background-color: #f9d8de !important" accordion multiple v-model="panel">
-        <v-btn color="#a54047" class="ma-2  white--text" v-on:click="expandAll">
-            {{jsglobals.Expand}}
-        </v-btn>
-        <v-btn color="#a54047" class="ma-2 white--text" v-on:click="collapseAll">
-            {{jsglobals.Collapse}}
-        </v-btn>
+    </v-card>
+</template>
 
-        <v-col cols="1" class="ml-12">
+<template v-if="model.OrderDetails.length > 0">
+    <v-expansion-panels class="mx-auto orderItemsTable" style="width: 700px; background-color: #f9d8de !important" accordion multiple v-model="panel">
+        <v-row no-gutters>
+            <v-col cols="12" sm="12" md="5" class="text-center text-lg-left" >
+                <v-btn color="#a54047" class="ma-2  white--text" v-on:click="expandAll">
+                    {{jsglobals.Expand}}
+                </v-btn>
+                <v-btn color="#a54047" class="ma-2 white--text" v-on:click="collapseAll">
+                    {{jsglobals.Collapse}}
+                </v-btn>
+            </v-col>
             <template>
-                <v-tooltip right>
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-btn v-on="on" v-bind="attrs" large class="addItem" v-on:click="goToMenu">
-                            <v-icon large class="material-icons" color="#a54047">
-                                restaurant_menu
-                            </v-icon>
-                            <v-icon color="#a54047" style="font-weight:bold;position: absolute; margin-right: -45px; margin-bottom: 20px;">mdi-plus</v-icon>
-                        </v-btn>
+                <v-col cols="4" md="2" left class="ml-1 mb-1 mt-3 text-left">
+                    <template>
+                        <v-tooltip right>
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-btn v-on="on" v-bind="attrs" large class="addItem" v-on:click="goToMenu">
+                                    <v-icon large class="material-icons" color="#a54047">
+                                        restaurant_menu
+                                    </v-icon>
+                                    <v-icon color="#a54047" style="font-weight:bold;position: absolute; margin-right: -45px; margin-bottom: 20px;">mdi-plus</v-icon>
+                                </v-btn>
+                            </template>
+                            <span>{{jsglobals.AddItem}}</span>
+                        </v-tooltip>
                     </template>
-                    <span>{{jsglobals.AddItem}}</span>
-                </v-tooltip>
+                </v-col>
             </template>
-        </v-col>
-        <v-spacer></v-spacer>
-        <v-chip class="my-2 font-weight-bold text-right" color="green lighten-2">{{model.OrderDetails.length}} Items pedidos</v-chip>
-        <v-col cols="2" style="max-width:5vw !important" class="font-weight-bold green--text text--darken-4 text-right">$ {{model.OrderDetails.reduce((a, b) => a + (b.Quantity * b.UnitPrice), 0)}}</v-col>
-
-
+                <v-col cols="5" md="3" class="text-sm-center text-md-right">
+                    <v-chip class="my-2 font-weight-bold text-right" color="green lighten-2">{{model.OrderDetails.length}} Items pedidos</v-chip>
+                </v-col>
+                <v-col cols="2" md="1" class="font-weight-bold green--text text--darken-4 text-right mt-3 mr-2">$ {{model.OrderDetails.reduce((a, b) => a + (b.Quantity * b.UnitPrice), 0)}}</v-col>
+        </v-row>
         <v-expansion-panel v-for="elem in filteredCategories">
             <v-expansion-panel-header color="#f9d8de" class="red--text text--darken-4 font-weight-bold">
-                {{elem.name}} ({{model.OrderDetails.filter(it=>it.MenuItemCategoryId == elem.id). length}})
+                {{elem.name}} ({{model.OrderDetails.filter(it=>it.MenuItemCategoryId == elem.id).length}})
             </v-expansion-panel-header>
             <v-expansion-panel-content color="#f9d8de">
-                <v-simple-table class="mx-auto karina" style="width:700px">
+                <v-simple-table class="d-none d-sm-flex mx-auto orderItemsTable" style="width:700px">
                     <template v-slot:default>
                         <tbody>
                             <tr v-for="(item, index) in model.OrderDetails" v-if="item.MenuItemCategoryId == elem.id">
-                                <td style="padding:1px"> <img style="height: 72px; width: 95px; vertical-align: -webkit-baseline-middle" :src="item.MenuItemPicture" /></td>
-                                <td class="text-left">
+                                <td style="padding: 1px; width: 130px;">
+                                    <img style="height: 72px; width: 95px; vertical-align: -webkit-baseline-middle" :src="item.MenuItemPicture" />
+                                </td>
+                                <td class="text-left" style="width: 255px;">
                                     <p class="font-weight-bold pb-0 mb-0">{{item.MenuItemName}} <span v-if="item.RelatedMenuItemId != null"> con {{item.RelatedMenuItemName}}</span></p>
                                     <p class="ma-0 pa-0">$ {{item.UnitPrice}}</p>
                                 </td>
                                 <td class="text-center"><span style="background-color: lightgray; border: 1px solid gray; padding: 0.4vw ">{{item.Quantity}}</span></td>
                                 <td class="text-right font-weight-bold">$ {{item.UnitPrice * item.Quantity}}</td>
                                 <td v-if="item.OrderDetailStatusName == 'Pendiente'" class="text-center mr-2">
-
                                     <template>
                                         <v-tooltip right>
                                             <template v-slot:activator="{ on, attrs }">
@@ -126,78 +131,69 @@
                         </tbody>
                     </template>
                 </v-simple-table>
-            </v-expansion-panel-content>
+                <v-row style="background-color:white" v-for="(item, index) in model.OrderDetails" v-if="item.MenuItemCategoryId == elem.id">
+                    <v-col cols="4" style="align-self:center">
+                        <img style="padding-top:1px; height: 72px; width: 95px; vertical-align: -webkit-baseline-middle" :src="item.MenuItemPicture" />
+                    </v-col>
+                    <v-col cols="7">
+                        <v-row>
+                            <v-col cols="12" class="text-left" style="align-self:center;padding-top:2vh">
+                                <p class="font-weight-bold pb-0 mb-0">{{item.MenuItemName}} <span v-if="item.RelatedMenuItemId != null"> con {{item.RelatedMenuItemName}}</span></p>
+                                <p class="ma-0 pa-0">$ {{item.UnitPrice}}</p>
+                            </v-col>
+                            <v-col cols="3" class="text-center"><span style="background-color: lightgray; border: 1px solid gray; padding: 0.4vw ">{{item.Quantity}}</span></v-col>
+                            <v-col cols="5" class="text-right font-weight-bold">$ {{item.UnitPrice * item.Quantity}}</v-col>
+                            <v-col cols="4" v-if="item.OrderDetailStatusName == 'Pendiente'" class="text-center" style="margin-top:-1vh !important">
+                                <template>
+                                    <v-tooltip right>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-icon v-on="on" v-bind="attrs" large color="yellow darken-2">pending_actions</v-icon>
+                                        </template>
+                                        <span>{{jsglobals.Pending}}</span>
+                                    </v-tooltip>
+                                </template>
+                            </v-col>
+                            <v-col cols="4" v-if="item.OrderDetailStatusName == 'Cocinando'" class="text-center" style="margin-top:-1vh !important">
+                                <template>
+                                    <v-tooltip right>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <span class="pb-2">
+                                                <v-icon v-on="on" v-bind="attrs" large
+                                                        color="green">
+                                                    mdi-chef-hat
+                                                </v-icon>
+                                            </span>
+                                        </template>
+                                        <span>{{jsglobals.Cooking}}</span>
+                                    </v-tooltip>
+                                </template>
+                            </v-col>
+                            <v-col cols="4" v-if="item.OrderDetailStatusName == 'Listo'" class="text-center" style="margin-top:-1vh !important">
+                                <template>
+                                    <v-tooltip right>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-icon v-on="on" v-bind="attrs" large color="red lighten-2">room_service</v-icon>
+                                        </template>
+                                        <span>{{jsglobals.Ready}}</span>
+                                    </v-tooltip>
+                                </template>
+                            </v-col>
+                            <v-col cols="4" v-if="item.OrderDetailStatusName == 'Entregado'" class="text-center" style="margin-top:-1vh !important">
+                                <template>
+                                    <v-tooltip right>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <span class="mb-2">
+                                                <v-icon v-on="on" v-bind="attrs" large color="cyan lighten-1">how_to_reg</v-icon>
+                                            </span>
+                                        </template>
+                                        <span>{{jsglobals.Delivered}}</span>
+                                    </v-tooltip>
+                                </template>
+                            </v-col>
+                        </v-row>
+                    </v-col>
+                    </v-row>
+</v-expansion-panel-content>
         </v-expansion-panel>
     </v-expansion-panels>
 </template>
-
-
-
-
-
-@*<v-simple-table v-for="elem in filteredCategories" class="mx-auto karina" style="width:700px">
-    <template v-slot:default>
-        <thead>
-            <tr>{{elem.name}}</tr>
-        </thead>
-        <tbody>
-
-            <tr v-for="(item, index) in model.OrderDetails" v-if="item.MenuItemCategoryId == elem.id">
-                <td style="padding:1px"> <img style="height: 72px; width: 95px; vertical-align: -webkit-baseline-middle" :src="item.MenuItemPicture" /></td>
-
-                <td class="text-left">
-                    <p class="font-weight-bold pb-0 mb-0">{{item.MenuItemName}} {{item.RelatedMenuItemName}}</p>
-                    <p class="ma-0 pa-0">$ {{item.UnitPrice}}</p>
-                </td>
-                <td class="text-center"><span style="background-color: lightgray; border: 1px solid gray; padding: 0.4vw ">{{item.Quantity}}</span></td>
-                <td class="text-right font-weight-bold">$ {{item.UnitPrice * item.Quantity}}</td>
-                <td v-if="item.StateTypeName == 'Pendiente'" class="text-center mr-2">
-
-                    <template>
-                        <v-tooltip right>
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-icon v-on="on" v-bind="attrs" large color="red lighten-2">pending_actions</v-icon>
-                            </template>
-                            <span>{{jsglobals.Pending}}</span>
-                        </v-tooltip>
-                    </template>
-                </td>
-                <td v-if="item.StateTypeName == 'Cocinando'" class="text-center mr-2">
-                    <template>
-                        <v-tooltip right>
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-icon v-on="on" v-bind="attrs" large
-                                        color="yellow darken-2">
-                                    mdi-chef-hat
-                                </v-icon>
-                            </template>
-                            <span>{{jsglobals.Cooking}}</span>
-                        </v-tooltip>
-                    </template>
-                </td>
-                <td v-if="item.StateTypeName == 'Listo'" class="text-center mr-2">
-                    <template>
-                        <v-tooltip right>
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-icon v-on="on" v-bind="attrs" large color="blue darken-2">room_service</v-icon>
-                            </template>
-                            <span>{{jsglobals.Ready}}</span>
-                        </v-tooltip>
-                    </template>
-                </td>
-                <td v-if="item.StateTypeName == 'Entregado'" class="text-center mr-2">
-                    <template>
-                        <v-tooltip right>
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-icon v-on="on" v-bind="attrs" large color="green darken-2">how_to_reg</v-icon>
-                            </template>
-                            <span>{{jsglobals.Delivered}}</span>
-                        </v-tooltip>
-                    </template>
-                </td>
-            </tr>
-        </tbody>
-    </template>
-</v-simple-table>
-
-</template>*@

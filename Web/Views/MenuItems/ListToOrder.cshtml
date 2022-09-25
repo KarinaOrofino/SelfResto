@@ -23,10 +23,8 @@
                     fixed-tabs>
                 <v-tab v-for="categ in categoriesAndItems" :key="categ.Id">{{categ.name}}</v-tab>
                 <v-tab-item>
-
                     <v-container fluid>
                         <v-row>
-
                             <v-col v-for="item in categoriesAndItems[0].menuItems"
                                    :key="item.id"
                                    cols="12"
@@ -279,7 +277,6 @@
                     </v-container>
 
                 </v-tab-item>
-
             </v-tabs>
         </template>
 </main>
@@ -304,7 +301,8 @@
                                         style="position: relative;"
                                         :loading="loadingBebidas"
                                         :loading-text=jsglobals.ObteniendoBebidas
-                                        hide-default-footer>
+                                        hide-default-footer
+                                      mobile-breakpoint="0">
                             <template v-slot:item.price="{ item }">
                                 $ {{item.price}}
                             </template>

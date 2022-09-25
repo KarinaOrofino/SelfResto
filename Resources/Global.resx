@@ -627,4 +627,7 @@
   <data name="MsgCallAlreadyRequested" xml:space="preserve">
     <value>El llamado ya fue realizado. En breve el mozo se acercará a su mesa.</value>
   </data>
+  <data name="EmptyCart" xml:space="preserve">
+    <value>Tu pedido se encuentra vacío</value>
+  </data>
 </root>

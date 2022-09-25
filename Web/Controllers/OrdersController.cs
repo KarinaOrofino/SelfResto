@@ -35,6 +35,7 @@ namespace Web.Controllers.Orders
             ovm.TableNumber = order.Table.Number;
             ovm.WaiterName = order.Table.WaiterUser.Name;
             ovm.WaiterBackUpName = order.Table.WaiterBackUpUser.Name;
+            ovm.ItemsTotalQuantity = order.OrderDetails.Count;
             ovm.Active = ovm.Active;
 
             ovm.OrderDetails = order.OrderDetails.Select(od => new OrderDetailViewModel()

@@ -8,7 +8,7 @@ vueAppParams.data.dialogCloseCall = false;
 vueAppParams.data.dialogCloseOrder = false;
 vueAppParams.data.help = '';
 vueAppParams.data.order = [];
-
+vueAppParams.data.imagen = "~/images/menu.png";
 
 vueAppParams.data.slide = 0;
 

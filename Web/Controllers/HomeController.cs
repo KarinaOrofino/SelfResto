@@ -113,6 +113,7 @@ namespace Web.Controllers.Home
             orderVM.PaymentRequest = order.PaymentRequest;
             orderVM.TableId = order.TableId;
             orderVM.TableNumber = order.Table.Number;
+            orderVM.ItemsTotalQuantity = order.OrderDetails.Count;
 
             return View(orderVM);
         }

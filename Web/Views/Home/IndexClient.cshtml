@@ -8,35 +8,42 @@
     </script>
 }
 
-<main class="d-flex text-center justify-space-around" style="align-items:center;margin-top:180px">
-
-    <v-tooltip top>
-        <template v-slot:activator="{ on, attrs }">
-            <v-btn icon v-bind="attrs" v-on="on" v-on:click="callWaiter()">
-                <img src="~/images/bell.png" width="130vw" height="130vh" style="margin-top:7rem" />
-            </v-btn>
-        </template>
-        <span>{{jsglobals.CallWaiter}}</span>
-    </v-tooltip>
-
-    <v-tooltip top>
-        <template v-slot:activator="{ on, attrs }">
-            <v-btn icon v-bind="attrs" v-on="on" v-on:click="goToMenu(model.Id)">
-                <img src="~/images/menu.png" style="margin-top:2rem" />
-            </v-btn>
-        </template>
-        <span>{{jsglobals.GoToMenu}}</span>
-    </v-tooltip>
-
-    <v-tooltip top>
-        <template v-slot:activator="{ on, attrs }">
-            <v-btn icon v-bind="attrs" v-on="on" v-on:click="requestBill(model)">
-                <img src="~/images/payment.png" width="130vw" height="130vh" style="margin-top:7rem" />
-            </v-btn>
-        </template>
-        <span>{{jsglobals.AskBill}}</span>
-    </v-tooltip>
+<main class="d-sm-flex d-none text-center justify-space-around" style="align-items:center;margin-top:180px">
+            <v-tooltip top>
+                <template v-slot:activator="{ on, attrs }">
+                    <v-btn icon v-bind="attrs" v-on="on" v-on:click="callWaiter()">
+                        <img src="~/images/bell.png" width="130vw" height="130vh" style="margin-top:7rem" />
+                    </v-btn>
+                </template>
+                <span>{{jsglobals.CallWaiter}}</span>
+            </v-tooltip>
+            <v-tooltip top>
+                <template v-slot:activator="{ on, attrs }">
+                    <v-btn icon v-bind="attrs" v-on="on" v-on:click="goToMenu(model.Id)">
+                        <img src="~/images/menu.png" style="margin-top:2rem" />
+                    </v-btn>
+                </template>
+                <span>{{jsglobals.GoToMenu}}</span>
+            </v-tooltip>
+            <v-tooltip top>
+                <template v-slot:activator="{ on, attrs }">
+                    <v-btn icon v-bind="attrs" v-on="on" v-on:click="requestBill(model)">
+                        <img src="~/images/payment.png" width="130vw" height="130vh" style="margin-top:7rem" />
+                    </v-btn>
+                </template>
+                <span>{{jsglobals.AskBill}}</span>
+            </v-tooltip>
 </main>
+
+<div class="d-flex flex-column d-sm-none">
+    <button v-on:click="callWaiter()">
+        <img width="30%" src="~/images/bell.png" />
+    </button>
+    <button class="mb-10" v-on:click="goToMenu(model.Id)"><img width="90%" src="~/images/menu.png" /></button>
+    <button v-on:click="requestBill(model)"><img width="30%" src="~/images/payment.png" /></button>
+</div>
+
+
 
 
 

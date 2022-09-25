@@ -32,6 +32,8 @@ namespace KO.Web.Models.Order
 
         public string TiempoEnCocina { get; set; }
 
+        public int ItemsTotalQuantity { get; set; }
+
         public List<OrderDetailViewModel> OrderDetails { get; set; }
 
     }

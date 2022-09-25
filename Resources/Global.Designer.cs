@@ -619,6 +619,15 @@ namespace KO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tu pedido se encuentra vacío.
+        /// </summary>
+        public static string EmptyCart {
+            get {
+                return ResourceManager.GetString("EmptyCart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ingresar.
         /// </summary>
         public static string Enter {

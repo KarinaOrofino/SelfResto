@@ -54,6 +54,7 @@ namespace Web.Controllers.MenuItems
             MIVM.TableNumber = order.Table.Number;
             MIVM.Call = order.Call;
             MIVM.PaymentRequest = order.PaymentRequest;
+            MIVM.ItemsTotalQuantity = order.OrderDetails.Count;
 
             return View(MIVM);
         }
