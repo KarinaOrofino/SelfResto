@@ -41,7 +41,7 @@ namespace Web.Controllers.Account
         }
         #endregion
 
-        #region Get
+        #region GET
         [HttpGet]
         public async Task<IActionResult> Login(string returnUrl = null)
         {
@@ -66,10 +66,8 @@ namespace Web.Controllers.Account
 
             }
 
-            return View("Login",new UserViewModel());
+            return View("Login", new UserViewModel());
         }
-
-
 
         [HttpGet]
         public IActionResult AccessDenied(string ReturnUrl)
@@ -113,7 +111,7 @@ namespace Web.Controllers.Account
         }
         #endregion
 
-        #region Post
+        #region POST
         [HttpPost]
         public async Task<IActionResult> Login(UserViewModel userVM, int tableId)
         {
@@ -124,7 +122,6 @@ namespace Web.Controllers.Account
             {
                 if (!ModelState.IsValid)
                 {
-
                     foreach (var modelState in ModelState.Values)
                     {
                         foreach (var error in modelState.Errors)
@@ -140,18 +137,18 @@ namespace Web.Controllers.Account
                 JsonApiData apiResponse = IAuthenticateService.AutenticarUsuarioAplicacion(userVM.Email, userVM.Password);
                 if (apiResponse.result == JsonApiData.Result.Error)
                 {
-
                     jsonData.result = JsonData.Result.Error;
                     jsonData.errorUi = apiResponse.message;
                     return Json(jsonData);
                 }
+
                 apiResponse.content = JsonConvert.DeserializeObject<dynamic>(apiResponse.message);
                 User user = IUsersService.GetByEmail(userVM.Email);
 
                 var identity = new ClaimsIdentity(new[] {
                             new Claim(ClaimTypes.Sid, user.Id.ToString()),
                             new Claim(ClaimTypes.Name, user.Name),
-                            new Claim(ClaimTypes.Surname, user.Surname), 
+                            new Claim(ClaimTypes.Surname, user.Surname),
                             new Claim(ClaimTypes.Email, user.Email),
                             new Claim(ClaimTypes.Role, user.AccessTypeName),
                             new Claim(Constants.CLAIMS_PERMISOS, JsonConvert.SerializeObject(user.Access_Type))
@@ -160,33 +157,31 @@ namespace Web.Controllers.Account
                 var principal = new ClaimsPrincipal(identity);
                 var login = HttpContext.SignInAsync(this.Configuration[Constants.IDAPP].ToString(), principal);
 
-                if(user.Access_Type == 10 ) { 
-
+                if (user.Access_Type == 10)
+                {
                     Order order = IGenericService.Get<Order>(o => o.Active && o.TableId == tableId);
                     Order newOrder = new();
 
-                if (order == null) {
-                   
-                    newOrder.TableId = tableId;
-                    newOrder.CreationUser = user.Id;
-                    newOrder.CreationDate = DateTime.Now;
-                    newOrder.Active = true;
+                    if (order == null)
+                    {
+                        newOrder.TableId = tableId;
+                        newOrder.CreationUser = user.Id;
+                        newOrder.CreationDate = DateTime.Now;
+                        newOrder.Active = true;
 
-                    IGenericService.Add(newOrder);
-                    jsonData.content = newOrder.Id;
+                        IGenericService.Add(newOrder);
+                        jsonData.content = newOrder.Id;
                     }
-                
 
-                else
-                {
-                    jsonData.content = order.Id;
+                    else
+                    {
+                        jsonData.content = order.Id;
+                    }
+
+                    jsonData.result = JsonData.Result.Ok;
                 }
-                
-
-                jsonData.result = JsonData.Result.Ok;
-                }
-
             }
+
             catch (Exception ex)
             {
                 log.Error(ex);
@@ -215,7 +210,7 @@ namespace Web.Controllers.Account
             }
             return Json(new JsonData() { result = JsonData.Result.Ok });
         }
-       
+
 
         #endregion
     }

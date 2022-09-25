@@ -576,4 +576,55 @@
   <data name="Free" xml:space="preserve">
     <value>Libre</value>
   </data>
+  <data name="BeveragesRequest" xml:space="preserve">
+    <value>Pedido de bebidas</value>
+  </data>
+  <data name="BillRequest" xml:space="preserve">
+    <value>Pedido de cuenta</value>
+  </data>
+  <data name="NewRequest" xml:space="preserve">
+    <value>Pedido Nuevo</value>
+  </data>
+  <data name="ReadyToDeliver" xml:space="preserve">
+    <value>Listo para entregar</value>
+  </data>
+  <data name="ReadyToTake" xml:space="preserve">
+    <value>Listo para retirar</value>
+  </data>
+  <data name="TableCalling" xml:space="preserve">
+    <value>Mesa Llamando</value>
+  </data>
+  <data name="CloseCall" xml:space="preserve">
+    <value>Cerrar Llamado</value>
+  </data>
+  <data name="CloseOrder" xml:space="preserve">
+    <value>Cerrar Orden</value>
+  </data>
+  <data name="MsgConfirmCloseCall" xml:space="preserve">
+    <value>¿Ya respondió la llamada de la mesa?</value>
+  </data>
+  <data name="MsgConfirmCloseOrder" xml:space="preserve">
+    <value>¿Está seguro que quiere cerrar la mesa?</value>
+  </data>
+  <data name="MsgCloseCallOk" xml:space="preserve">
+    <value>Llamado desactivado</value>
+  </data>
+  <data name="MsgCloseOrderOk" xml:space="preserve">
+    <value>Mesa cerrada</value>
+  </data>
+  <data name="MsgCallOk" xml:space="preserve">
+    <value>Llamado realizado. En breve el mozo se acercará a la mesa.</value>
+  </data>
+  <data name="MsgRequestBillOk" xml:space="preserve">
+    <value>Cuenta pedida. En breve el mozo se acercará a la mesa con la factura.  </value>
+  </data>
+  <data name="Choose" xml:space="preserve">
+    <value>Elegir</value>
+  </data>
+  <data name="MsgBillAlreadyRequested" xml:space="preserve">
+    <value>La cuenta ya fue solicitada.</value>
+  </data>
+  <data name="MsgCallAlreadyRequested" xml:space="preserve">
+    <value>El llamado ya fue realizado. En breve el mozo se acercará a su mesa.</value>
+  </data>
 </root>

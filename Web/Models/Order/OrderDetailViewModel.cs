@@ -6,10 +6,6 @@ namespace KO.Web.Models.Order
 {
     public class OrderDetailViewModel : BaseViewModel
     {
-        public OrderDetailViewModel() 
-        {
-            this.OrderDetails = new List<OrderDetailViewModel>();
-        }
         public int Id { get; set; }
 
         public int OrderId { get; set; }
@@ -30,11 +26,9 @@ namespace KO.Web.Models.Order
 
         public double UnitPrice { get; set; }
 
-        public int StateTypeId { get; set; }
+        public int OrderDetailStatusId { get; set; }
 
-        public string StateTypeName { get; set; }
-
-        public List<OrderDetailViewModel> OrderDetails { get; set; }
+        public string OrderDetailStatusName { get; set; }
 
     }
 

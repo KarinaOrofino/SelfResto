@@ -34,16 +34,13 @@
                                     {{jsglobals.WaiterBackUp}}: {{item.waiterBackUpName}}
                                 </label>
                             </v-card-title>
-
-                            @*<v-card-actions>
-                    <v-btn color="red lighten-2" v-on:click="SeeDetail">{{jsglobals.SeeDetail}}</v-btn>
-                </v-card-actions>*@
                         </v-card>
                     </template>
                     <span v-if="item.closed && item.active">{{jsglobals.Free}}</span>
                     <span v-if="!item.closed">{{jsglobals.Busy}}</span>
                 </v-tooltip>
             </v-col>
+
         </v-row>
     </v-container>
 </template>

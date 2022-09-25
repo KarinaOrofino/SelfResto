@@ -34,7 +34,7 @@ namespace Web.Controllers.MenuItems
             this.IGenericService = genericService;
         }
 
-        #region Views
+        #region VIEWS
         [HttpGet]
         public IActionResult ListToOrderMenu()
         {
@@ -48,9 +48,12 @@ namespace Web.Controllers.MenuItems
         {
 
             MenuItemViewModel MIVM = new();
-            Order order= IGenericService.GetById<Order>(id);
+            Order order = IGenericService.GetById<Order>(id);
             MIVM.OrderId = order.Id;
             MIVM.TableId = order.TableId;
+            MIVM.TableNumber = order.Table.Number;
+            MIVM.Call = order.Call;
+            MIVM.PaymentRequest = order.PaymentRequest;
 
             return View(MIVM);
         }
@@ -90,7 +93,7 @@ namespace Web.Controllers.MenuItems
         }
         #endregion
 
-        #region Items to Order
+        #region ITEMS TO ORDER
 
         [HttpGet]
         public JsonResult GetAllCategories()
@@ -139,7 +142,7 @@ namespace Web.Controllers.MenuItems
                     ImageUrl = mi.ImageUrl,
                     Active = mi.Active,
 
-                }).OrderBy(mi => mi.CategoryId).ThenBy(mi=>mi.VisualizationOrder).ToList();
+                }).OrderBy(mi => mi.CategoryId).ThenBy(mi => mi.VisualizationOrder).ToList();
 
                 jsonData.content = MIVMList;
                 jsonData.result = JsonData.Result.Ok;
@@ -202,7 +205,6 @@ namespace Web.Controllers.MenuItems
             JsonData jsonData = new JsonData();
             List<CategoryViewModel> CategoriesVMList = new();
 
-
             try
             {
                 List<Category> CategoriesList = IMenuItemsService.GetAllCategories();
@@ -212,7 +214,7 @@ namespace Web.Controllers.MenuItems
                     Id = mi.Id,
                     Name = mi.Name,
                     CategoryImageUrl = mi.CategoryImageUrl,
-                    MenuItems = IMenuItemsService.GetAllFilteredByCatId(mi.Id,true).Select(mi => new MenuItemViewModel()
+                    MenuItems = IMenuItemsService.GetAllFilteredByCatId(mi.Id, true).Select(mi => new MenuItemViewModel()
                     {
                         Id = mi.Id,
                         VisualizationOrder = mi.VisualizationOrder,
@@ -223,8 +225,8 @@ namespace Web.Controllers.MenuItems
                         ImageUrl = mi.ImageUrl,
                         Active = mi.Active,
                         Quantity = 0
-                    }).OrderBy(mi=>mi.VisualizationOrder).ToList(),
-                        Active = mi.Active,
+                    }).OrderBy(mi => mi.VisualizationOrder).ToList(),
+                    Active = mi.Active,
                 }).ToList();
 
                 jsonData.content = CategoriesVMList;
@@ -253,7 +255,6 @@ namespace Web.Controllers.MenuItems
 
             try
             {
-
                 IGenericService.Deactivate<MenuItem>(id);
 
                 jsonData.result = JsonData.Result.Ok;
@@ -275,7 +276,6 @@ namespace Web.Controllers.MenuItems
 
             try
             {
-
                 IGenericService.Activate<MenuItem>(id);
 
                 jsonData.result = JsonData.Result.Ok;
@@ -341,7 +341,7 @@ namespace Web.Controllers.MenuItems
 
         #endregion
 
-        #region Detail View Methods
+        #region DETAILVIEW
 
         public JsonResult Add(MenuItemViewModel MIVM)
         {
@@ -354,7 +354,6 @@ namespace Web.Controllers.MenuItems
 
                 if (ExistingMenuItem != null)
                 {
-
                     Response.StatusCode = Constants.ERROR_HTTP;
                     jsonData.result = JsonData.Result.ModelValidation;
                     jsonData.errorUi = "Ya existe un ítem con ese nombre";
@@ -376,7 +375,6 @@ namespace Web.Controllers.MenuItems
                     IGenericService.Add(mItem);
 
                     jsonData.result = JsonData.Result.Ok;
-
                 }
             }
 
@@ -425,9 +423,27 @@ namespace Web.Controllers.MenuItems
             return Json(jsonData);
         }
 
+        public async Task<Task> AddPicture()
+        {
+            try
+            {
+                var file = Request.Form.Files[0];
+
+                var filePath = Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), "") + Configuration["ImagesPath"] + file.Name);
+                var fileStream = new FileStream(filePath, FileMode.Create);
+                file.CopyTo(fileStream);
+                fileStream.Close();
+                return Task.CompletedTask;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error: " + ex.Message + " StackTrace: " + ex.StackTrace);
+                throw new Exception(ex.Message);
+            }
+        }
         #endregion
 
-        #region Private Methods
+        #region PRIVATE
 
         private MenuItemViewModel LoadViewModel(MenuItemViewModel MIVM, MenuItem mItem)
         {
@@ -443,26 +459,6 @@ namespace Web.Controllers.MenuItems
             MIVM.CreationUser = mItem.CreationUser;
 
             return MIVM;
-        }
-
-        public async Task<Task> AddPicture()
-        {
-
-            try
-            {
-                var file = Request.Form.Files[0];
-
-                var filePath = Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), "")+ Configuration["ImagesPath"] + file.Name);
-                var fileStream = new FileStream(filePath, FileMode.Create);
-                file.CopyTo(fileStream);
-                fileStream.Close();
-                return Task.CompletedTask;
-            }
-            catch (Exception ex)
-            {
-                log.Error("Error: " + ex.Message + " StackTrace: " + ex.StackTrace);
-                throw new Exception(ex.Message);
-            }
         }
 
         #endregion

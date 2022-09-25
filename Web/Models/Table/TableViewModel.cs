@@ -7,11 +7,6 @@ namespace KO.Web.Models.Table
     public class TableViewModel : BaseViewModel
     {
 
-        public TableViewModel() {
-
-            List<TableViewModel> tables = new();
-        
-        }
         public int Id { get; set; }
 
         public int Number { get; set; }
@@ -28,16 +23,9 @@ namespace KO.Web.Models.Table
 
         public string WaiterBackUpName { get; set; }
 
-        public int? OrderStatusId { get; set; }
-
         public bool Active { get; set; }
 
         public bool Closed { get; set; }
-
-        public List<TableViewModel> tables { get; set; }
-
-        public OrderStatus OrderStatus { get; set; }
-
 
     }
 }

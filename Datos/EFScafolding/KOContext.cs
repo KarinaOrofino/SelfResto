@@ -18,11 +18,11 @@ namespace KO.Data.EFScafolding
         public DbSet<MenuItem> MenuItems { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<OrderDetailStatus> OrderDetailStatus { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Table> Tables { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<OrderStatus> OrderStatus { get; set; }
-        public DbSet<StateTypes> StateTypes { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

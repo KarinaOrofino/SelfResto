@@ -250,11 +250,17 @@ table, tr {
 .clip {
 	position: relative;
 	top: 26px;
-	z-index: 3;
+	z-index: 6;
 }
 
 .rope {
 	position: relative;
 	top: 52px;
-	z-index: 2;
+	z-index: 5;
+}
+
+.miniActionIcon {
+	background-color: #f5f5f5;
+	border-radius: 10px;
+	padding: 1px;
 }

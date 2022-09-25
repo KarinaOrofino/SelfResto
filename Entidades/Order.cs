@@ -12,6 +12,11 @@ namespace KO.Entities
         [Column(name: "TABLE_ID")]
         public int TableId { get; set; }
 
+        public bool Call { get; set; }
+
+        [Column(name: "PAYMENT_REQUEST")]
+        public bool PaymentRequest { get; set; }
+
         public virtual IList<OrderDetail> OrderDetails { get; set; }
 
         public virtual Table Table { get; set; }
@@ -34,15 +39,15 @@ namespace KO.Entities
         [Column(name: "RELATED_MENU_ITEM_ID")]
         public int? RelatedMenuItemId { get; set; }
 
-        [Column(name: "STATE_TYPE_ID")]
-        public int StateTypeId { get; set; }
+        [Column(name: "ORDER_DETAIL_STATUS_ID")]
+        public int OrderDetailStatusId { get; set; }
 
         public virtual MenuItem MenuItem { get; set; }
 
         public virtual MenuItem RelatedMenuItem { get; set; }
 
-        [ForeignKey("StateTypeId")]
-        public virtual StateTypes StateType { get; set; }
+        [ForeignKey("OrderDetailStatusId")]
+        public virtual OrderDetailStatus OrderDetailStatus { get; set; }
 
         public virtual Order Order { get; set; }
 

@@ -18,7 +18,7 @@
                             <div class="text-center clip">
                                 <img width="50" src="@Url.Content("/images/clipTransparent.png")" />
                             </div>
-                            <v-card>
+                            <v-card style="z-index: 4;">
                                 <v-card-title class="py-0" style="justify-content:center">
                                     &nbsp;
                                 </v-card-title>
@@ -42,24 +42,24 @@
                                             <v-list-item v-for="item in elem.orderDetails" v-if="item.menuItemCategoryId == 1"
                                                          :key="item.id"
                                                          style="min-height:25px !important;border-bottom:0.5px solid lightgray">
-                                                <v-list-item-title style="color: #f9b903" v-if="item.stateTypeId == 1" class="text-left">
+                                                <v-list-item-title style="color: #f9b903" v-if="item.orderDetailStatusId == 1" class="text-left">
                                                     {{item.menuItemName}}
                                                 </v-list-item-title>
-                                                <v-list-item-title style="color: green" v-if="item.stateTypeId == 2" class="text-left">
+                                                <v-list-item-title style="color: green" v-if="item.orderDetailStatusId == 2" class="text-left">
                                                     {{item.menuItemName}}
                                                 </v-list-item-title>
-                                                <v-list-item-title style="color: pink;" v-if="item.stateTypeId == 3" class="text-left">
+                                                <v-list-item-title style="color: pink;" v-if="item.orderDetailStatusId == 3" class="text-left">
                                                     {{item.menuItemName}}
                                                 </v-list-item-title>
-                                                <v-list-item-title style="color: #26C6DA; text-decoration: line-through" v-if="item.stateTypeId == 4" class="text-left">
+                                                <v-list-item-title style="color: #26C6DA; text-decoration: line-through" v-if="item.orderDetailStatusId == 4" class="text-left">
                                                     {{item.menuItemName}}
                                                 </v-list-item-title>
                                                 <v-list-item-subtitle class="text-right" style="max-width:60px !important">
-                                                    <v-icon v-if="item.stateTypeId == 1" color="yellow darken-2" v-on:click="changeItemState(elem.id, item.id, 2)">pending_actions</v-icon>
-                                                    <v-icon v-if="item.stateTypeId == 2" color="green" v-on:click="changeItemState(elem.id, item.id, 3)">mdi-chef-hat</v-icon>
-                                                    <v-icon v-if="item.stateTypeId == 3" color="red lighten-2" v-on:click="changeItemState(elem.id, item.id, 4)">room_service</v-icon>
-                                                    <v-icon v-if="item.stateTypeId == 4" color="cyan lighten-1">how_to_reg</v-icon>
-                                                    <v-icon v-if="item.stateTypeId > 1" v-on:click="changeBack(elem.id, item.id)">undo</v-icon>
+                                                    <v-icon class="miniActionIcon" v-if="item.orderDetailStatusId == 1" color="yellow darken-2" v-on:click="changeItemStateKitchen(elem.id, item.id, 2)">pending_actions</v-icon>
+                                                    <v-icon class="miniActionIcon" v-if="item.orderDetailStatusId == 2" color="green" v-on:click="changeItemStateKitchen(elem.id, item.id, 3)">mdi-chef-hat</v-icon>
+                                                    <v-icon class="miniActionIcon" v-if="item.orderDetailStatusId == 3" color="red lighten-2">room_service</v-icon>
+                                                    <v-icon class="miniActionIcon" v-if="item.orderDetailStatusId == 4" color="cyan lighten-1">how_to_reg</v-icon>
+                                                    <v-icon class="miniActionIcon" v-if="item.orderDetailStatusId > 1 && item.orderDetailStatusId < 4" v-on:click="changeBackKitchen(elem.id, item.id)">undo</v-icon>
                                                 </v-list-item-subtitle>
                                             </v-list-item>
                                         </v-list>
@@ -69,24 +69,24 @@
                                             <v-list-item v-for="item in elem.orderDetails" v-if="(item.menuItemCategoryId > 1 && item.menuItemCategoryId < 7)"
                                                          :key="item.id"
                                                          style="min-height: 25px !important; border-bottom: 0.5px solid lightgray">
-                                                <v-list-item-title style="color: #f9b903" v-if="item.stateTypeId == 1" class="text-left">
+                                                <v-list-item-title style="color: #f9b903" v-if="item.orderDetailStatusId == 1" class="text-left">
                                                     {{item.menuItemName}}<span v-if="item.relatedMenuItemId != null">con {{item.relatedMenuItemName}}</span>
                                                 </v-list-item-title>
-                                                <v-list-item-title style="color: green" v-if="item.stateTypeId == 2" class="text-left">
+                                                <v-list-item-title style="color: green" v-if="item.orderDetailStatusId == 2" class="text-left">
                                                     {{item.menuItemName}}<span v-if="item.relatedMenuItemId != null">con {{item.relatedMenuItemName}}</span>
                                                 </v-list-item-title>
-                                                <v-list-item-title style="color: pink;" v-if="item.stateTypeId == 3" class="text-left">
+                                                <v-list-item-title style="color: pink;" v-if="item.orderDetailStatusId == 3" class="text-left">
                                                     {{item.menuItemName}}<span v-if="item.relatedMenuItemId != null">con {{item.relatedMenuItemName}}</span>
                                                 </v-list-item-title>
-                                                <v-list-item-title style="color: #26C6DA; text-decoration: line-through" v-if="item.stateTypeId == 4" class="text-left">
+                                                <v-list-item-title style="color: #26C6DA; text-decoration: line-through" v-if="item.orderDetailStatusId == 4" class="text-left">
                                                     {{item.menuItemName}}<span v-if="item.relatedMenuItemId != null">con {{item.relatedMenuItemName}}</span>
                                                 </v-list-item-title>
                                                 <v-list-item-subtitle class="text-right" style="max-width:60px !important">
-                                                    <v-icon v-if="item.stateTypeId == 1" color="yellow darken-2" v-on:click="changeItemState(elem.id, item.id, 2)">pending_actions</v-icon>
-                                                    <v-icon v-if="item.stateTypeId == 2" color="green" v-on:click="changeItemState(elem.id, item.id, 3)">mdi-chef-hat</v-icon>
-                                                    <v-icon v-if="item.stateTypeId == 3" color="red lighten-2" v-on:click="changeItemState(elem.id, item.id, 4)">room_service</v-icon>
-                                                    <v-icon v-if="item.stateTypeId == 4" color="cyan lighten-1">how_to_reg</v-icon>
-                                                    <v-icon v-if="item.stateTypeId > 1" v-on:click="changeBack(elem.id, item.id)">undo</v-icon>
+                                                    <v-icon class="miniActionIcon" v-if="item.orderDetailStatusId == 1" color="yellow darken-2" v-on:click="changeItemStateKitchen(elem.id, item.id, 2)">pending_actions</v-icon>
+                                                    <v-icon class="miniActionIcon" v-if="item.orderDetailStatusId == 2" color="green" v-on:click="changeItemStateKitchen(elem.id, item.id, 3)">mdi-chef-hat</v-icon>
+                                                    <v-icon class="miniActionIcon" v-if="item.orderDetailStatusId == 3" color="red lighten-2">room_service</v-icon>
+                                                    <v-icon class="miniActionIcon" v-if="item.orderDetailStatusId == 4" color="cyan lighten-1">how_to_reg</v-icon>
+                                                    <v-icon class="miniActionIcon" v-if="item.orderDetailStatusId > 1 && item.orderDetailStatusId < 4" v-on:click="changeBackKitchen(elem.id, item.id)">undo</v-icon>
                                                 </v-list-item-subtitle>
                                             </v-list-item>
                                         </v-list>
@@ -96,24 +96,24 @@
                                             <v-list-item v-for="item in elem.orderDetails" v-if="item.menuItemCategoryId == 7"
                                                          :key="item.id"
                                                          style="min-height: 25px !important; border-bottom: 0.5px solid lightgray">
-                                                <v-list-item-title style="color: #f9b903" v-if="item.stateTypeId == 1" class="text-left">
+                                                <v-list-item-title style="color: #f9b903" v-if="item.orderDetailStatusId == 1" class="text-left">
                                                     {{item.menuItemName}}
                                                 </v-list-item-title>
-                                                <v-list-item-title style="color:green" v-if="item.stateTypeId == 2" class="text-left">
+                                                <v-list-item-title style="color:green" v-if="item.orderDetailStatusId == 2" class="text-left">
                                                     {{item.menuItemName}}
                                                 </v-list-item-title>
-                                                <v-list-item-title style="color: pink;" v-if="item.stateTypeId == 3" class="text-left">
+                                                <v-list-item-title style="color: pink;" v-if="item.orderDetailStatusId == 3" class="text-left">
                                                     {{item.menuItemName}}
                                                 </v-list-item-title>
-                                                <v-list-item-title style="color: #26C6DA; text-decoration: line-through" v-if="item.stateTypeId == 4" class="text-left">
+                                                <v-list-item-title style="color: #26C6DA; text-decoration: line-through" v-if="item.orderDetailStatusId == 4" class="text-left">
                                                     {{item.menuItemName}}
                                                 </v-list-item-title>
                                                 <v-list-item-subtitle class="text-right" style="max-width:60px !important">
-                                                    <v-icon v-if="item.stateTypeId == 1" color="yellow darken-2" v-on:click="changeItemState(elem.id, item.id, 2)">pending_actions</v-icon>
-                                                    <v-icon v-if="item.stateTypeId == 2" color="green" v-on:click="changeItemState(elem.id, item.id, 3)">mdi-chef-hat</v-icon>
-                                                    <v-icon v-if="item.stateTypeId == 3" color="red lighten-2" v-on:click="changeItemState(elem.id, item.id, 4)">room_service</v-icon>
-                                                    <v-icon v-if="item.stateTypeId == 4" color="cyan lighten-1">how_to_reg</v-icon>
-                                                    <v-icon v-if="item.stateTypeId > 1" v-on:click="changeBack(elem.id, item.id)">undo</v-icon>
+                                                    <v-icon class="miniActionIcon" v-if="item.orderDetailStatusId == 1" color="yellow darken-2" v-on:click="changeItemStateKitchen(elem.id, item.id, 2)">pending_actions</v-icon>
+                                                    <v-icon class="miniActionIcon" v-if="item.orderDetailStatusId == 2" color="green" v-on:click="changeItemStateKitchen(elem.id, item.id, 3)">mdi-chef-hat</v-icon>
+                                                    <v-icon class="miniActionIcon" v-if="item.orderDetailStatusId == 3" color="red lighten-2">room_service</v-icon>
+                                                    <v-icon class="miniActionIcon" v-if="item.orderDetailStatusId == 4" color="cyan lighten-1">how_to_reg</v-icon>
+                                                    <v-icon class="miniActionIcon" v-if="item.orderDetailStatusId > 1 && item.orderDetailStatusId < 4" v-on:click="changeBackKitchen(elem.id, item.id)">undo</v-icon>
                                                 </v-list-item-subtitle>
                                             </v-list-item>
                                         </v-list>
@@ -135,7 +135,7 @@
                             <div class="text-center clip">
                                 <img width="50" src="@Url.Content("/images/clipTransparent.png")" />
                             </div>
-                            <v-card>
+                            <v-card style="z-index: 4;">
                                 <v-card-title class="py-0" style="justify-content:center">
                                     &nbsp;
                                 </v-card-title>
@@ -155,28 +155,28 @@
                                     <label color="gray">&nbsp;&nbsp;********************************************</label>
                                     <v-card-text style="font-size:16px;color:black" class="text-center pa-0">
                                         <v-list v-if="elem.orderDetails.some(o=>o.menuItemCategoryId == 1)">
-                                            <label name="entradas"><strong>- - - ENTRADAS - - - </strong></label>
+                                            <label><strong>- - - ENTRADAS - - - </strong></label>
                                             <v-list-item v-for="item in elem.orderDetails" v-if="item.menuItemCategoryId == 1"
                                                          :key="item.id"
                                                          style="min-height:25px !important;border-bottom:0.5px solid lightgray">
-                                                <v-list-item-title style="color: #f9b903" v-if="item.stateTypeId == 1" class="text-left">
+                                                <v-list-item-title style="color: #f9b903" v-if="item.orderDetailStatusId == 1" class="text-left">
                                                     {{item.menuItemName}}
                                                 </v-list-item-title>
-                                                <v-list-item-title style="color:green" v-if="item.stateTypeId == 2" class="text-left">
+                                                <v-list-item-title style="color: green" v-if="item.orderDetailStatusId == 2" class="text-left">
                                                     {{item.menuItemName}}
                                                 </v-list-item-title>
-                                                <v-list-item-title style="color: pink;" v-if="item.stateTypeId == 3" class="text-left">
+                                                <v-list-item-title style="color: pink;" v-if="item.orderDetailStatusId == 3" class="text-left">
                                                     {{item.menuItemName}}
                                                 </v-list-item-title>
-                                                <v-list-item-title style="color: #26C6DA; text-decoration: line-through" v-if="item.stateTypeId == 4" class="text-left">
+                                                <v-list-item-title style="color: #26C6DA; text-decoration: line-through" v-if="item.orderDetailStatusId == 4" class="text-left">
                                                     {{item.menuItemName}}
                                                 </v-list-item-title>
                                                 <v-list-item-subtitle class="text-right" style="max-width:60px !important">
-                                                    <v-icon v-if="item.stateTypeId == 1" color="yellow darken-2" v-on:click="changeItemState(elem.id, item.id, 2)">pending_actions</v-icon>
-                                                    <v-icon v-if="item.stateTypeId == 2" color="green" v-on:click="changeItemState(elem.id, item.id, 3)">mdi-chef-hat</v-icon>
-                                                    <v-icon v-if="item.stateTypeId == 3" color="red lighten-2" v-on:click="changeItemState(elem.id, item.id, 4)">room_service</v-icon>
-                                                    <v-icon v-if="item.stateTypeId == 4" color="cyan lighten-1">how_to_reg</v-icon>
-                                                    <v-icon v-if="item.stateTypeId > 1" v-on:click="changeBack(elem.id, item.id)">undo</v-icon>
+                                                    <v-icon class="miniActionIcon" v-if="item.orderDetailStatusId == 1" color="yellow darken-2" v-on:click="changeItemStateKitchen(elem.id, item.id, 2)">pending_actions</v-icon>
+                                                    <v-icon class="miniActionIcon" v-if="item.orderDetailStatusId == 2" color="green" v-on:click="changeItemStateKitchen(elem.id, item.id, 3)">mdi-chef-hat</v-icon>
+                                                    <v-icon class="miniActionIcon" v-if="item.orderDetailStatusId == 3" color="red lighten-2">room_service</v-icon>
+                                                    <v-icon class="miniActionIcon" v-if="item.orderDetailStatusId == 4" color="cyan lighten-1">how_to_reg</v-icon>
+                                                    <v-icon class="miniActionIcon" v-if="item.orderDetailStatusId > 1 && item.orderDetailStatusId < 4" v-on:click="changeBackKitchen(elem.id, item.id)">undo</v-icon>
                                                 </v-list-item-subtitle>
                                             </v-list-item>
                                         </v-list>
@@ -186,24 +186,24 @@
                                             <v-list-item v-for="item in elem.orderDetails" v-if="(item.menuItemCategoryId > 1 && item.menuItemCategoryId < 7)"
                                                          :key="item.id"
                                                          style="min-height: 25px !important; border-bottom: 0.5px solid lightgray">
-                                                <v-list-item-title style="color: #f9b903" v-if="item.stateTypeId == 1" class="text-left">
+                                                <v-list-item-title style="color: #f9b903" v-if="item.orderDetailStatusId == 1" class="text-left">
                                                     {{item.menuItemName}}<span v-if="item.relatedMenuItemId != null">con {{item.relatedMenuItemName}}</span>
                                                 </v-list-item-title>
-                                                <v-list-item-title style="color: green" v-if="item.stateTypeId == 2" class="text-left">
+                                                <v-list-item-title style="color: green" v-if="item.orderDetailStatusId == 2" class="text-left">
                                                     {{item.menuItemName}}<span v-if="item.relatedMenuItemId != null">con {{item.relatedMenuItemName}}</span>
                                                 </v-list-item-title>
-                                                <v-list-item-title style="color: pink; " v-if="item.stateTypeId == 3" class="text-left">
+                                                <v-list-item-title style="color: pink; " v-if="item.orderDetailStatusId == 3" class="text-left">
                                                     {{item.menuItemName}}<span v-if="item.relatedMenuItemId != null">con {{item.relatedMenuItemName}}</span>
                                                 </v-list-item-title>
-                                                <v-list-item-title style="color: #26C6DA; text-decoration: line-through" v-if="item.stateTypeId == 4" class="text-left">
+                                                <v-list-item-title style="color: #26C6DA; text-decoration: line-through" v-if="item.orderDetailStatusId == 4" class="text-left">
                                                     {{item.menuItemName}}<span v-if="item.relatedMenuItemId != null">con {{item.relatedMenuItemName}}</span>
                                                 </v-list-item-title>
                                                 <v-list-item-subtitle class="text-right" style="max-width:60px !important">
-                                                    <v-icon v-if="item.stateTypeId == 1" color="yellow darken-2" v-on:click="changeItemState(elem.id, item.id, 2)">pending_actions</v-icon>
-                                                    <v-icon v-if="item.stateTypeId == 2" color="green" v-on:click="changeItemState(elem.id, item.id, 3)">mdi-chef-hat</v-icon>
-                                                    <v-icon v-if="item.stateTypeId == 3" color="red lighten-2" v-on:click="changeItemState(elem.id, item.id, 4)">room_service</v-icon>
-                                                    <v-icon v-if="item.stateTypeId == 4" color="cyan lighten-1">how_to_reg</v-icon>
-                                                    <v-icon v-if="item.stateTypeId > 1" v-on:click="changeBack(elem.id, item.id)">undo</v-icon>
+                                                    <v-icon class="miniActionIcon" v-if="item.orderDetailStatusId == 1" color="yellow darken-2" v-on:click="changeItemStateKitchen(elem.id, item.id, 2)">pending_actions</v-icon>
+                                                    <v-icon class="miniActionIcon" v-if="item.orderDetailStatusId == 2" color="green" v-on:click="changeItemStateKitchen(elem.id, item.id, 3)">mdi-chef-hat</v-icon>
+                                                    <v-icon class="miniActionIcon" v-if="item.orderDetailStatusId == 3" color="red lighten-2">room_service</v-icon>
+                                                    <v-icon class="miniActionIcon" v-if="item.orderDetailStatusId == 4" color="cyan lighten-1">how_to_reg</v-icon>
+                                                    <v-icon class="miniActionIcon" v-if="item.orderDetailStatusId > 1 && item.orderDetailStatusId < 4" v-on:click="changeBackKitchen(elem.id, item.id)">undo</v-icon>
                                                 </v-list-item-subtitle>
                                             </v-list-item>
                                         </v-list>
@@ -213,24 +213,24 @@
                                             <v-list-item v-for="item in elem.orderDetails" v-if="item.menuItemCategoryId == 7"
                                                          :key="item.id"
                                                          style="min-height: 25px !important; border-bottom: 0.5px solid lightgray">
-                                                <v-list-item-title style="color: #f9b903" v-if="item.stateTypeId == 1" class="text-left">
+                                                <v-list-item-title style="color: #f9b903" v-if="item.orderDetailStatusId == 1" class="text-left">
                                                     {{item.menuItemName}}
                                                 </v-list-item-title>
-                                                <v-list-item-title style="color:green" v-if="item.stateTypeId == 2" class="text-left">
+                                                <v-list-item-title style="color:green" v-if="item.orderDetailStatusId == 2" class="text-left">
                                                     {{item.menuItemName}}
                                                 </v-list-item-title>
-                                                <v-list-item-title style="color: pink;" v-if="item.stateTypeId == 3" class="text-left">
+                                                <v-list-item-title style="color: pink;" v-if="item.orderDetailStatusId == 3" class="text-left">
                                                     {{item.menuItemName}}
                                                 </v-list-item-title>
-                                                <v-list-item-title style="color: #26C6DA; text-decoration: line-through" v-if="item.stateTypeId == 4" class="text-left">
+                                                <v-list-item-title style="color: #26C6DA; text-decoration: line-through" v-if="item.orderDetailStatusId == 4" class="text-left">
                                                     {{item.menuItemName}}
                                                 </v-list-item-title>
                                                 <v-list-item-subtitle class="text-right" style="max-width:60px !important">
-                                                    <v-icon v-if="item.stateTypeId == 1" color="yellow darken-2" v-on:click="changeItemState(elem.id, item.id, 2)">pending_actions</v-icon>
-                                                    <v-icon v-if="item.stateTypeId == 2" color="green" v-on:click="changeItemState(elem.id, item.id, 3)">mdi-chef-hat</v-icon>
-                                                    <v-icon v-if="item.stateTypeId == 3" color="red lighten-2" v-on:click="changeItemState(elem.id, item.id, 4)">room_service</v-icon>
-                                                    <v-icon v-if="item.stateTypeId == 4" color="cyan lighten-1">how_to_reg</v-icon>
-                                                    <v-icon v-if="item.stateTypeId > 1" v-on:click="changeBack(elem.id, item.id)">undo</v-icon>
+                                                    <v-icon class="miniActionIcon" v-if="item.orderDetailStatusId == 1" color="yellow darken-2" v-on:click="changeItemStateKitchen(elem.id, item.id, 2)">pending_actions</v-icon>
+                                                    <v-icon class="miniActionIcon" v-if="item.orderDetailStatusId == 2" color="green" v-on:click="changeItemStateKitchen(elem.id, item.id, 3)">mdi-chef-hat</v-icon>
+                                                    <v-icon class="miniActionIcon" v-if="item.orderDetailStatusId == 3" color="red lighten-2">room_service</v-icon>
+                                                    <v-icon class="miniActionIcon" v-if="item.orderDetailStatusId == 4" color="cyan lighten-1">how_to_reg</v-icon>
+                                                    <v-icon class="miniActionIcon" v-if="item.orderDetailStatusId > 1 && item.orderDetailStatusId < 4" v-on:click="changeBackKitchen(elem.id, item.id)">undo</v-icon>
                                                 </v-list-item-subtitle>
                                             </v-list-item>
                                         </v-list>
@@ -254,46 +254,29 @@
                     </button>
                 </div>
             </div>
-            <div>
-                <v-btn class="float-right;" style=" right: 4vw; bottom: 8vh; z-index: 10; position: absolute"
-                       fab dark color="cyan darken-3" @@click="snackbar = true">
-                    <v-icon dark>
-                        question_mark
-                    </v-icon>
-                </v-btn>
-                <v-snackbar v-model="snackbar"
-                            :multi-line="true"
-                            color="indigo"
-                            outlined
-                            right
-                            style="position: absolute; bottom: -30vh">
-                    <p style="color: #f9b903"><v-icon color="yellow darken-2">pending_actions</v-icon>  Pedido Nuevo</p>
-                    <p style="color:green"><v-icon color="green">mdi-chef-hat</v-icon>  Cocinando</p>
-                    <p style="color:pink"><v-icon color="red lighten-2">room_service</v-icon>  Listo para retirar</p>
-                    <p style="color: #26C6DA"><v-icon color="cyan lighten-1">how_to_reg</v-icon>  Entregado a Mesa</p>
-                    <template v-slot:action="{ attrs }">
-                        <v-btn color="red"
-                               text
-                               class="mt-15"
-                               v-bind="attrs"
-                               @@click="snackbar = false">
-                            Cerrar
-                        </v-btn>
-                    </template>
-                </v-snackbar>
-            </div>
+            <v-btn class="float-right;" style=" right: 4vw; bottom: 8vh; z-index: 10; position: absolute"
+                   fab dark color="cyan darken-3" @@click="help = true">
+                <v-icon dark>
+                    question_mark
+                </v-icon>
+            </v-btn>
+            <v-snackbar v-model="help"
+                        :multi-line="true"
+                        color="indigo"
+                        outlined
+                        right
+                        style="position: absolute; height:auto;">
+                <p style="color: #f9b903"><v-icon class="miniActionIcon" color="yellow darken-2">pending_actions</v-icon> {{jsglobals.NewRequest}}</p>
+                <p style="color:green"><v-icon class="miniActionIcon" color="green">mdi-chef-hat</v-icon> {{jsglobals.Cooking}}</p>
+                <p style="color:pink"><v-icon class="miniActionIcon" color="red lighten-2">room_service</v-icon>  {{jsglobals.ReadyToTake}}</p>
+                <p style="color: #26C6DA"><v-icon class="miniActionIcon" color="cyan lighten-1">how_to_reg</v-icon>  {{jsglobals.Delivered}}</p>
+            </v-snackbar>
         </template>
 
 
     </v-row>
 
 </template>
-
-
-
-
-
-
 
 
 

@@ -16,7 +16,13 @@ namespace KO.Web.Models.Order
 
         public int TableNumber { get; set; }
 
+        public bool Call { get; set; }
+
+        public bool PaymentRequest { get; set; }
+
         public string WaiterName { get; set; }
+
+        public string WaiterBackUpName { get; set; }
 
         public bool Active { get; set; }
 

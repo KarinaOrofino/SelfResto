@@ -15,17 +15,11 @@ namespace Web.Controllers.Orders
     [Route("[controller]/[action]")]
     public class OrdersController : BaseController
     {
-
-        private IOrdersService IOrdersService { get; set; }
-
         private IGenericService IGenericService { get; set; }
 
-        public OrdersController (IOrdersService OrdersService, IGenericService GenericService)
+        public OrdersController (IGenericService GenericService)
         {
-
-            this.IOrdersService = OrdersService;
             this.IGenericService = GenericService;
-
         }
 
         [Route("{id}")]
@@ -35,7 +29,13 @@ namespace Web.Controllers.Orders
             Order order = IGenericService.GetById<Order>(id);
             OrderViewModel ovm = new OrderViewModel();
             ovm.Id = order.Id;
+            ovm.Call = order.Call;
+            ovm.PaymentRequest = order.PaymentRequest;
             ovm.TableId = order.TableId;
+            ovm.TableNumber = order.Table.Number;
+            ovm.WaiterName = order.Table.WaiterUser.Name;
+            ovm.WaiterBackUpName = order.Table.WaiterBackUpUser.Name;
+            ovm.Active = ovm.Active;
 
             ovm.OrderDetails = order.OrderDetails.Select(od => new OrderDetailViewModel()
             {
@@ -48,7 +48,7 @@ namespace Web.Controllers.Orders
                 RelatedMenuItemName = od.RelatedMenuItemId != null ? od.RelatedMenuItem.Name : "",
                 Quantity = od.Quantity,
                 UnitPrice = od.RelatedMenuItemId == null ? IGenericService.GetById<MenuItem>(od.MenuItemId).Price : (IGenericService.GetById<MenuItem>(od.MenuItemId).Price + IGenericService.GetById<MenuItem>(od.RelatedMenuItemId).Price),
-                StateTypeName = od.StateType.Name,
+                OrderDetailStatusName = od.OrderDetailStatus.Name,
 
             }).ToList();
 
@@ -64,12 +64,11 @@ namespace Web.Controllers.Orders
 
             try
             {
-
                 OrderDetail orderDetail = new();
                 orderDetail.OrderId = orderId;
                 orderDetail.MenuItemId = itemId;
                 orderDetail.Quantity = quantity;
-                orderDetail.StateTypeId = 1;
+                orderDetail.OrderDetailStatusId = 1;
                 orderDetail.RelatedMenuItemId = idSalsa == null ? null : idSalsa;
                 orderDetail.CreationUser = UserUtils.GetId(User);
                 orderDetail.CreationDate = DateTime.Now;
@@ -93,13 +92,6 @@ namespace Web.Controllers.Orders
 
         }
 
-        private OrderViewModel LoadViewModel(OrderViewModel OrderVM, Order order)
-        {
-           
-
-
-            return OrderVM;
-        }
     }
 }
 

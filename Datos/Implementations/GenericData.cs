@@ -39,6 +39,7 @@ namespace KO.Data.Implementacion
         }
         public virtual void Add<T>(T p_Entity) where T : class
         {
+
             _context.Set<T>().Add(p_Entity);
             _context.SaveChanges();
         }

@@ -250,11 +250,29 @@ namespace KO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pedido de bebidas.
+        /// </summary>
+        public static string BeveragesRequest {
+            get {
+                return ResourceManager.GetString("BeveragesRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cuenta.
         /// </summary>
         public static string Bill {
             get {
                 return ResourceManager.GetString("Bill", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pedido de cuenta.
+        /// </summary>
+        public static string BillRequest {
+            get {
+                return ResourceManager.GetString("BillRequest", resourceCulture);
             }
         }
         
@@ -340,6 +358,15 @@ namespace KO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Elegir.
+        /// </summary>
+        public static string Choose {
+            get {
+                return ResourceManager.GetString("Choose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Limpiar Filtros.
         /// </summary>
         public static string CleanFilters {
@@ -376,11 +403,29 @@ namespace KO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cerrar Llamado.
+        /// </summary>
+        public static string CloseCall {
+            get {
+                return ResourceManager.GetString("CloseCall", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cerrada.
         /// </summary>
         public static string Closed {
             get {
                 return ResourceManager.GetString("Closed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cerrar Orden.
+        /// </summary>
+        public static string CloseOrder {
+            get {
+                return ResourceManager.GetString("CloseOrder", resourceCulture);
             }
         }
         
@@ -880,6 +925,69 @@ namespace KO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to La cuenta ya fue solicitada..
+        /// </summary>
+        public static string MsgBillAlreadyRequested {
+            get {
+                return ResourceManager.GetString("MsgBillAlreadyRequested", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to El llamado ya fue realizado. En breve el mozo se acercará a su mesa..
+        /// </summary>
+        public static string MsgCallAlreadyRequested {
+            get {
+                return ResourceManager.GetString("MsgCallAlreadyRequested", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Llamado realizado. En breve el mozo se acercará a la mesa..
+        /// </summary>
+        public static string MsgCallOk {
+            get {
+                return ResourceManager.GetString("MsgCallOk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Llamado desactivado.
+        /// </summary>
+        public static string MsgCloseCallOk {
+            get {
+                return ResourceManager.GetString("MsgCloseCallOk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mesa cerrada.
+        /// </summary>
+        public static string MsgCloseOrderOk {
+            get {
+                return ResourceManager.GetString("MsgCloseOrderOk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ¿Ya respondió la llamada de la mesa?.
+        /// </summary>
+        public static string MsgConfirmCloseCall {
+            get {
+                return ResourceManager.GetString("MsgConfirmCloseCall", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ¿Está seguro que quiere cerrar la mesa?.
+        /// </summary>
+        public static string MsgConfirmCloseOrder {
+            get {
+                return ResourceManager.GetString("MsgConfirmCloseOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Datos Guardados correctamente.
         /// </summary>
         public static string MsgCreationOk {
@@ -952,6 +1060,15 @@ namespace KO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cuenta pedida. En breve el mozo se acercará a la mesa con la factura.  .
+        /// </summary>
+        public static string MsgRequestBillOk {
+            get {
+                return ResourceManager.GetString("MsgRequestBillOk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to El mozo back-up no puede ser el mismo que el mozo principal..
         /// </summary>
         public static string MsgSameWaiters {
@@ -1011,6 +1128,15 @@ namespace KO.Resources {
         public static string NewPlural {
             get {
                 return ResourceManager.GetString("NewPlural", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pedido Nuevo.
+        /// </summary>
+        public static string NewRequest {
+            get {
+                return ResourceManager.GetString("NewRequest", resourceCulture);
             }
         }
         
@@ -1186,6 +1312,24 @@ namespace KO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Listo para entregar.
+        /// </summary>
+        public static string ReadyToDeliver {
+            get {
+                return ResourceManager.GetString("ReadyToDeliver", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Listo para retirar.
+        /// </summary>
+        public static string ReadyToTake {
+            get {
+                return ResourceManager.GetString("ReadyToTake", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reportes.
         /// </summary>
         public static string Reports {
@@ -1317,6 +1461,15 @@ namespace KO.Resources {
         public static string Table {
             get {
                 return ResourceManager.GetString("Table", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mesa Llamando.
+        /// </summary>
+        public static string TableCalling {
+            get {
+                return ResourceManager.GetString("TableCalling", resourceCulture);
             }
         }
         

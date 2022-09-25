@@ -14,25 +14,17 @@ namespace KO.Entities
 
         public string Description { get; set; }
 
-
         [Column(name: "WAITER_ID")]
         public int? WaiterId { get; set; }
 
         [Column(name: "WAITER_BACK_UP_ID")]
         public int? WaiterBackUpId { get; set; }
 
-        [Column(name: "ORDER_STATUS_ID")]
-        public int? OrderStatusId { get; set; }
-
-
         [ForeignKey("WaiterId")]
         public virtual User WaiterUser { get; set; }
 
         [ForeignKey("WaiterBackUpId")]
         public virtual User WaiterBackUpUser { get; set; }
-
-        [ForeignKey("OrderStatusId")]
-        public virtual OrderStatus OrderStatus { get; set; }
 
     }
 }

@@ -12,7 +12,7 @@
 
     <v-tooltip top>
         <template v-slot:activator="{ on, attrs }">
-            <v-btn icon v-bind="attrs" v-on="on" v-on:click="CallWaiter()">
+            <v-btn icon v-bind="attrs" v-on="on" v-on:click="callWaiter()">
                 <img src="~/images/bell.png" width="130vw" height="130vh" style="margin-top:7rem" />
             </v-btn>
         </template>
@@ -30,7 +30,7 @@
 
     <v-tooltip top>
         <template v-slot:activator="{ on, attrs }">
-            <v-btn icon v-bind="attrs" v-on="on" v-on:click="Pay()">
+            <v-btn icon v-bind="attrs" v-on="on" v-on:click="requestBill(model)">
                 <img src="~/images/payment.png" width="130vw" height="130vh" style="margin-top:7rem" />
             </v-btn>
         </template>

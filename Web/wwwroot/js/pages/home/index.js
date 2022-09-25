@@ -4,7 +4,11 @@ vueAppParams.data.cronoWarning = '';
 vueAppParams.data.tables = [];
 vueAppParams.data.elem = [];
 vueAppParams.data.dialogOrderDetails = null;
-vueAppParams.data.snackbar = '';
+vueAppParams.data.dialogCloseCall = false;
+vueAppParams.data.dialogCloseOrder = false;
+vueAppParams.data.help = '';
+vueAppParams.data.order = [];
+
 
 vueAppParams.data.slide = 0;
 
@@ -18,22 +22,9 @@ vueAppParams.data.slide = 0;
     ];
 
 vueAppParams.mounted = function () {
-    this.getActiveOrders();
     this.getAllTables();
-
-};
-
-vueAppParams.methods.CallWaiter = function () {
-
-};
-
-vueAppParams.methods.AskBill = function () {
-
-};
-
-vueAppParams.methods.goToMenu = function () {
-    window.location = "/MenuItems/ListToOrder/" + vueApp.model.Id;
-
+    this.getActiveOrdersKitchen();
+    this.getActiveOrdersWaiter();
 };
 
 
@@ -73,21 +64,16 @@ vueAppParams.methods.startTime = function () {
     });
 };
 
-
-vueAppParams.methods.getActiveOrders = function () {
+vueAppParams.methods.getActiveOrdersWaiter = function () {
 
     $.ajax({
         url: "/Home/GetActiveOrders",
         method: "GET",
         success: function (data) {
             vueAppParams.data.ordersWaiter = data.content;
-            vueAppParams.data.ordersKitchen = data.content.filter(o => o.orderDetails.length > 0 && !o.orderDetails.every(od => od.menuItemCategoryId >= 8));
-            vueAppParams.data.ordersKitchen.forEach(o => o.cronoWarning = '');
-            vueAppParams.data.ordersKitchen.forEach(o=>vueApp.startTime(o));
         },
-        error: defaultErrorHandler
+        error: defaultErrorHandler,
     });
-
 };
 
 vueAppParams.methods.getAllTables = function () {
@@ -96,76 +82,135 @@ vueAppParams.methods.getAllTables = function () {
         url: "/Home/GetAllTables",
         method: "GET",
         success: function (data) {
-            vueAppParams.data.tables = data.content;
+            vueAppParams.data.tables = data.content
         },
         error: defaultErrorHandler
     });
-
 };
 
-vueAppParams.methods.changeItemState = function (orderId, id, state) {
+
+
+vueAppParams.methods.getActiveOrdersKitchen = function () {
+
+    $.ajax({
+        url: "/Home/GetActiveOrders",
+        method: "GET",
+        success: function (data) {
+            vueAppParams.data.ordersKitchen = data.content.filter(o => o.orderDetails.length > 0 && !o.orderDetails.every(od => od.menuItemCategoryId >= 8));
+            vueAppParams.data.ordersKitchen.forEach(o => o.cronoWarning = '');
+            vueAppParams.data.ordersKitchen.forEach(o => vueApp.startTime(o));
+        },
+        error: defaultErrorHandler
+    });
+};
+
+vueAppParams.methods.changeItemStateKitchen = function (orderId, id, newState) {
 
     $.ajax({
         url: "/Home/ChangeItemState",
-        data: { itemId: id, itemState: state },
+        data: { itemId: id, itemState: newState },
         method: "POST",
         success: function (data) {
             var orderIndex = vueApp.ordersKitchen.findIndex(o => o.id == orderId);
             var itemIndex = vueApp.ordersKitchen[orderIndex].orderDetails.findIndex(od => od.id == id);
-            if (state == 2) {
-                vueApp.ordersKitchen[orderIndex].orderDetails[itemIndex].stateTypeId = 2;
+            if (newState == 2) {
+                vueApp.ordersKitchen[orderIndex].orderDetails[itemIndex].orderDetailStatusId = 2;
             }
-            if (state == 3) {
-                vueApp.ordersKitchen[orderIndex].orderDetails[itemIndex].stateTypeId = 3;
+            if (newState == 3) {
+                vueApp.ordersKitchen[orderIndex].orderDetails[itemIndex].orderDetailStatusId = 3;
             }
-            if (state == 4) {
-                vueApp.ordersKitchen[orderIndex].orderDetails[itemIndex].stateTypeId = 4;
+            if (newState == 4) {
+                vueApp.ordersKitchen[orderIndex].orderDetails[itemIndex].orderDetailStatusId = 4;
             }
-
         },
         error: defaultErrorHandler
     });
-
 };
 
-vueAppParams.methods.changeBack = function (orderId, id) {
+vueAppParams.methods.changeBackKitchen = function (orderId, id) {
 
     var orderIndex = vueApp.ordersKitchen.findIndex(o => o.id == orderId);
     var itemIndex = vueApp.ordersKitchen[orderIndex].orderDetails.findIndex(od => od.id == id);
     var item = vueApp.ordersKitchen[orderIndex].orderDetails[itemIndex];
-    var state = '';
-    if (item.stateTypeId == 2) {
-        state = 1;
+    var stateBack = '';
+    if (item.orderDetailStatusId == 2) {
+        stateBack = 1;
     }
 
-    if (item.stateTypeId == 3) {
-        state = 2;
+    if (item.orderDetailStatusId == 3) {
+        stateBack = 2;
     }
 
-    if (item.stateTypeId == 4) {
-        state = 3;
+    if (item.orderDetailStatusId == 4) {
+        stateBack = 3;
     }
 
     $.ajax({
         url: "/Home/ChangeItemState",
-        data: { itemId: id, itemState: state },
+        data: { itemId: id, itemState: stateBack },
         method: "POST",
         success: function (data) {
-            if (item.stateTypeId == 2) {
-                item.stateTypeId = 1;
+            if (item.orderDetailStatusId == 2) {
+                item.orderDetailStatusId = 1;
             }
-            if (item.stateTypeId == 3) {
-                item.stateTypeId = 2;
+            if (item.orderDetailStatusId == 3) {
+                item.orderDetailStatusId = 2;
             }
-            if (item.stateTypeId == 4) {
-                item.stateTypeId = 3;
+            if (item.orderDetailStatusId == 4) {
+                item.orderDetailStatusId = 3;
             }
-
-
         },
         error: defaultErrorHandler
     });
+};
 
+vueAppParams.methods.changeItemStateWaiter = function (orderId, id) {
+
+    $.ajax({
+        url: "/Home/ChangeItemState",
+        data: { itemId: id, itemState: 4 },
+        method: "POST",
+        success: function (data) {
+            var orderIndex = vueApp.ordersWaiter.findIndex(o => o.id == orderId);
+            var itemIndex = vueApp.ordersWaiter[orderIndex].orderDetails.findIndex(od => od.id == id);
+            vueApp.ordersWaiter[orderIndex].orderDetails[itemIndex].orderDetailStatusId = 4;
+        },
+        error: defaultErrorHandler
+    });
+};
+
+vueAppParams.methods.changeBackWaiter = function (orderId, id) {
+
+    var orderIndex = vueApp.ordersWaiter.findIndex(o => o.id == orderId);
+    var itemIndex = vueApp.ordersWaiter[orderIndex].orderDetails.findIndex(od => od.id == id);
+    var item = vueApp.ordersWaiter[orderIndex].orderDetails[itemIndex];
+    if (item.orderDetailStatusId == 3) {
+        stateBack = 2;
+    }
+    if (item.orderDetailStatusId == 4 && item.menuItemCategoryId <= 7) {
+        stateBack = 3;
+    }
+    if (item.orderDetailStatusId == 4 && item.menuItemCategoryId > 7) {
+        stateBack = 1;
+    }
+
+    $.ajax({
+        url: "/Home/ChangeItemState",
+        data: { itemId: id, itemState: stateBack },
+        method: "POST",
+        success: function (data) {
+            if (item.orderDetailStatusId == 3) {
+                item.orderDetailStatusId = 2;
+            }
+            if (item.orderDetailStatusId == 4 && item.menuItemCategoryId <= 7) {
+                item.orderDetailStatusId = 3;
+            }
+            if (item.orderDetailStatusId == 4 && item.menuItemCategoryId > 7) {
+                item.orderDetailStatusId = 1;
+            }
+        },
+        error: defaultErrorHandler
+    });
 };
 
 vueAppParams.methods.seeDetail = function (id) {
@@ -173,9 +218,64 @@ vueAppParams.methods.seeDetail = function (id) {
 
 };
 
-vueAppParams.methods.seeOrderDetail = function (tableId) {
+vueAppParams.methods.seeOrderDetail = function (orderId) {
 
-    vueApp.elem = vueApp.ordersWaiter.filter(o => o.tableId == tableId);
+    vueApp.elem = vueApp.ordersWaiter.filter(o => o.id == orderId);
     vueAppParams.data.dialogOrderDetails = true;
 };
+
+vueAppParams.methods.closeCall = function (order) {
+
+    vueAppParams.data.dialogCloseCall = true;
+    vueAppParams.data.order = order;
+};
+
+vueAppParams.methods.confirmCloseCall = function (order) {
+
+    order.call = false;
+    vueAppParams.data.dialogCloseCall = false;
+    
+
+    $.ajax({
+        url: "/Home/CloseCall",
+        method: "POST",
+        data: { orderId: order.id },
+        success: function (data) {
+            vueAppParams.data.dialogCloseCall = false;
+            vueApp.notification.showSuccess(jsglobals.MsgCloseCallOk);
+        },
+        error: defaultErrorHandler,
+    });
+};
+
+vueAppParams.methods.closeOrder = function (order) {
+
+    vueAppParams.data.dialogCloseOrder = true;
+    vueAppParams.data.order = order;
+};
+
+vueAppParams.methods.confirmCloseOrder = function (order) {
+
+    order.payment = false;
+    order.active = false;
+    vueAppParams.data.dialogCloseOrder = false;
+
+    $.ajax({
+        url: "/Home/CloseOrder",
+        method: "POST",
+        data: { orderId: order.id},
+        success: function (data) {
+            vueAppParams.data.dialogCloseOrder = false;
+            vueApp.notification.showSuccess(jsglobals.MsgCloseOrderOk);
+            location.reload();
+        },
+        error: defaultErrorHandler,
+    });
+};
+
+
+
+
+
+
 

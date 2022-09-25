@@ -26,7 +26,7 @@ namespace Web.Controllers.Tables
             this.IGenericService = GenericService;
         }
 
-        #region Views
+        #region VIEWS
         [HttpGet]
         public IActionResult List()
         {
@@ -63,7 +63,7 @@ namespace Web.Controllers.Tables
 
         #endregion
 
-        #region List View Methods
+        #region LISTVIEW
 
         [HttpGet]
         public JsonResult GetAll()
@@ -82,11 +82,10 @@ namespace Web.Controllers.Tables
                     Number = table.Number,
                     Name = table.Name,
                     Description = table.Description,
-                    WaiterId =  table.WaiterId,
+                    WaiterId = table.WaiterId,
                     WaiterName = table.WaiterId != null ? table.WaiterUser.Name + " " + table.WaiterUser.Surname : "",
                     WaiterBackUpId = table.WaiterBackUpId,
                     WaiterBackUpName = table.WaiterId != null ? table.WaiterBackUpUser.Name + " " + table.WaiterBackUpUser.Surname : "",
-                    OrderStatusId = table.OrderStatusId,
                     Active = table.Active
 
                 }).OrderBy(table => table.Number).ToList();
@@ -112,11 +111,22 @@ namespace Web.Controllers.Tables
 
             try
             {
+                Order order = IGenericService.Get<Order>(o => o.TableId == id && o.Active);
+
+                if (order != null)
+                {
+                    Response.StatusCode = Constants.ERROR_HTTP;
+                    jsonData.result = JsonData.Result.Error;
+                    jsonData.errorUi = "No se puede inactivar la mesa porque tiene una orden activa";
+                    return Json(jsonData);
+                }
 
                 Table table = IGenericService.GetById<Table>(id);
                 table.Active = false;
                 table.WaiterId = null;
                 table.WaiterBackUpId = null;
+                table.UpdateDate = DateTime.Now;
+                table.UpdateUser = UserUtils.GetId(User);
 
                 IGenericService.Update<Table>(table);
 
@@ -144,6 +154,9 @@ namespace Web.Controllers.Tables
                 table.Active = true;
                 table.WaiterId = tableVM.WaiterId;
                 table.WaiterBackUpId = tableVM.WaiterBackUpId;
+                table.UpdateDate = DateTime.Now;
+                table.UpdateUser = UserUtils.GetId(User);
+
                 IGenericService.Update<Table>(table);
 
                 jsonData.result = JsonData.Result.Ok;
@@ -192,12 +205,11 @@ namespace Web.Controllers.Tables
             return Json(jsonData);
         }
 
-            [HttpGet]
+        [HttpGet]
         public IActionResult Export(string searchField, bool? state)
         {
             try
             {
-
                 List<Table> tableList = ITablesService.GetAllFiltered(searchField, state).ToList();
 
                 List<TableViewModel> tableVMList = tableList.Select(table => new TableViewModel()
@@ -239,9 +251,9 @@ namespace Web.Controllers.Tables
 
         #endregion
 
-        #region Detail View Methods
+        #region DETAIL VIEW
 
-       public JsonResult Add(TableViewModel tableVM)
+        public JsonResult Add(TableViewModel tableVM)
         {
             JsonData jsonData = new();
             Table table = new();
@@ -259,21 +271,22 @@ namespace Web.Controllers.Tables
                     return Json(jsonData);
                 }
 
-                else { 
+                else
+                {
 
-                table.Name = tableVM.Name;
-                table.Number = tableVM.Number;
-                table.Description = tableVM.Description;
-                table.WaiterId = tableVM.WaiterId;
-                table.WaiterBackUpId = tableVM.WaiterBackUpId;
-                table.CreationDate = DateTime.Now;
-                table.CreationUser = UserUtils.GetId(User);
-                table.Active = true;
+                    table.Name = tableVM.Name;
+                    table.Number = tableVM.Number;
+                    table.Description = tableVM.Description;
+                    table.WaiterId = tableVM.WaiterId;
+                    table.WaiterBackUpId = tableVM.WaiterBackUpId;
+                    table.CreationDate = DateTime.Now;
+                    table.CreationUser = UserUtils.GetId(User);
+                    table.Active = true;
 
-                IGenericService.Add(table);
+                    IGenericService.Add(table);
 
-                jsonData.result = JsonData.Result.Ok;
-                
+                    jsonData.result = JsonData.Result.Ok;
+
                 }
             }
 
@@ -321,16 +334,13 @@ namespace Web.Controllers.Tables
 
         #endregion
 
-        #region Private Methods
+        #region PRIVATE
 
         private TableViewModel LoadViewModel(TableViewModel tableVM, Table table)
         {
-
             tableVM.Id = table.Id;
             tableVM.Number = table.Number;
             tableVM.Name = table.Name;
-            tableVM.OrderStatusId = table.OrderStatusId;
-            tableVM.OrderStatus = table.OrderStatus;
             tableVM.WaiterId = table.WaiterId;
             tableVM.WaiterBackUpId = table.WaiterBackUpId;
             tableVM.Description = table.Description;

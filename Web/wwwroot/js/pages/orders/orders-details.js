@@ -42,9 +42,8 @@ vueAppParams.methods.filter = function (arr1, arr2) {
 	return res;
 };
 
-vueAppParams.methods.seeMenuList = function () {
-	window.location = "/MenuItems/ListToOrder/" + vueApp.model.Id;
-};
+//vueAppParams.methods.goToMenu = function () {
 
+//		window.location = "/MenuItems/ListToOrder/" + vueApp.model.Id;
 
-
+//};

@@ -44,16 +44,9 @@ vueAppParams.methods.loadWaiters = function () {
 
 vueAppParams.methods.changeState = function (act) {
 
-    if (vueApp.model.OrderStatusId != null && act == 0) {
-        vueApp.notification.showWarning(jsglobals.MsgTableWithOrder);
-        setTimeout(function () { vueApp.model.Active = true; });
-        
-    }
-
-    else { 
         vueAppParams.data.dialog = true;
         vueAppParams.data.itemChange = this.model;
-    }
+
 };
 
 vueAppParams.methods.confirmStateChange = function (itemChange) {

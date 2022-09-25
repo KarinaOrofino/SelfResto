@@ -6,9 +6,8 @@ namespace KO.Entities
 {
     public class Payment 
     {
-
-        [Key]
-        public int InvoiceId { get; set; }
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
 
         [Column(name: "ORDER_ID")]
         public int OrderId { get; set; }
@@ -16,10 +15,10 @@ namespace KO.Entities
         [Column(name: "TOTAL_AMOUNT")]
         public double TotalAmount { get; set; }
 
-        public double Tip { get; set; }
-
+        [Column(name: "CREATION_DATE")]
         public DateTime CreationDate { get; set; }
 
+        [Column(name: "CREATION_USER")]
         public int CreationUser { get; set; }
 
     }

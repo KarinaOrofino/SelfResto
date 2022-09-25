@@ -177,7 +177,7 @@
                                dark
                                dense
                                style="background: linear-gradient(to top, #a54047, #bd6476, #a54047); ">
-                        <v-app-bar-nav-icon @@click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+
                         <v-toolbar-items>
                             <v-avatar x-large class="" style="font-size: 14px; border: 1px solid; display: block">
                                 <div class="mt-2"><strong>{{jsglobals.Table}}</strong></div>
@@ -190,27 +190,26 @@
                         </v-toolbar-title>
                         <v-spacer></v-spacer>
                         <v-toolbar-items>
-                            <v-row justify="center">
+                            <v-row justify="center" class="pt-1">
                                 <v-tooltip top>
                                     <template v-slot:activator="{ on, attrs }">
-                                        <v-btn icon v-bind="attrs" v-on="on" v-on:click="seeMenuList(model.Id)"
+                                        <v-btn icon v-bind="attrs" v-on="on" v-on:click="goToMenu(model.Id)"
                                                large
                                                class="mt-2">
                                             <v-icon class="material-icons">
                                                 restaurant_menu
                                             </v-icon>
-                                        </v-btn>
+                                        </v-btn> 
                                     </template>
                                     <span>{{jsglobals.GoToMenu}}</span>
                                 </v-tooltip>
                                 <v-tooltip top>
                                     <template v-slot:activator="{ on, attrs }">
-                                        <v-btn icon v-bind="attrs" v-on="on" v-on:click="callWaiter()"
+                                        <v-btn icon v-bind="attrs" v-on="on"
                                                large
                                                class="mt-2">
-                                            <v-icon class="material-icons">
-                                                 notifications_active
-                                            </v-icon>
+                                            <v-icon v-if="model.Call" color="yellow darken-2" class="material-icons alertWaiter" >notifications_active</v-icon>
+                                            <v-icon v-else class="material-icons"  v-on:click="callWaiter()">notifications_active</v-icon>
                                         </v-btn>
                                     </template>
                                     <span>{{jsglobals.CallWaiter}}</span>
@@ -229,12 +228,11 @@
                                 </v-tooltip>
                                 <v-tooltip top>
                                     <template v-slot:activator="{ on, attrs }">
-                                        <v-btn icon v-bind="attrs" v-on="on" v-on:click="AskForBill()"
+                                        <v-btn icon v-bind="attrs" v-on="on" 
                                                large
                                                class="mt-2">
-                                            <v-icon class="material-icons">
-                                                paid
-                                            </v-icon>
+                                            <v-icon v-if="model.PaymentRequest" color="green"  class="material-icons mr-1 alertWaiter">paid</v-icon>
+                                            <v-icon v-else v-on:click="requestBill()">paid</v-icon>
                                         </v-btn>
                                     </template>
                                     <span>{{jsglobals.Bill}}</span>
@@ -254,80 +252,7 @@
                             </v-row>
                         </v-toolbar-items>
                     </v-app-bar>
-                    <v-navigation-drawer v-model="drawer"
-                                         width="280"
-                                         class="mx-auto"
-                                         app
-                                         dense
-                                         dark
-                                         temporary
-                                         style="background: linear-gradient(to top, #a54047, #bd6476, #a54047);">
-                        <v-list>
-                            <v-list-item>
-                                <v-list-item-content>
-                                    <v-list-item-title class="text-h6" style="cursor:pointer;">
-                                        <a class="menu-left-links" v-on:click="seeIndex()">
-                                            {{jsglobals.TitleSelfResto}}
-                                        </a>
-                                    </v-list-item-title>
-                                </v-list-item-content>
-                            </v-list-item>
-                        </v-list>
-                        <v-divider></v-divider>
 
-                        <v-list nav
-                                dense>
-                            <v-list-item-content class="d-block">
-                                <v-list-item>
-                                    <a class="menu-left-links" href="/MenuItems/ListToOrder">
-                                        <v-list-item-icon>
-                                            <v-icon class="material-icons">
-                                                restaurant_menu
-                                            </v-icon>
-                                        </v-list-item-icon>
-                                        <v-list-item-title style="font-size:1em;">{{jsglobals.Menu}}</v-list-item-title>
-                                    </a>
-                                </v-list-item>
-                                <v-divider class="mt-3 mb-3"></v-divider>
-
-                                <v-list-item>
-                                    <a class="menu-left-links">
-                                        <v-list-item-icon>
-                                            <v-icon class="material-icons">
-                                                room_service
-                                            </v-icon>
-                                        </v-list-item-icon>
-                                        <v-list-item-title style="font-size:1em;">{{jsglobals.Camarero}}</v-list-item-title>
-                                    </a>
-                                </v-list-item>
-                                <v-divider class="mt-3 mb-3"></v-divider>
-
-                                <v-list-item>
-                                    <a class="menu-left-links" href="/Order/Detail">
-                                        <v-list-item-icon>
-                                            <v-icon class="material-icons">
-                                                shopping_cart
-                                            </v-icon>
-                                        </v-list-item-icon>
-                                        <v-list-item-title style="font-size:1em;">{{jsglobals.SeeOrder}}</v-list-item-title>
-                                    </a>
-                                </v-list-item>
-                                <v-divider class="mt-3 mb-3"></v-divider>
-                                <v-list-item>
-                                    <a class="menu-left-links" href="/Payments/Detail">
-                                        <v-list-item-icon>
-                                            <v-icon class="material-icons">
-                                                paid
-                                            </v-icon>
-                                        </v-list-item-icon>
-                                        <v-list-item-title style="font-size:1em;">{{jsglobals.Bill}}</v-list-item-title>
-                                    </a>
-                                </v-list-item>
-
-                                <v-divider class="mt-3 mb-3"></v-divider>
-                            </v-list-item-content>
-                        </v-list>
-                    </v-navigation-drawer>
 
                 }
 

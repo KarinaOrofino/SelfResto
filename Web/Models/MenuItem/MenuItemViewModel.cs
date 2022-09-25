@@ -48,7 +48,14 @@ namespace KO.Web.Models.MenuItem
 
         public int OrderId { get; set; }
 
+        public bool Call { get; set; }
+
+        public bool PaymentRequest { get; set; }
+
         public int TableId { get; set; }
+
+        public int TableNumber { get; set; }
+
 
     }
 }

@@ -32,7 +32,7 @@ namespace Web.Controllers.Home
             this.IGenericService = GenericService;
         }
 
-        #region Views
+        #region VIEWS
         [HttpGet]
         public IActionResult List()
         {
@@ -69,7 +69,7 @@ namespace Web.Controllers.Home
 
         #endregion
 
-        #region List View Methods
+        #region LISTVIEW
 
         [HttpGet]
         public JsonResult GetAll()
@@ -199,7 +199,7 @@ namespace Web.Controllers.Home
 
         #endregion
 
-        #region Detail View Methods
+        #region DETAIL VIEW
 
         public JsonResult GetAccessTypes()
         {
@@ -210,10 +210,11 @@ namespace Web.Controllers.Home
             {
 
                 List<AccessType> accesses = IGenericService.GetAll<AccessType>().ToList();
-                accessesVM = accesses.Select(acc => new AccessTypeViewModel() {
+                accessesVM = accesses.Select(acc => new AccessTypeViewModel()
+                {
                     Id = acc.Id,
                     Name = acc.Name
-                }).OrderBy(a=>a.Name).ToList();
+                }).OrderBy(a => a.Name).ToList();
 
                 jsonData.content = accessesVM;
                 jsonData.result = JsonData.Result.Ok;
@@ -236,7 +237,6 @@ namespace Web.Controllers.Home
 
             try
             {
-
                 var ExistingUser = IGenericService.Get<User>(u => u.Email.Equals(userVM.Email));
 
                 if (ExistingUser != null)
@@ -306,9 +306,10 @@ namespace Web.Controllers.Home
 
         #endregion
 
-        #region Private Methods
+        #region PRIVATE
 
-        private UserViewModel LoadViewModel(UserViewModel userVM, User user) {
+        private UserViewModel LoadViewModel(UserViewModel userVM, User user)
+        {
 
             userVM.Id = user.Id;
             userVM.Name = user.Name;

@@ -18,19 +18,16 @@
 @if (UserUtils.UserPermission(Context.User, Constants.ADMINISTRATOR))
 {
     @await Html.PartialAsync("_IndexAdmin")
-
 }
 
 @if (UserUtils.UserPermission(Context.User, Constants.WAITER))
 {
     @await Html.PartialAsync("_IndexWaiter")
-
 }
 
 @if (UserUtils.UserPermission(Context.User, Constants.KITCHEN))
 {
     @await Html.PartialAsync("_IndexKitchen")
-
 }
 
 

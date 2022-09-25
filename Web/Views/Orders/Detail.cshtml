@@ -20,7 +20,7 @@
             <template>
                 <v-tooltip right>
                     <template v-slot:activator="{ on, attrs }">
-                        <v-btn v-on="on" v-bind="attrs" large class="addItem" v-on:click="seeMenuList">
+                        <v-btn v-on="on" v-bind="attrs" large class="addItem" v-on:click="goToMenu">
                             <v-icon large class="material-icons" color="#a54047">
                                 restaurant_menu
                             </v-icon>
@@ -46,7 +46,7 @@
             <template>
                 <v-tooltip right>
                     <template v-slot:activator="{ on, attrs }">
-                        <v-btn v-on="on" v-bind="attrs" large class="addItem" v-on:click="seeMenuList">
+                        <v-btn v-on="on" v-bind="attrs" large class="addItem" v-on:click="goToMenu">
                             <v-icon large class="material-icons" color="#a54047">
                                 restaurant_menu
                             </v-icon>
@@ -78,7 +78,7 @@
                                 </td>
                                 <td class="text-center"><span style="background-color: lightgray; border: 1px solid gray; padding: 0.4vw ">{{item.Quantity}}</span></td>
                                 <td class="text-right font-weight-bold">$ {{item.UnitPrice * item.Quantity}}</td>
-                                <td v-if="item.StateTypeName == 'Pendiente'" class="text-center mr-2">
+                                <td v-if="item.OrderDetailStatusName == 'Pendiente'" class="text-center mr-2">
 
                                     <template>
                                         <v-tooltip right>
@@ -89,7 +89,7 @@
                                         </v-tooltip>
                                     </template>
                                 </td>
-                                <td v-if="item.StateTypeName == 'Cocinando'" class="text-center mr-2">
+                                <td v-if="item.OrderDetailStatusName == 'Cocinando'" class="text-center mr-2">
                                     <template>
                                         <v-tooltip right>
                                             <template v-slot:activator="{ on, attrs }">
@@ -102,7 +102,7 @@
                                         </v-tooltip>
                                     </template>
                                 </td>
-                                <td v-if="item.StateTypeName == 'Listo'" class="text-center mr-2">
+                                <td v-if="item.OrderDetailStatusName == 'Listo'" class="text-center mr-2">
                                     <template>
                                         <v-tooltip right>
                                             <template v-slot:activator="{ on, attrs }">
@@ -112,7 +112,7 @@
                                         </v-tooltip>
                                     </template>
                                 </td>
-                                <td v-if="item.StateTypeName == 'Entregado'" class="text-center mr-2">
+                                <td v-if="item.OrderDetailStatusName == 'Entregado'" class="text-center mr-2">
                                     <template>
                                         <v-tooltip right>
                                             <template v-slot:activator="{ on, attrs }">
