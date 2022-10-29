@@ -136,7 +136,10 @@ vueAppParams.methods.editMenuItem= function (id) {
     window.location = "/MenuItems/Detail/" + id;
 };
 
+vueAppParams.methods.seeTables = function () {
 
+    location = "/Home/IndexEmployee";
+};
 
 vueAppParams.methods.exportList = function () {
     vueApp.loadingExport = true;

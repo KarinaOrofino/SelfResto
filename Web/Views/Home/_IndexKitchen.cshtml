@@ -265,11 +265,20 @@
                         color="indigo"
                         outlined
                         right
+                        vertical
                         style="position: absolute; height:auto;">
                 <p style="color: #f9b903"><v-icon class="miniActionIcon" color="yellow darken-2">pending_actions</v-icon> {{jsglobals.NewRequest}}</p>
                 <p style="color:green"><v-icon class="miniActionIcon" color="green">mdi-chef-hat</v-icon> {{jsglobals.Cooking}}</p>
                 <p style="color:pink"><v-icon class="miniActionIcon" color="red lighten-2">room_service</v-icon>  {{jsglobals.ReadyToTake}}</p>
                 <p style="color: #26C6DA"><v-icon class="miniActionIcon" color="cyan lighten-1">how_to_reg</v-icon>  {{jsglobals.Delivered}}</p>
+                <template v-slot:action="{ attrs }">
+                    <v-btn color="pink"
+                           text
+                           v-bind="attrs"
+                           v-on:click="help = false">
+                        Cerrar
+                    </v-btn>
+            </template>
             </v-snackbar>
         </template>
 

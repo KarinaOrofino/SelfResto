@@ -91,22 +91,22 @@ vueAppParams.methods.confirmInactivation = function (table) {
 
     vueAppParams.data.dialogInactivate = false;
 
-        $.ajax({
-            url: "/Tables/Inactivate?id=" + table.id,
-            method: "GET",
-            success: function (data) {
-                vueApp.notification.showSuccess(jsglobals.MsgInactivationOk);
-            },
-            error: defaultErrorHandler,
-            complete: function () {
-                var tableIdIndex = vueApp.gridData.findIndex(t => t.id == table.id)
-                vueApp.gridData[tableIdIndex].active = false;
-                vueApp.gridData[tableIdIndex].waiterName = "";
-                vueApp.gridData[tableIdIndex].waiterBackUpName = "";
-            }
-        });
-    }
+    $.ajax({
+        url: "/Tables/Inactivate?id=" + table.id,
+        method: "GET",
+        success: function (data) {
+            vueApp.notification.showSuccess(jsglobals.MsgInactivationOk);
+        },
+        error: defaultErrorHandler,
+        complete: function () {
+            var tableIdIndex = vueApp.gridData.findIndex(t => t.id == table.id)
+            vueApp.gridData[tableIdIndex].active = false;
+            vueApp.gridData[tableIdIndex].waiterName = "";
+            vueApp.gridData[tableIdIndex].waiterBackUpName = "";
+        }
+    });
 };
+
 
 vueAppParams.methods.activateTable = function (item) {
 

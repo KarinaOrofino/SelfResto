@@ -108,6 +108,7 @@ width: 20%;
 	background-color: rgb(165, 64, 71);
 }
 
+
 .v-data-table-header {
 	text-transform: uppercase;
 	background-color: rgb(165, 64, 71);
@@ -116,7 +117,7 @@ width: 20%;
 .theme--light.v-data-table > .v-data-table__wrapper > table > thead > tr > th {
 	color: white !important;
 	font-weight: 500 !important;
-	background-color: rgb(165, 64, 71);
+	background-color: rgb(165, 64, 71) !important;
 }
 
 .row-height-50.v-data-table tbody tr td {
@@ -142,11 +143,19 @@ table, tr {
 }
 
 .orderItemsTable.theme--light.v-data-table > .v-data-table__wrapper > table > thead > tr > th {
-	background-color: white !important;
 	font-weight: bold !important;
 	color: #f9d8de !important;
 	font-size: 14px !important;
 }
+
+.orderItemsTable.theme--light.v-data-table {
+	background-color:#f9d8de;
+}
+
+.orderItemsTable.theme--light.v-data-table > .v-data-table__wrapper > table > tbody {
+	background-color: white !important;
+}
+
 
 
 /* Breadcrumbs */

@@ -71,7 +71,7 @@
                 {{elem.name}} ({{model.OrderDetails.filter(it=>it.MenuItemCategoryId == elem.id).length}})
             </v-expansion-panel-header>
             <v-expansion-panel-content color="#f9d8de">
-                <v-simple-table class="d-none d-sm-flex mx-auto orderItemsTable" style="width:700px">
+                <v-simple-table class="d-none d-sm-flex mx-auto orderItemsTable" style="width:800px">
                     <template v-slot:default>
                         <tbody>
                             <tr v-for="(item, index) in model.OrderDetails" v-if="item.MenuItemCategoryId == elem.id">
@@ -131,7 +131,7 @@
                         </tbody>
                     </template>
                 </v-simple-table>
-                <v-row style="background-color:white" v-for="(item, index) in model.OrderDetails" v-if="item.MenuItemCategoryId == elem.id">
+                <v-row class="d-flex d-sm-none" style="background-color:white" v-for="(item, index) in model.OrderDetails" v-if="item.MenuItemCategoryId == elem.id">
                     <v-col cols="4" style="align-self:center">
                         <img style="padding-top:1px; height: 72px; width: 95px; vertical-align: -webkit-baseline-middle" :src="item.MenuItemPicture" />
                     </v-col>

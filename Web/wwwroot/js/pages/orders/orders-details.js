@@ -14,7 +14,19 @@ vueAppParams.methods.collapseAll = function () {
 
 vueAppParams.mounted = function () {
 	this.getCategories();
+
 };
+
+vueAppParams.methods.filter = function (arr1, arr2) {
+	let res = [];
+	res = arr1.filter(elem1 => {
+		return arr2.find(elem2 => {
+			return elem2.MenuItemCategoryId === elem1.id;
+		});
+	});
+	return res;
+};
+
 
 vueAppParams.methods.getCategories = function () {
 
@@ -28,22 +40,13 @@ vueAppParams.methods.getCategories = function () {
 			vueAppParams.data.panelItems = vueApp.filteredCategories.length;
 			vueApp.expandAll();
 		},
-		error: defaultErrorHandler
-	})
-};
-
-vueAppParams.methods.filter = function (arr1, arr2) {
-	let res = [];
-	res = arr1.filter(elem1 => {
-		return arr2.find(elem2 => {
-			return elem2.MenuItemCategoryId === elem1.id;
-		});
+		error: defaultErrorHandler,
+		complete: function () {
+		}
 	});
-	return res;
 };
 
-//vueAppParams.methods.goToMenu = function () {
 
-//		window.location = "/MenuItems/ListToOrder/" + vueApp.model.Id;
 
-//};
+
+

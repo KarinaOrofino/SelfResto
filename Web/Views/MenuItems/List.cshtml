@@ -1,4 +1,6 @@
-﻿@using KO.Web.Models.MenuItem;
+﻿@using Framework.Utils
+@using Framework.Common
+@using KO.Web.Models.MenuItem;
 @model MenuItemViewModel;
 
 @section scripts
@@ -6,9 +8,17 @@
     <script type="text/javascript" src="~/js/pages/menuItems/menuItems-list.js" asp-append-version="true"></script>
 }
 
+@{
+    bool mozo = false;
+    if (UserUtils.UserPermission(Context.User, Constants.WAITER)) {
+        mozo = true;
+    }
+}
+
 <link href="~/css/selfResto.css" rel="stylesheet" />
 
 <v-row class="d-flex mt-0 ml-7 mr-7" style="justify-content:center">
+
     <v-col lg="9" class="mt-0">
         <v-card class="my-0">
             <v-row dense>
@@ -30,7 +40,8 @@
                                    v-on="on"
                                    v-on:click="addMenuItem"
                                    color="rgb(165, 64, 71)"
-                                   elevation="2">
+                                   elevation="2"
+                                   disabled="@mozo">
                                 <v-icon small class="pr-1">mdi-plus</v-icon>
                                 {{jsglobals.NewMasc}} {{jsglobals.MenuItem}}
                             </v-btn>
@@ -40,9 +51,6 @@
                 </v-col>
             </v-row>
             <v-card-title class="mt-0 pt-0">
-                @*<v-col lg="4" sm="5" class="pt-5">
-                    <v-btn class="red lighten-2" v-if="expanded" v-on:click="collapse()">{{jsglobals.Collapse}}</v-btn>
-                </v-col>*@
                 <v-spacer></v-spacer>
                 <v-col lg="4" sm="5" class="pb-1">
                     <v-text-field v-model="search"
@@ -128,7 +136,10 @@
                     <template v-slot:item.actions="{ item }">
                         <v-tooltip left>
                             <template v-slot:activator="{ on, attrs }">
-                                <v-icon large v-on="on" v-bind="attrs" class="mr-2" v-on:click="editMenuItem(item.id)" color="red lighten-2">edit_note</v-icon>
+                                <v-icon large v-on="on" v-bind="attrs" class="mr-2" v-on:click="editMenuItem(item.id)"
+                                        color="red lighten-2" disabled="@mozo">
+                                    edit_note
+                                </v-icon>
                             </template>
                             <span>
                                 {{jsglobals.Edit}}
@@ -160,6 +171,7 @@
             </v-card-text>
         </v-card>
     </v-col>
+    <v-btn elevation="2" class="right white--text mt-5 rounded" color="red lighten-2" v-on:click="seeTables">{{jsglobals.SeeTables}}</v-btn>
 </v-row>
 
 <!--Dialog Inactivate-->

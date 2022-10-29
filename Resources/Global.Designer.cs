@@ -1429,6 +1429,15 @@ namespace KO.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ver Mesas.
+        /// </summary>
+        public static string SeeTables {
+            get {
+                return ResourceManager.GetString("SeeTables", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Seleccionar.
         /// </summary>
         public static string Select {

@@ -630,4 +630,7 @@
   <data name="EmptyCart" xml:space="preserve">
     <value>Tu pedido se encuentra vacío</value>
   </data>
+  <data name="SeeTables" xml:space="preserve">
+    <value>Ver Mesas</value>
+  </data>
 </root>
