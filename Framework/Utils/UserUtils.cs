@@ -8,8 +8,8 @@ namespace Framework.Utils
     public static class UserUtils
     {
         public static int GetId(ClaimsPrincipal user)
-        {            
-             return int.Parse(user.Claims.First(u => u.Type == ClaimTypes.Sid).Value);
+        {
+            return int.Parse(user.Claims.First(u => u.Type == ClaimTypes.Sid).Value);
         }
 
         public static string GetName(ClaimsPrincipal user)
@@ -27,7 +27,7 @@ namespace Framework.Utils
             if (!user.Claims.Any(claim => claim.Type == Constants.CLAIMS_PERMISOS))
                 return false;
 
-            int permiso= JsonConvert.DeserializeObject<int>(user.Claims.First(u => u.Type == Constants.CLAIMS_PERMISOS).Value);
+            int permiso = JsonConvert.DeserializeObject<int>(user.Claims.First(u => u.Type == Constants.CLAIMS_PERMISOS).Value);
 
             return permiso == idAccessType;
         }

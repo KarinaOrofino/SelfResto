@@ -8,7 +8,7 @@ namespace KO.Framework.Web
 {
     public class CheckSession : IActionFilter
     {
-        private readonly List<string> ignoreRoutes = new () {
+        private readonly List<string> ignoreRoutes = new() {
             "Account/Login",
             "Account/GetAllTables",
             "Home/ObtenerVersion",
@@ -20,7 +20,7 @@ namespace KO.Framework.Web
 
         }
 
-        public void OnActionExecuting(ActionExecutingContext filterContext) 
+        public void OnActionExecuting(ActionExecutingContext filterContext)
         {
             string routeFrom = filterContext.ActionDescriptor.RouteValues["controller"] + "/" +
                                filterContext.ActionDescriptor.RouteValues["action"];

@@ -26,7 +26,7 @@ namespace KO.Data.EFScafolding
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            this.RemoveCascadeDeleteForAll(modelBuilder);            
+            this.RemoveCascadeDeleteForAll(modelBuilder);
         }
 
         private void RemoveCascadeDeleteForAll(ModelBuilder builder)

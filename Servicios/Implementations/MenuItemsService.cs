@@ -4,8 +4,6 @@ using KO.Services.Interfaces;
 using log4net;
 using System.Collections.Generic;
 using System.Reflection;
-using KO.Services.Implementations;
-using KO.Data.Implementations;
 
 namespace KO.Services.Implementations
 {

@@ -1,19 +1,18 @@
 ﻿#define INCLUDE_WEB_FUNCTIONS
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Diagnostics;
-using System.Data;
-using System.Reflection;
+using ClosedXML.Excel;
+using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
-using DocumentFormat.OpenXml;
 using KO.Framework.Web.Exportacion;
-using System.Linq.Expressions;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Diagnostics;
 using System.Globalization;
-using ClosedXML.Excel;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 
 namespace Framework.Utils
 
@@ -57,7 +56,7 @@ namespace Framework.Utils
     {
         public static bool CreateExcelDocument<T>(List<T> list, string xlsxFilePath)
         {
-            DataSet ds = new ();
+            DataSet ds = new();
             ds.Tables.Add(ListToDataTable(list));
 
             return CreateExcelDocument(ds, xlsxFilePath);
@@ -67,7 +66,7 @@ namespace Framework.Utils
         //  My thanks to Carl Quirion, for making it "nullable-friendly".
         public static DataTable ListToDataTable<T>(List<T> list)
         {
-            DataTable dt = new ();
+            DataTable dt = new();
 
             foreach (PropertyInfo info in typeof(T).GetProperties())
             {
@@ -89,7 +88,7 @@ namespace Framework.Utils
         }
         public static DataTable ListToDataTable<T>(string name, List<T> list)
         {
-            DataTable dt = new ();
+            DataTable dt = new();
             dt.TableName = name;
 
             foreach (PropertyInfo info in typeof(T).GetProperties())
@@ -154,7 +153,7 @@ namespace Framework.Utils
 
         public static bool CreateExcelDocument(DataTable dt, string xlsxFilePath)
         {
-            DataSet ds = new ();
+            DataSet ds = new();
             ds.Tables.Add(dt);
             bool result = CreateExcelDocument(ds, xlsxFilePath);
             ds.Tables.Remove(dt);
@@ -199,7 +198,7 @@ namespace Framework.Utils
             //  If we don't add a "WorkbookStylesPart", OLEDB will refuse to connect to this .xlsx file !
             WorkbookStylesPart workbookStylesPart = spreadsheet.WorkbookPart.AddNewPart<WorkbookStylesPart>("rIdStyles");
 
-            Stylesheet stylesheet = new (
+            Stylesheet stylesheet = new(
                     new Fonts(
                         new Font(                                                               // Index 0 - The default font.
                             new FontSize() { Val = 11 },
@@ -273,7 +272,7 @@ namespace Framework.Utils
                         new CellFormat(new Alignment() { Horizontal = HorizontalAlignmentValues.Right, Vertical = VerticalAlignmentValues.Bottom })        // Index 2 - numeric
                         {
                             FontId = 0,
-                            FillId = 0,                            
+                            FillId = 0,
                         },
                         new CellFormat(new Alignment() { Horizontal = HorizontalAlignmentValues.Center, Vertical = VerticalAlignmentValues.Bottom })       // Index 3 - Date
                         {
@@ -295,7 +294,7 @@ namespace Framework.Utils
 
                 //  Create worksheet part, and add it to the sheets collection in workbook
                 WorksheetPart newWorksheetPart = spreadsheet.WorkbookPart.AddNewPart<WorksheetPart>();
-                Sheet sheet = new () { Id = spreadsheet.WorkbookPart.GetIdOfPart(newWorksheetPart), SheetId = worksheetNumber, Name = worksheetName };
+                Sheet sheet = new() { Id = spreadsheet.WorkbookPart.GetIdOfPart(newWorksheetPart), SheetId = worksheetNumber, Name = worksheetName };
                 sheets.Append(sheet);
 
                 //  Append this worksheet's data to our Workbook, using OpenXmlWriter, to prevent memory problems
@@ -365,7 +364,7 @@ namespace Framework.Utils
                         cellNumericValue = 0;
                         if (double.TryParse(cellValue, out cellNumericValue))
                         {
-                            NumberFormatInfo nfi = new ();
+                            NumberFormatInfo nfi = new();
                             nfi.NumberDecimalSeparator = ".";
                             cellValue = cellNumericValue.ToString(nfi);
                             AppendNumericCell(excelColumnNames[colInx] + rowIndex.ToString(), cellValue, ref writer);
@@ -439,7 +438,7 @@ namespace Framework.Utils
         #region V2
         public static byte[] CreateExcelDocumentAsByte<T>(List<T> list)
         {
-            DataSet ds = new ();
+            DataSet ds = new();
             ds.Tables.Add(ListToDataTable(list));
 
             return CreateExcelDocumentAsByte(ds);

@@ -1,6 +1,4 @@
-﻿using KO.Entities;
-using System.Collections.Generic;
-using Web.Models;
+﻿using Web.Models;
 
 namespace KO.Web.Models.Table
 {

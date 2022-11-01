@@ -1,8 +1,7 @@
 ﻿using System;
 using System.IO;
-using System.Text;
 using System.Security.Cryptography;
-using System.Reflection;
+using System.Text;
 
 namespace Framework.Helpers
 {

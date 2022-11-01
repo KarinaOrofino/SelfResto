@@ -1,9 +1,9 @@
-﻿using KO.Services.Interfaces;
-using KO.Data.Interfaces;
+﻿using KO.Data.Interfaces;
+using KO.Services.Interfaces;
 
 namespace KO.Services.Implementations
 {
-    public class BaseService<TDatos>  : IBaseService
+    public class BaseService<TDatos> : IBaseService
         where TDatos : IBaseData
     {
         protected readonly TDatos _datos;

@@ -1,8 +1,8 @@
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using System.IO;
 using System.Reflection;
 using System.Xml;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
 
 namespace Web
 {
@@ -14,7 +14,7 @@ namespace Web
             ConfigurarLog4Net();
             CreateHostBuilder(args).Build().Run();
         }
-                
+
         private static void ConfigurarLog4Net()
         {
             XmlDocument log4netConfig = new XmlDocument();

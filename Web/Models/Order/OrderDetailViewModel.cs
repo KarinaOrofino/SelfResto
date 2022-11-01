@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Web.Models;
+﻿using Web.Models;
 
 namespace KO.Web.Models.Order
 {
@@ -12,7 +10,7 @@ namespace KO.Web.Models.Order
 
         public int MenuItemCategoryId { get; set; }
 
-        public int MenuItemId  { get; set; }
+        public int MenuItemId { get; set; }
 
         public string MenuItemName { get; set; }
 

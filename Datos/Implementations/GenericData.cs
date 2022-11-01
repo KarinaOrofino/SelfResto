@@ -1,16 +1,16 @@
-﻿using System;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
-using KO.Data.EFScafolding;
+﻿using KO.Data.EFScafolding;
 using KO.Data.Interfaces;
 using KO.Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace KO.Data.Implementacion
 {
-    public  class GenericData : BaseData, IGenericData
+    public class GenericData : BaseData, IGenericData
     {
         public GenericData(KOContext context) : base(context) { }
         public virtual T Get<T>(Func<T, bool> predicate) where T : class
@@ -94,12 +94,12 @@ namespace KO.Data.Implementacion
         public IDbContextTransaction BeginTransaction()
         {
             return _context.Database.BeginTransaction();
-        }        
+        }
 
         public void UpdateRange<T>(IEnumerable<T> p_Entity) where T : class
         {
             _context.Set<T>().UpdateRange(p_Entity);
             _context.SaveChanges();
-        }        
+        }
     }
 }

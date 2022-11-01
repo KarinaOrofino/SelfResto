@@ -1,13 +1,12 @@
-﻿using KO.Data.EFScafolding;
+﻿using Framework.Common;
+using KO.Data.EFScafolding;
 using KO.Data.Interfaces;
 using KO.Entities;
-using Framework.Common;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Data;
-using System;
 
 namespace KO.Data.Implementations
 {

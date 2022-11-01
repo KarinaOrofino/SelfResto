@@ -1,5 +1,5 @@
-﻿using log4net;
-using KO.Data.Interfaces;
+﻿using KO.Data.Interfaces;
+using log4net;
 using System.Reflection;
 
 namespace KO.Data.EFScafolding
@@ -12,6 +12,6 @@ namespace KO.Data.EFScafolding
         public BaseData(KOContext context)
         {
             this._context = context;
-        }       
+        }
     }
 }

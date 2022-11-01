@@ -1,6 +1,6 @@
 ﻿using Framework.Helpers;
-using RHSP.Framework.Utils;
 using KO.Framework.Web;
+using RHSP.Framework.Utils;
 using System;
 
 namespace KO.Framework.Utils
@@ -11,11 +11,11 @@ namespace KO.Framework.Utils
         {
             var secretKey = "token";
             var timestamp = EpochUtils.ConvertToEpoch(DateTime.Now);
-            
+
             return EncryptionHelper.Encrypt(secretKey + "|" + timestamp + "|" + method);
         }
 
-        public static bool IsValidServicioRequestForMethod(RequestService servicioRequest,string method)
+        public static bool IsValidServicioRequestForMethod(RequestService servicioRequest, string method)
         {
             int POS_SECRET_KEY = 0;
             int POS_TIMESTAMP = 1;
@@ -27,7 +27,8 @@ namespace KO.Framework.Utils
             var secretKey = tokenData[POS_SECRET_KEY];
 
             //IMPLEMENTAR app.config
-            if (secretKey != "token"){
+            if (secretKey != "token")
+            {
                 return false;
             }
 
@@ -36,12 +37,14 @@ namespace KO.Framework.Utils
             var timeDiference = DateTime.Now - timestampDate;
 
             //IMPLEMENTAR app.config
-            if (timeDiference.TotalSeconds > 60 * 3){
+            if (timeDiference.TotalSeconds > 60 * 3)
+            {
                 return false;
             }
 
             var requestedMethod = tokenData[POS_METHOD];
-            if(requestedMethod != method){
+            if (requestedMethod != method)
+            {
                 return false;
             }
 

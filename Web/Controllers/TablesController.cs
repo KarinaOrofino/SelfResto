@@ -1,15 +1,15 @@
-﻿using Framework.Utils;
+﻿using Framework.Common;
+using Framework.Utils;
 using Framework.Web;
-using Microsoft.AspNetCore.Mvc;
+using KO.Entities;
 using KO.Resources;
+using KO.Services.Interfaces;
+using KO.Web.Models.Account;
+using KO.Web.Models.Table;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using KO.Services.Interfaces;
-using KO.Entities;
 using System.Linq;
-using Framework.Common;
-using KO.Web.Models.Table;
-using KO.Web.Models.Account;
 
 namespace Web.Controllers.Tables
 {
@@ -36,7 +36,7 @@ namespace Web.Controllers.Tables
         [HttpGet]
         public IActionResult Detail()
         {
-            TableViewModel tableVM = new TableViewModel();
+            TableViewModel tableVM = new();
             return View(tableVM);
         }
 

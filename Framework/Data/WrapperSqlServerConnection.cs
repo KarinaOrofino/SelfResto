@@ -1,9 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Framework.Common;
+using Microsoft.Extensions.Configuration;
 using System;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
-using Framework.Common;
-using System.Data.SqlClient;
 
 namespace Framework.Data
 {

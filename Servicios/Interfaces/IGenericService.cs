@@ -22,7 +22,7 @@ namespace KO.Services.Interfaces
         void Activate<T>(int id) where T : BaseEntity;
         void UpdateRange<T>(IEnumerable<T> p_Entity) where T : class;
         void Delete<T>(T p_Entity) where T : class;
-        void UpdateIgnoringProperty<T, W>(T entity, Expression<Func<T, W>> property) where T : class where W : struct;        
+        void UpdateIgnoringProperty<T, W>(T entity, Expression<Func<T, W>> property) where T : class where W : struct;
         IDbContextTransaction BeginTransaction();
     }
 }

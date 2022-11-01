@@ -1,11 +1,8 @@
 ﻿using KO.Data.Interfaces;
 using KO.Entities;
-using log4net;
 using KO.Services.Interfaces;
-using System.Collections.Generic;
+using log4net;
 using System.Reflection;
-using KO.Data.Implementations;
-using Framework.Utils;
 using System.Transactions;
 
 namespace KO.Services.Implementations
@@ -21,9 +18,10 @@ namespace KO.Services.Implementations
             IGenericService = genericService;
         }
 
-        public void RequestBill(Order order, Payment payment) {
+        public void RequestBill(Order order, Payment payment)
+        {
 
-            using (TransactionScope scope = new ())
+            using (TransactionScope scope = new())
             {
 
                 IGenericService.Update<Order>(order);

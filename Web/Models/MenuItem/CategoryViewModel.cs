@@ -1,6 +1,4 @@
-﻿using KO.Entities;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Web.Models;
 
 namespace KO.Web.Models.MenuItem

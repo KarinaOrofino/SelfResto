@@ -1,13 +1,12 @@
-﻿using KO.Data.EFScafolding;
-using Framework.Common;
+﻿using Framework.Common;
+using KO.Data.EFScafolding;
+using KO.Data.Interfaces;
+using KO.Entities;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Data;
-using System;
-using KO.Entities;
-using KO.Data.Interfaces;
 
 namespace KO.Data.Implementations
 {
@@ -21,7 +20,7 @@ namespace KO.Data.Implementations
         public List<Category> GetAllCategories()
         {
             List<Category> categories = new();
-            
+
             try
             {
                 using SqlCommand command = new(Constants.SP_CATEGORIES_GET_ALL, (SqlConnection)_context.Database.GetDbConnection());
@@ -61,7 +60,7 @@ namespace KO.Data.Implementations
 
         public List<MenuItem> GetAllFiltered(string searchField, bool? active)
         {
-            List<MenuItem> menuItemsList = new ();
+            List<MenuItem> menuItemsList = new();
             try
             {
                 using SqlCommand command = new(Constants.SP_MENUITEMS_GET_ALL_FILTERED, (SqlConnection)_context.Database.GetDbConnection());
@@ -69,8 +68,8 @@ namespace KO.Data.Implementations
                 command.Parameters.AddWithValue("SearchField", searchField);
                 command.Parameters.AddWithValue("Active", active);
 
-                using SqlDataAdapter da = new (command);
-                DataTable dt = new ();
+                using SqlDataAdapter da = new(command);
+                DataTable dt = new();
                 da.Fill(dt);
 
                 if (dt != null)
@@ -80,7 +79,7 @@ namespace KO.Data.Implementations
 
                         foreach (DataRow dataRow in dt.Rows)
                         {
-                            MenuItem menuItem = new ()
+                            MenuItem menuItem = new()
                             {
                                 Id = int.Parse(dataRow["Id"].ToString()),
                                 CategoryId = int.Parse(dataRow["Category_Id"].ToString()),

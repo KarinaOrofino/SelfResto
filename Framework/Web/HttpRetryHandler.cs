@@ -28,7 +28,7 @@ namespace KO.Framework.Web
             for (int i = 0; i < MaxRetries; i++)
             {
                 log.Info($"Try n°{i}");
-                currentWaitTime = (int) currentWaitTime * (i + 1);
+                currentWaitTime = (int)currentWaitTime * (i + 1);
                 try
                 {
                     response = await base.SendAsync(request, cancellationToken);

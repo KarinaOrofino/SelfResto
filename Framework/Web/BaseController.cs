@@ -1,8 +1,7 @@
 ﻿using log4net;
-using KO.Entities;
-using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace Framework.Web
 {
@@ -16,7 +15,7 @@ namespace Framework.Web
         //}
 
         protected void LoadModelErrors(IList<string> messages, JsonData jsonData)
-        {            
+        {
             foreach (var modelState in ModelState.Values)
             {
                 foreach (var error in modelState.Errors)

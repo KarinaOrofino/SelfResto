@@ -1,21 +1,20 @@
-﻿using Framework.Utils;
+﻿using Framework.Common;
+using Framework.Utils;
 using Framework.Web;
-using Microsoft.AspNetCore.Mvc;
+using KO.Entities;
 using KO.Resources;
+using KO.Services.Interfaces;
+using KO.Web.Models.Order;
+using KO.Web.Models.Table;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Resources;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
-using KO.Services.Interfaces;
-using Microsoft.AspNetCore.Authorization;
-using KO.Entities;
-using KO.Web.Models.Order;
-using System.Linq;
-using Framework.Common;
-using KO.Web.Models.Table;
 
 namespace Web.Controllers.Home
 {

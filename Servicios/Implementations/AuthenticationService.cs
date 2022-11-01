@@ -1,16 +1,12 @@
-﻿using Framework.Common;
+﻿using KO.Entities;
+using KO.Framework.Web;
+using KO.Resources;
+using KO.Services.Interfaces;
 using log4net;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
-using Framework.Web;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Reflection;
-using KO.Framework.Web;
-using KO.Entities;
-using KO.Services.Interfaces;
-using KO.Resources;
 using System;
+using System.Reflection;
 
 namespace KO.Services
 {
@@ -50,7 +46,8 @@ namespace KO.Services
                     return new JsonApiData() { message = Global.MsgIncorrectPassword, result = JsonApiData.Result.Error };
                 }
 
-                else {
+                else
+                {
                     return new JsonApiData()
                     {
                         result = JsonApiData.Result.Ok,

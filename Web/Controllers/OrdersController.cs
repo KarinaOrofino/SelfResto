@@ -6,7 +6,6 @@ using KO.Services.Interfaces;
 using KO.Web.Models.Order;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,14 +16,14 @@ namespace Web.Controllers.Orders
     {
         private IGenericService IGenericService { get; set; }
 
-        public OrdersController (IGenericService GenericService)
+        public OrdersController(IGenericService GenericService)
         {
             this.IGenericService = GenericService;
         }
 
         [Route("{id}")]
         [HttpGet]
-        public IActionResult Detail(int id) 
+        public IActionResult Detail(int id)
         {
             Order order = IGenericService.GetById<Order>(id);
             OrderViewModel ovm = new OrderViewModel();

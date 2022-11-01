@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using KO.Data.Interfaces;
+﻿using KO.Data.Interfaces;
 using KO.Entities;
 using KO.Services.Implementations;
 using KO.Services.Interfaces;
 using Microsoft.EntityFrameworkCore.Storage;
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 
 
 namespace KO.Services.Implementaciones
@@ -80,7 +80,7 @@ namespace KO.Services.Implementaciones
         {
             _datos.Activate<T>(id);
         }
-   
+
         public void UpdateIgnoringProperty<T, W>(T entity, Expression<Func<T, W>> property)
             where T : class
             where W : struct

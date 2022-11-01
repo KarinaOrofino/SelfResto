@@ -7,13 +7,13 @@ using System.Reflection;
 
 namespace KO.Services.Implementations
 {
-    public class TablesService : BaseService<ITablesData>,ITablesService
+    public class TablesService : BaseService<ITablesData>, ITablesService
     {
         protected readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         public TablesService(ITablesData datos) : base(datos)
         {
-          
+
         }
 
         public List<Table> GetAllFiltered(string searchField, bool? active)

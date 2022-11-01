@@ -1,13 +1,13 @@
-﻿using KO.Data.EFScafolding;
-using Framework.Common;
+﻿using Framework.Common;
+using KO.Data.EFScafolding;
+using KO.Data.Interfaces;
+using KO.Entities;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Data;
-using System;
-using KO.Entities;
-using KO.Data.Interfaces;
 
 namespace KO.Data.Implementations
 {
@@ -20,7 +20,7 @@ namespace KO.Data.Implementations
 
         public List<User> GetAllFiltered(string searchField, bool? active)
         {
-            List<User> usersList = new ();
+            List<User> usersList = new();
             try
             {
                 using SqlCommand command = new(Constants.SP_USERS_GET_ALL_FILTERED, (SqlConnection)_context.Database.GetDbConnection());
@@ -28,8 +28,8 @@ namespace KO.Data.Implementations
                 command.Parameters.AddWithValue("SearchField", searchField);
                 command.Parameters.AddWithValue("Active", active);
 
-                using SqlDataAdapter da = new (command);
-                DataTable dt = new ();
+                using SqlDataAdapter da = new(command);
+                DataTable dt = new();
                 da.Fill(dt);
 
                 if (dt != null)
@@ -39,7 +39,7 @@ namespace KO.Data.Implementations
 
                         foreach (DataRow dataRow in dt.Rows)
                         {
-                            User user = new ()
+                            User user = new()
                             {
                                 Id = int.Parse(dataRow["Id"].ToString()),
                                 Name = dataRow["Name"].ToString(),
@@ -67,8 +67,8 @@ namespace KO.Data.Implementations
 
             return usersList;
         }
-     
-   
+
+
         public User GetByEmail(string email)
         {
             User user = new();
@@ -99,7 +99,7 @@ namespace KO.Data.Implementations
                         user.CreationDate = DateTime.Parse(dataRow["Creation_Date"].ToString());
                         user.CreationUser = int.Parse(dataRow["Creation_User"].ToString());
                         user.UpdateDate = string.IsNullOrEmpty(dataRow["Update_Date"].ToString()) ? null : DateTime.Parse(dataRow["Update_Date"].ToString());
-                        user.UpdateUser = string.IsNullOrEmpty(dataRow["Update_User"].ToString())? null : int.Parse(dataRow["Update_User"].ToString());
+                        user.UpdateUser = string.IsNullOrEmpty(dataRow["Update_User"].ToString()) ? null : int.Parse(dataRow["Update_User"].ToString());
                     }
                 }
             }

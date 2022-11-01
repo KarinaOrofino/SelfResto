@@ -1,7 +1,10 @@
 using Framework.Common;
 using Framework.Utils;
-using Framework.Web.Seguridad;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using KO.Data.EFScafolding;
+using KO.Data.Interfaces;
+using KO.Framework.Web;
+using KO.Resources;
+using KO.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -11,15 +14,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Localization;
-using KO.Data.EFScafolding;
-using KO.Data.Interfaces;
-using KO.Framework.Web;
-using KO.Resources;
-using KO.Services;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using KO.Services.Interfaces;
 
 namespace Web
 {
@@ -39,7 +36,7 @@ namespace Web
                 .AddControllersWithViews()
                 .AddRazorRuntimeCompilation();
 
-                      
+
             services.AddSingleton<IAppInfo, AppInfo>();
 
             var cultureInfo = new CultureInfo("es-AR");
@@ -108,7 +105,7 @@ namespace Web
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-            
+
             app.UseHttpsRedirection();
 
             if (!env.IsDevelopment())

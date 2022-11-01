@@ -115,7 +115,7 @@ width: 20%;
 }
 
 .theme--light.v-data-table > .v-data-table__wrapper > table > thead > tr > th {
-	color: white !important;
+	color: blue;
 	font-weight: 500 !important;
 	background-color: rgb(165, 64, 71) !important;
 }

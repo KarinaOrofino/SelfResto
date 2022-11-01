@@ -6,7 +6,8 @@ namespace KO.Web.Models.Order
 {
     public class OrderViewModel : BaseViewModel
     {
-        public OrderViewModel() {
+        public OrderViewModel()
+        {
 
             this.OrderDetails = new List<OrderDetailViewModel>();
         }
@@ -28,7 +29,7 @@ namespace KO.Web.Models.Order
 
         public DateTime RequestedTime { get; set; } //HORA DE PEDIDO DEL PRIMER ITEM (ORDER DETAIL)
 
-        public string RequestedTimeString { get; set; } 
+        public string RequestedTimeString { get; set; }
 
         public string TiempoEnCocina { get; set; }
 
